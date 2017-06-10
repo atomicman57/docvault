@@ -1,1 +1,1 @@
-web nodemon ./bin/www --exec babel-node
+web: nodemon ./bin/www --exec babel-node
