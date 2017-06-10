@@ -1,9 +1,8 @@
 import { Document } from '../controllers';
 import Authentication from '../middleware/Authentication';
 
-module.exports = (app) => {
+const documentRoutes = (app) => {
   // document endpoints
-  // Setup a default catch-all route that sends back a welcome message in JSON format.
   app.get('/', (req, res) =>
     res.status(200).send({
       message: 'Welcome to the beginning of nothingness.'
@@ -19,3 +18,6 @@ module.exports = (app) => {
     res.status(200).send('Test Test');
   });
 };
+
+
+export default documentRoutes;

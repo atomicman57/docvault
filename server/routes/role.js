@@ -1,15 +1,11 @@
 const { Role } = require('../controllers');
 
-module.exports = (app) => {
-  // document endpoints
-  // Setup a default catch-all route that sends back a welcome message in JSON format.
+const roleRoutes = (app) => {
   app.post('/roles', Role.create);
   app.get('/roles', Role.list);
-  app.put('/roles', Role.update);
-//   app.get('/documents/:documentId', Document.find);
-//   app.put('/documents/:documentId', Document.update);
-//   app.delete('/documents/:documentId', Document.delete);
-//   app.get('/test', (req, res) => {
-//     res.status(200).send('Test Test');
-//   });
+  app.get('/roles/:roleId', Role.find);
+  app.put('/roles/:roleId', Role.update);
+  app.delete('/roles/:roleId', Role.delete);
 };
+
+export default roleRoutes;

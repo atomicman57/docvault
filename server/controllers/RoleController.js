@@ -1,21 +1,40 @@
 import { Role } from '../models';
 
-module.exports = {
-  create(req, res) {
+/**
+ *
+ */
+class RoleController {
+
+  /**
+   *
+   * @param {*} req
+   * @param {*} res
+   */
+  static create(req, res) {
     return Role.create({
       name: req.body.name
     })
       .then(roles => res.status(201).send(roles))
       .catch(error => res.status(400).send(error));
-  },
+  }
 
-  list(req, res) {
+  /**
+   *
+   * @param {*} req
+   * @param {*} res
+   */
+  static list(req, res) {
     return Role.all()
       .then(roles => res.status(200).send(roles))
       .catch(error => res.status(400).send(error));
-  },
+  }
 
-  retrieve(req, res) {
+  /**
+   *
+   * @param {*} req
+   * @param {*} res
+   */
+  static find(req, res) {
     return Role.findById(req.params.roleId)
       .then((roles) => {
         if (!roles) {
@@ -23,12 +42,17 @@ module.exports = {
             message: 'roles Not Found'
           });
         }
-        return res.status(200).send(roles);
+        return res.status(200).json(roles);
       })
-      .catch(error => res.status(400).send(error));
-  },
+      .catch(error => res.status(400).json(error));
+  }
 
-  update(req, res) {
+  /**
+   *
+   * @param {*} req
+   * @param {*} res
+   */
+  static update(req, res) {
     return Role.findById(req.params.roleId)
       .then((roles) => {
         if (!roles) {
@@ -44,9 +68,14 @@ module.exports = {
           .catch(error => res.status(400).send(error));
       })
       .catch(error => res.status(400).send(error));
-  },
+  }
 
-  delete(req, res) {
+  /**
+   *
+   * @param {*} req
+   * @param {*} res
+   */
+  static delete(req, res) {
     return Role.findById(req.params.roleId)
       .then((roles) => {
         if (!roles) {
@@ -61,4 +90,6 @@ module.exports = {
       })
       .catch(error => res.status(400).send(error));
   }
-};
+}
+
+export default RoleController;
