@@ -1,6 +1,6 @@
-import Document from './document';
-import User from './user';
-import Role from './role';
+import Document from './DocumentController';
+import User from './UserController';
+import Role from './RoleController';
 
 module.exports = {
   Document,

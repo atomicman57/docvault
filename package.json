@@ -4,7 +4,7 @@
   "description": "Document Manager",
   "main": "server.js",
   "scripts": {
-    "start:dev": "nodemon ./bin/www --exec babel-node",
+    "start": "nodemon ./bin/www --exec babel-node",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "blessing philips'",
