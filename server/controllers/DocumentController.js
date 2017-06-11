@@ -1,4 +1,4 @@
-import { Document } from '../models';
+import { User, Document } from '../models';
 
 /**
  *
@@ -11,6 +11,12 @@ class DocumentController {
    * @return{*} document
    */
   static create(req, res) {
+    if (req.body.title === '' || req.body.content === ''
+      || req.body.accessLevelId === '') {
+      return res.status(400).send({
+        message: 'Fields cannot be empty'
+      });
+    }
     return Document.create({
       title: req.body.title,
       content: req.body.content,
@@ -26,12 +32,29 @@ class DocumentController {
    * @param {*} req
    * @param {*} res
    */
-
   static list(req, res) {
+    if (req.query.limit || req.query.offset) {
+      return Document.findAll({
+        limit: req.query.limit,
+        offset: req.query.offset
+      })
+        .then((document) => {
+          if (document.length === 0) {
+            return res.status(404).json({
+              message: 'Sorry, No documents found'
+            });
+          }
+          res.status(200).json(document);
+        })
+        .catch((error) => {
+          res.status(400).json(error);
+        });
+    }
     return Document.all()
       .then(document => res.status(200).json(document))
       .catch(error => res.status(400).json(error));
   }
+
   /**
    *
    * @param {*} req
@@ -49,7 +72,6 @@ class DocumentController {
       })
       .catch(error => res.status(400).json(error));
   }
-
 
   /**
    *
@@ -76,7 +98,7 @@ class DocumentController {
           .then(() => res.status(200).json(document))
           .catch(error => res.status(400).json(error));
       })
-      .catch(error => res.status(400).jsob(error));
+      .catch(error => res.status(400).json(error));
   }
 
   /**
@@ -104,6 +126,65 @@ class DocumentController {
           .catch(error => res.status(400).json(error));
       })
       .catch(error => res.status(400).json(error));
+  }
+
+
+  static myDocuments(req, res) {
+    return Document
+    .findAll({
+      where: {
+        $or: [
+          { accessLevelId: 1 },
+          {
+            role: req.body.roleId
+          },
+          {
+            userId: req.body.id
+          }
+        ]
+      },
+      include: [User],
+      order: [['updatedAt', 'DESC']]
+    })
+    .then((document) => {
+      if (!document) {
+        return res.status(404).send({
+          message: 'Document Not Found',
+        });
+      }
+      return res.status(200).send(document);
+    })
+    .catch(error => res.status(400).send({
+      error,
+      message: 'Error occurred while retrieving documents'
+    }));
+  }
+
+  static search(req, res) {
+    const search = req.query.q;
+    return Document.findAll({
+      where: {
+        title: {
+          $iLike: `%${search}%`
+        }
+      }
+    })
+      .then((documents) => {
+        if (documents.length === 0) {
+          return res.status(404).json({
+            message: 'Sorry, No document found'
+          });
+        }
+        return res.status(200).json({
+          documents
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          error,
+          message: 'An Error occurred'
+        });
+      });
   }
 }
 export default DocumentController;

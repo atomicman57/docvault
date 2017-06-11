@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     'User',
@@ -45,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           len: {
-            args: [6, 100],
+            args: [4, 100],
             message: 'Your password is really short!'
           }
         }
@@ -69,6 +70,26 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'roleId',
             onDelete: 'CASCADE'
           });
+          User.hasMany(models.Document, {
+            foreignKey: 'userId',
+            as: 'documents'
+          });
+        }
+      },
+      instanceMethods: {
+        encryptPassword() {
+          this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(8));
+        },
+        validatePassword(password) {
+          return bcrypt.compareSync(password, this.password);
+        }
+      },
+      hooks: {
+        beforeCreate(user) {
+          user.encryptPassword();
+        },
+        beforeUpdate(user) {
+          user.encryptPassword();
         }
       }
     }
