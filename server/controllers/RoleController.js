@@ -12,10 +12,10 @@ class RoleController {
    */
   static create(req, res) {
     return Role.create({
-      name: req.body.name
+      title: req.body.title
     })
-      .then(roles => res.status(201).send(roles))
-      .catch(error => res.status(400).send(error));
+      .then(roles => res.status(201).json(roles))
+      .catch(error => res.status(400).json(error));
   }
 
   /**
@@ -25,8 +25,8 @@ class RoleController {
    */
   static list(req, res) {
     return Role.all()
-      .then(roles => res.status(200).send(roles))
-      .catch(error => res.status(400).send(error));
+      .then(roles => res.status(200).json(roles))
+      .catch(error => res.status(400).json(error));
   }
 
   /**
@@ -38,7 +38,7 @@ class RoleController {
     return Role.findById(req.params.roleId)
       .then((roles) => {
         if (!roles) {
-          return res.status(404).send({
+          return res.status(404).json({
             message: 'roles Not Found'
           });
         }
@@ -56,7 +56,7 @@ class RoleController {
     return Role.findById(req.params.roleId)
       .then((roles) => {
         if (!roles) {
-          return res.status(404).send({
+          return res.status(404).json({
             message: 'roles Not Found'
           });
         }
@@ -64,10 +64,10 @@ class RoleController {
           .update({
             title: req.body.title || roles.title
           })
-          .then(() => res.status(200).send(roles))
-          .catch(error => res.status(400).send(error));
+          .then(() => res.status(200).json(roles))
+          .catch(error => res.status(400).json(error));
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => res.status(400).json(error));
   }
 
   /**
@@ -79,16 +79,16 @@ class RoleController {
     return Role.findById(req.params.roleId)
       .then((roles) => {
         if (!roles) {
-          return res.status(404).send({
+          return res.status(404).json({
             message: 'roles Not Found'
           });
         }
         return roles
           .destroy()
-          .then(() => res.status(200).send({ message: 'Deleted' }))
-          .catch(error => res.status(400).send(error));
+          .then(() => res.status(200).json({ message: 'Deleted' }))
+          .catch(error => res.status(400).json(error));
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => res.status(400).json(error));
   }
 }
 

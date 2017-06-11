@@ -9,14 +9,12 @@ const documentRoutes = (app) => {
     })
   );
 //   app.use(Authentication);
-  app.post('/documents', Document.create);
+  app.get('/search/documents', Document.search);
+  app.post('/documents', Authentication.checkToken, Document.create);
   app.get('/documents', Document.list);
   app.get('/documents/:documentId', Document.find);
   app.put('/documents/:documentId', Document.update);
-  app.delete('/documents/:documentId', Document.delete);
-  app.get('/test', (req, res) => {
-    res.status(200).send('Test Test');
-  });
+  app.delete('/documents/:documentId', Authentication.checkToken, Document.delete);
 };
 
 
