@@ -95,17 +95,29 @@ class UserController {
 
   static list(req, res) {
     if (req.query.limit || req.query.offset) {
-      return User.findAll({
+      return User.findAndCountAll({
         limit: req.query.limit,
         offset: req.query.offset
       })
         .then((user) => {
-          if (user.length === 0) {
-            return res.status(404).json({
-              message: 'Sorry, No User found'
-            });
-          }
-          res.status(200).json(user);
+          const limit = req.query.limit;
+          const offset = req.query.offset;
+          const totalCount = user.count;
+          const pageCount = Math.ceil(totalCount / limit);
+          const currentPage = Math.floor(offset / limit) + 1;
+          const pageSize =
+          (totalCount - offset) > limit ? limit : (totalCount - offset);
+          res.status(200).json({
+            user: user.rows,
+            pagination: {
+              totalCount,
+              limit,
+              offset,
+              pageCount,
+              pageSize,
+              currentPage
+            }
+          });
         })
         .catch((error) => {
           res.status(400).json(error);
