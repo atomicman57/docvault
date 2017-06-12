@@ -100,9 +100,7 @@ class DocumentController {
           });
         }
         return document
-          .update({
-            title: req.body.title || document.title
-          })
+          .update(req.body)
           .then(() => res.status(200).json(document))
           .catch(error => res.status(400).json(error));
       })
@@ -143,28 +141,28 @@ class DocumentController {
       where: {
         $or: [
           { accessLevelId: 1 },
+          // {
+          //   role: 1
+          // },
           {
-            role: req.body.roleId
-          },
-          {
-            userId: req.body.id
+            userId: req.decoded.id
           }
         ]
       },
-      include: [User],
-      order: [['updatedAt', 'DESC']]
+      // include: [User],
+      // order: [['updatedAt', 'DESC']]
     })
     .then((document) => {
       if (!document) {
-        return res.status(404).send({
+        return res.status(404).json({
           message: 'Document Not Found',
         });
       }
-      return res.status(200).send(document);
+      return res.status(200).json(document);
     })
-    .catch(error => res.status(400).send({
+    .catch(error => res.status(400).json({
       error,
-      message: 'Error occurred while retrieving documents'
+      message: 'An Error occurred'
     }));
   }
 
