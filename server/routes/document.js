@@ -12,6 +12,7 @@ const documentRoutes = (app) => {
   app.get('/search/documents', Document.search);
   app.post('/documents', Authentication.checkToken, Document.create);
   app.get('/documents', Document.list);
+  app.get('/documents/mydocs', Authentication.checkToken, Document.myDocuments);
   app.get('/documents/:documentId', Document.find);
   app.put('/documents/:documentId', Document.update);
   app.delete('/documents/:documentId', Authentication.checkToken, Document.delete);
