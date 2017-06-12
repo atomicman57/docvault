@@ -34,17 +34,25 @@ class DocumentController {
    */
   static list(req, res) {
     if (req.query.limit || req.query.offset) {
-      return Document.findAll({
+      return Document.findAndCountAll({
         limit: req.query.limit,
         offset: req.query.offset
       })
         .then((document) => {
-          if (document.length === 0) {
-            return res.status(404).json({
-              message: 'Sorry, No documents found'
-            });
-          }
-          res.status(200).json(document);
+          const limit = req.query.limit;
+          const offset = req.query.offset;
+          const totalCount = document.count;
+          const pageCount = Math.ceil(totalCount / limit);
+          const currentPage = Math.floor(offset / limit) + 1;
+          res.status(200).json({ document: document.rows,
+            pagination: {
+              totalCount,
+              limit,
+              offset,
+              pageCount,
+              currentPage
+            }
+          });
         })
         .catch((error) => {
           res.status(400).json(error);
