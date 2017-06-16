@@ -13,7 +13,7 @@ class DocumentController {
   static create(req, res) {
     if (req.body.title === '' || req.body.content === ''
       || req.body.accessLevelId === '') {
-      return res.status(400).send({
+      return res.status(400).json({
         message: 'Fields cannot be empty'
       });
     }

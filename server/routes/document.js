@@ -2,12 +2,6 @@ import { Document } from '../controllers';
 import Authentication from '../middleware/Authentication';
 
 const documentRoutes = (app) => {
-  // document endpoints
-  app.get('/', (req, res) =>
-    res.status(200).send({
-      message: 'Welcome to the beginning of nothingness.'
-    })
-  );
 //   app.use(Authentication);
   app.get('/search/documents', Document.search);
   app.post('/documents', Authentication.checkToken, Document.create);

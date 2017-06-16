@@ -7,6 +7,17 @@ const createToken = (user) => {
 
 class UserController {
   static create(req, res) {
+    // const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    // if (!emailRegex.test(req.body.email)) {
+    //   return res.status(401).json({
+    //     message: 'Email is not rightly formatted'
+    //   });
+    // }
+    // if (!req.body.username || !req.body.firstname || !req.body.lastname ||
+    //   !req.body.email || !req.body.password
+    // ) {
+    //   return res.status(401).json({ message: 'Enter all required field' });
+    // }
     User.findOne({
       where: {
         $or: [
@@ -41,7 +52,7 @@ class UserController {
           };
           const token = createToken(userInfo);
 
-          return res.status(200).json({
+          return res.status(201).json({
             message: 'Sign up Sucessful here is ur details:',
             token,
             userDetails: userInfo

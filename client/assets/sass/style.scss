@@ -1,0 +1,99 @@
+$color_1: #FBFBFB;
+$color_2: rgba(255,255,255,.9);
+$background_color_1: #40134C;
+$background_color_2: #675370;
+
+nav {
+	ul {
+		a {
+			color: $color_1;
+		}
+	}
+	.brand-logo {
+		color: $color_1;
+	}
+}
+p {
+	line-height: 2rem;
+}
+.button-collapse {
+	color: $color_1;
+}
+.parallax-container {
+	min-height: 380px;
+	line-height: 0;
+	height: auto;
+	color: $color_2;
+	.section {
+		width: 100%;
+	}
+}
+.icon-block {
+	padding: 0 15px;
+	.material-icons {
+		font-size: inherit;
+	}
+}
+footer.page-footer {
+	margin: 0;
+}
+.main-panel {
+	background-color: $background_color_1;
+}
+@media only screen and (max-width : 992px) {
+	.parallax-container {
+		.section {
+			position: absolute;
+			top: 40%;
+		}
+	}
+	#index-banner {
+		.section {
+			top: 10%;
+		}
+	}
+}
+@media only screen and (max-width : 600px) {
+	#index-banner {
+		.section {
+			top: 0;
+		}
+	}
+}
+.myheader{
+	color: black !important;
+}
+.myheader2{
+color: #40134C;
+}
+
+.mydescription{
+	color: #201A23;
+}
+
+.mybutton{
+	background-color: $background_color_1
+}
+.mybutton:hover{
+	background-color: $background_color_2 !important;
+}
+
+.mybutton:focus{
+	background-color: $background_color_2 !important;
+}
+
+.myicon{
+	color: $background_color_1
+}
+
+.myfooter{
+	background-color: #2f2f2f !important;
+}
+.myimage{
+	opacity: 0.2;
+}
+
+.mysignup{
+	max-width: 40%;
+	margin: auto;
+}
