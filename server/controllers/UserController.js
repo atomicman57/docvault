@@ -173,24 +173,49 @@ class UserController {
       .catch(error => res.status(400).json(error));
   }
 
-  static personalDocuments(req, res) {
-    User.findAll({
-      include: [
-        {
-          model: Document,
-          as: 'documents'
-        }
-      ]
-    })
-      .then((user) => {
-        if (!user) {
-          return res.status(404).json({
-            message: 'User does not exist'
+   static personalDocuments(req, res) {
+    const id = req.id
+    const limit = req.query.limit;
+    const offset = req.query.offset;
+    User.findById(req.params.id).then((user) => {
+      if (!user) {
+        return res.status(404).send({
+          success: false,
+          message: 'User Not Found'
+        });
+      }
+      Document.findAndCountAll(id)
+        .then((document) => {
+          if (!document) {
+            return res.status(404).send({
+              message: 'Document Not Found'
+            });
+          }
+          const totalCount = user.count;
+          const pageCount = Math.ceil(totalCount / limit);
+          const currentPage = Math.floor(offset / limit) + 1;
+          const pageSize = totalCount - offset > limit
+            ? limit
+            : totalCount - offset;
+          return res.status(200).json({
+            document: document.rows,
+            pagination: {
+              totalCount,
+              limit,
+              offset,
+              pageCount,
+              pageSize,
+              currentPage
+            }
           });
-        }
-        return res.status(200).json(user);
-      })
-      .catch(error => res.status(400).json(error));
+        })
+        .catch(error =>
+          res.status(400).send({
+            error,
+            message: 'Error occurred while retrieving documents'
+          })
+        );
+    });
   }
 
   static search(req, res) {

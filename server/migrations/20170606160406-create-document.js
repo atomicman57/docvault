@@ -8,10 +8,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       title: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false
       },
       content: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
@@ -30,11 +33,14 @@ module.exports = {
           as: 'userId'
         }
       },
-      accessLevelId: {
-        type: Sequelize.INTEGER,
+      access: {
+        type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 1
-      }
+        defaultValue: 'public',
+      },
+      userRoleId: {
+        type: Sequelize.INTEGER
+      },
     });
   },
   down(queryInterface, Sequelize) {

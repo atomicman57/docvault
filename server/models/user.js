@@ -26,20 +26,14 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         unique: true,
         validate: {
-          notEmpty: {
-            message: 'You must choose a unique Username'
-          }
+          notEmpty: { args: true, msg: 'Please enter a valid username' }
         }
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
-        validate: {
-          isEmail: {
-            message: 'Please enter a valid email address!'
-          }
-        }
+        validate: { isEmail: { args: true, msg: 'Please enter a valid email address!' } }
       },
       password: {
         type: DataTypes.STRING,
@@ -57,6 +51,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 1,
         validate: {
           isInt: {
+            args: true,
             message: 'Role Id must be an integer'
           }
         }

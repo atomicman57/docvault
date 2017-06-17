@@ -1,5 +1,5 @@
 import { User } from '../controllers';
-import Authentication from '../middleware/Authentication';
+// import Authentication from '../middleware/Authentication';
 
 const userRoutes = (app) => {
   app.post('/users', User.create);
