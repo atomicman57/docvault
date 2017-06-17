@@ -1,6 +1,6 @@
 $color_1: #FBFBFB;
 $color_2: rgba(255,255,255,.9);
-$background_color_1: #40134C;
+$background_color_1: #880e4f;
 $background_color_2: #675370;
 
 nav {
@@ -64,7 +64,7 @@ footer.page-footer {
 	color: black !important;
 }
 .myheader2{
-color: #40134C;
+color: #880e4f;
 }
 
 .mydescription{
@@ -96,4 +96,12 @@ color: #40134C;
 .mysignup{
 	max-width: 40%;
 	margin: auto;
+}
+
+.mysignuprow{
+	margin-bottom: 0px !important;
+}
+
+.parallax img{
+display: block;
 }

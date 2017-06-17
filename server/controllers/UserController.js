@@ -7,17 +7,17 @@ const createToken = (user) => {
 
 class UserController {
   static create(req, res) {
-    // const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-    // if (!emailRegex.test(req.body.email)) {
-    //   return res.status(401).json({
-    //     message: 'Email is not rightly formatted'
-    //   });
-    // }
-    // if (!req.body.username || !req.body.firstname || !req.body.lastname ||
-    //   !req.body.email || !req.body.password
-    // ) {
-    //   return res.status(401).json({ message: 'Enter all required field' });
-    // }
+    if (!req.body.username || !req.body.firstname || !req.body.lastname ||
+      !req.body.email || !req.body.password
+    ) {
+      return res.status(401).json({ message: 'Enter all required field' });
+    }
+    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    if (!emailRegex.test(req.body.email)) {
+      return res.status(401).json({
+        message: 'Email is not rightly formatted'
+      });
+    }
     User.findOne({
       where: {
         $or: [
@@ -66,12 +66,12 @@ class UserController {
 
   static login(req, res) {
     return User.findOne({
-      where: { username: req.body.username }
+      where: { email: req.body.email }
     })
       .then((user) => {
         if (!user) {
           return res.status(404).json({
-            error: 'User not found'
+            message: 'User not found'
           });
         }
 

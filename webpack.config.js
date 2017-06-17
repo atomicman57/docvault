@@ -27,10 +27,10 @@ module.exports = {
           use: ['css-loader', 'sass-loader'],
         }),
       },
-       {
-      test: /\.(png|jpg)$/,
-      loader: 'url-loader?limit=25000'
-    },
+        {
+        test: /\.(woff2?|jpe?g|png|gif|ico)$/,
+        use: 'file-loader?name=./assets/images/[name].[ext]'
+      },
     ],
   },
   resolve: { extensions: ['.js', '.jsx', '.css'] },

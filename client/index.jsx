@@ -5,6 +5,7 @@ import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import { Router, browserHistory } from 'react-router';
 import routes from './routes.jsx';
+import './assets/sass/dashboard.scss';
 import './assets/sass/style.scss';
 
 const app = document.getElementById('app');

@@ -1,9 +1,13 @@
 import React from 'react';
-// import img1 from '../assets/images/Document_management_ECM_INSIGHT_papers_LARGE_969x686.jpg';
+import img1 from '../assets/images/Document_management_ECM_INSIGHT_papers_LARGE_969x686.jpg';
+import img2 from "../assets/images/SAP Document Management.jpg";
+import img3 from "../assets/images/digidoc_mainimage.jpg";
+import NavigationBar from './NavigationBar.jsx';
 class HomePage extends React.Component {
   render() {
     return (
       <div>
+         <NavigationBar />
         <div id="index-banner" className="parallax-container">
           <div className="section no-pad-bot">
             <div className="container">
@@ -18,7 +22,7 @@ class HomePage extends React.Component {
               </div>
               <div className="row center">
                 <a
-                  href="#"
+                  href="/signup"
                   id="download-button"
                   className="mybutton btn-large waves-effect waves-light"
                 >
@@ -29,9 +33,9 @@ class HomePage extends React.Component {
 
             </div>
           </div>
-          <div className="parallax">
+          <div className="parallax" id="parallax2">
              <img
-              src="../assets/images/Document_management_ECM_INSIGHT_papers_LARGE_969x686.jpg"
+              src={img1}
               alt="Unsplashed background img 1"
             />
           </div>
@@ -66,9 +70,11 @@ class HomePage extends React.Component {
                   </h5>
 
                   <p className="light">
-                    Document Vault focus mainly and user experience,
+                    Document Vault focus mainly on user experience,
                     As a user, you will have great time using the app.
-                    It also cost efficient, as you do not need to
+                    It makes you feel like you are keeping
+                    document on your local machine.
+                    It also is cost efficient, as you do not need to
                     pay anything to use the service
                   </p>
                 </div>
@@ -106,9 +112,9 @@ class HomePage extends React.Component {
               </div>
             </div>
           </div>
-          <div className="parallax">
+          <div className="parallax" id="parallax2">
             <img
-              src="../assets/images/SAP Document Management.jpg"
+              src={img2}
               className="myimage"
               alt="Unsplashed background img 2"
             />
@@ -145,9 +151,9 @@ class HomePage extends React.Component {
               </div>
             </div>
           </div>
-          <div className="parallax">
+          <div className="parallax" id="parallax3">
             <img
-              src="../assets/images/digidoc_mainimage.jpg"
+              src={img3}
               className="myimage"
               alt="Unsplashed background img 3"
             />

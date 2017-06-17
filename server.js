@@ -1,5 +1,6 @@
 import express from 'express';
 import logger from 'morgan';
+import compression from 'compression';
 import path from 'path';
 import bodyParser from 'body-parser';
 import webpack from 'webpack';
@@ -25,7 +26,7 @@ app.use(webpackHotMiddleware(compiler, {
   publicPath: webpackConfig.output.path,
   noInfo: true,
 }));
-
+app.use(compression());
 app.use(express.static(path.join(__dirname, '/client')));
 
 // Parse incoming requests data

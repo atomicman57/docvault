@@ -1,18 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class SignupForm extends React.Component {
+class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstname: '',
-      lastname: '',
-      username: '',
       email: '',
       password: '',
-      confirm_password: '',
       errors: {},
-      message: {},
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -24,10 +19,10 @@ class SignupForm extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     this.props
-      .userSignupRequest(this.state)
+      .userLoginRequest(this.state)
       .then(
         () => {
-          this.context.router.push('/');
+          this.context.router.push('/dashboard');
         }
       )
       .catch((error) => {
@@ -42,55 +37,10 @@ class SignupForm extends React.Component {
     return (
       <div>
         <div className="card-panel">
-          <h4 className="header2">Sign Up</h4>
+          <h4 className="header2">Login</h4>
           {errors.message}
           <div className="mysignuprow row">
             <form className="col s12" onSubmit={this.onSubmit}>
-              <div className="mysignuprow row">
-                <div className="input-field col s12">
-                  <i className="material-icons prefix">account_circle</i>
-                  <input
-                    id="icon_prefix"
-                    type="text"
-                    name="firstname"
-                    value={this.state.firstname}
-                    onChange={this.onChange}
-                    className="validate"
-                    required
-                  />
-                  <label htmlFor="first_name">First Name</label>
-                </div>
-              </div>
-              <div className="mysignuprow row">
-                <div className="input-field col s12">
-                  <i className="material-icons prefix">account_circle</i>
-                  <input
-                    id="icon_prefix"
-                    type="text"
-                    name="lastname"
-                    value={this.state.lastname}
-                    onChange={this.onChange}
-                    className="validate"
-                    required
-                  />
-                  <label htmlFor="last_name">Last Name</label>
-                </div>
-              </div>
-              <div className="mysignuprow row">
-                <div className="input-field col s12">
-                  <i className="material-icons prefix">account_circle</i>
-                  <input
-                    id="icon_prefix"
-                    type="text"
-                    name="username"
-                    value={this.state.username}
-                    onChange={this.onChange}
-                    className="validate"
-                    required
-                  />
-                  <label htmlFor="user_name">Username</label>
-                </div>
-              </div>
               <div className="mysignuprow row">
                 <div className="input-field col s12">
                   <i className="material-icons prefix">email</i>
@@ -140,11 +90,11 @@ class SignupForm extends React.Component {
   }
 }
 
-SignupForm.propTypes = {
-  userSignupRequest: PropTypes.func.isRequired
+LoginForm.propTypes = {
+  userLoginRequest: PropTypes.func.isRequired
 };
-SignupForm.contextTypes = {
+LoginForm.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default SignupForm;
+export default LoginForm;
