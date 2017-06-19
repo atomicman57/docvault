@@ -27,7 +27,7 @@ class SignupForm extends React.Component {
       .userSignupRequest(this.state)
       .then(
         () => {
-          this.context.router.push('/');
+          this.context.router.push('/dashboard');
         }
       )
       .catch((error) => {

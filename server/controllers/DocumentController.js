@@ -21,7 +21,7 @@ class DocumentController {
       title: req.body.title,
       content: req.body.content,
       userId: req.body.userId,
-      accessLevelId: req.body.accesslevel
+      access: req.body.access
     })
       .then(document => res.status(201).json(document))
       .catch(error => res.status(400).json(error));

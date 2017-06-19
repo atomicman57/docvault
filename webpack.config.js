@@ -39,6 +39,7 @@ module.exports = {
     fs: 'empty',
     net: 'empty',
     tls: 'empty',
+    dns: 'empty',
   },
   output: {
     path: `${__dirname}/client/dist`,

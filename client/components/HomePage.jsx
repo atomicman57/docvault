@@ -1,13 +1,13 @@
 import React from 'react';
 import img1 from '../assets/images/Document_management_ECM_INSIGHT_papers_LARGE_969x686.jpg';
-import img2 from "../assets/images/SAP Document Management.jpg";
-import img3 from "../assets/images/digidoc_mainimage.jpg";
-import NavigationBar from './NavigationBar.jsx';
+import img2 from '../assets/images/SAP Document Management.jpg';
+import img3 from '../assets/images/digidoc_mainimage.jpg';
+import NavigationBar from './includes/NavigationBar.jsx';
 class HomePage extends React.Component {
   render() {
     return (
       <div>
-         <NavigationBar />
+         {/*<NavigationBar />*/}
         <div id="index-banner" className="parallax-container">
           <div className="section no-pad-bot">
             <div className="container">

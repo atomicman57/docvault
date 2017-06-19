@@ -12,7 +12,7 @@ class Middleware {
    * @param {*} next
    */
   static checkToken(req, res, next) {
-    const token = req.query.token || req.headers['x-access-token'];
+    const token = req.headers.Authorization || req.query.token || req.headers['Authorization'];
     if (!token) {
       return res.status(403).json({
         success: false,

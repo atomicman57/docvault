@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SignupForm from './SignupForm.jsx';
-import NavigationBar from './NavigationBar.jsx';
-import { userSignupRequest } from '../actions/signupActions';
+import NavigationBar from '../includes/NavigationBar.jsx';
+import { userSignupRequest } from '../../actions/signupActions';
 
 class SignupPage extends React.Component {
   render() {
     const { userSignupRequest } = this.props;
     return (
       <div>
-        <NavigationBar />
+        {/*<NavigationBar />*/}
         <div className="mysignup">
           <div className="col s12 m12 l6">
             <SignupForm userSignupRequest={userSignupRequest} />

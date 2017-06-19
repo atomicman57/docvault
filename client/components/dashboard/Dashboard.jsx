@@ -1,132 +1,132 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import CreateDocument from '../documents/createDocument.jsx';
+import { Modal } from 'react-materialize';
+// import * as UserActions from '../../actions/userActions';
+import * as AuthActions from '../../actions/authActions';
 
 class Dashboard extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+  }
+
+  componentWillMount() {
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+      // this.props.actions.loadDocuments();
+      this.userId = this.props.currentUser.id;
+      this.firstname = this.props.currentUser.firstname;
+      this.lastname = this.props.currentUser.lastname;
+      this.username = this.props.currentUser.username;
+      this.email = this.props.currentUser.email;
+      console.log(this.props.currentUser);
+      // this.props.actions.fetchUsers(userId);
+    }
+  }
   render() {
+    const toastContent = `<span>Welcome back ${this.username}</span>`;
+    const toastTimeout = window.setTimeout(() => {
+      // Some toast
+        Materialize.toast(toastContent, 2000);
+        window.clearTimeout(toastTimeout);
+      }, 4000),
+      secondToastTimeout = window.setTimeout(() => {
+        // Some toast
+        Materialize.toast('Welcome to your Doc vault Dashboard', 2000);
+        window.clearTimeout(secondToastTimeout);
+      }, 5000);
+    const { createDocument } = this.props.actions;
     return (
       <div>
         <div className="page">
           <header>
-              <div>
-            <nav className="pink darken-4">
-              <div className="nav-wrapper">
-                <a
-                  href="#"
-                  data-activates="nav-mobile"
-                  className="button-collapse top-nav full hide-on-large-only"
-                >
-                  <i className="material-icons">menu</i>
-                </a>
-                <span href="#" className="brand-logo page-title">
-                 Doc Vault
-                </span>
-                <ul className="right hide-on-med-and-down">
-                  <li>
-                    <a href="#">
-                      <span className="nav-badge">3</span>
-                      <i className="material-icons">chat_bubble</i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="material-icons">settings</i>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/"
-                      className="tooltipped"
-                      data-position="left"
-                      data-delay="50"
-                      data-tooltip="Logout"
-                    >
-                      <i className="material-icons">exit_to_app</i>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div>
-            </div>
-            </nav>
-            <ul id="nav-mobile" className="side-nav custom-side-nav fixed" style={{ width: "240px"}}>
-              <li className="grey darken-4">
-                <div className="user">
-                  <div className="chip grey darken-3 white-text">
-                    <img
-                      src="http://blogs-images.forbes.com/jasonevangelho/files/2013/03/Linus-Torvalds.jpg"
-                      alt="Contact Person"
-                    />
-                    &gt;
-                    Jeremy Lean
+            <div>
+              <ul
+                id="nav-mobile"
+                className="side-nav custom-side-nav fixed"
+                style={{ width: '240px' }}
+              >
+                <li className="grey darken-4">
+                  <div className="user">
+                    <div className="chip grey darken-3 white-text">
+                      <img
+                        src="http://blogs-images.forbes.com/jasonevangelho/files/2013/03/Linus-Torvalds.jpg"
+                        alt="Contact Person"
+                      />
+                      &gt;
+                      {this.firstname} {this.lastname}
+                    </div>
                   </div>
-                </div>
-              </li>
-              <li>
-                <a className="grey white-text darken-3 waves-effect waves-grey">
-                  <i className="material-icons deep-orange-text">airplay</i>
-                  <span>Dashboard</span>
-                </a>
-              </li>
-              <li>
-                <a className="waves-effect waves-grey">
-                  <i className="material-icons">perm_identity</i>
-                  <span className="badge deep-orange darken-1 white-text">
-                    33
-                  </span>
-                  {' '}
-                  Users
-                </a>
-              </li>
+                </li>
+                <li>
+                  <a className="grey white-text darken-3 waves-effect waves-grey">
+                    <i className="material-icons deep-orange-text">airplay</i>
+                    <span>Dashboard</span>
+                  </a>
+                </li>
+                <li>
+                  <a className="waves-effect waves-grey">
+                    <i className="material-icons">perm_identity</i>
+                    <span className="badge deep-orange darken-1 white-text">
+                      33
+                    </span>
+                    {' '}
+                    Users
+                  </a>
+                </li>
 
-              <li>
-                <a className="waves-effect waves-grey">
-                  <i className="material-icons">clear_all</i>
-                  Reports
-                </a>
-              </li>
-              <li>
-                <a className="waves-effect waves-grey">
-                  <i className="material-icons">trending_up</i>
-                  Analytics
-                </a>
-              </li>
-              <li>
-                <a className="waves-effect waves-grey">
-                  <i className="material-icons">layers</i>
-                  Servers
-                </a>
-              </li>
-              <li>
-                <a className="waves-effect waves-grey">
-                  <i className="material-icons">storage</i>
-                  Database
-                </a>
-              </li>
-              <li>
-                <a className="waves-effect waves-grey">
-                  <i className="material-icons">public</i>
-                  Domains
-                </a>
-              </li>
-              <li>
-                <a className="waves-effect waves-grey">
-                  <i className="material-icons">cloud_queue</i>
-                  Network
-                </a>
-              </li>
+                <li>
+                  <a className="waves-effect waves-grey">
+                    <i className="material-icons">clear_all</i>
+                    Reports
+                  </a>
+                </li>
+                <li>
+                  <a className="waves-effect waves-grey">
+                    <i className="material-icons">trending_up</i>
+                    Analytics
+                  </a>
+                </li>
+                <li>
+                  <a className="waves-effect waves-grey">
+                    <i className="material-icons">layers</i>
+                    Servers
+                  </a>
+                </li>
+                <li>
+                  <a className="waves-effect waves-grey">
+                    <i className="material-icons">storage</i>
+                    Database
+                  </a>
+                </li>
+                <li>
+                  <a className="waves-effect waves-grey">
+                    <i className="material-icons">public</i>
+                    Domains
+                  </a>
+                </li>
+                <li>
+                  <a className="waves-effect waves-grey">
+                    <i className="material-icons">cloud_queue</i>
+                    Network
+                  </a>
+                </li>
 
-              <li>
-                <a className="waves-effect waves-grey">
-                  <i className="material-icons">notifications_none</i>
-                  Alerts
-                </a>
-              </li>
-              <li>
-                <a className="waves-effect waves-grey">
-                  <i className="material-icons">message</i>
-                  Messages
-                </a>
-              </li>
-            </ul>
+                <li>
+                  <a className="waves-effect waves-grey">
+                    <i className="material-icons">notifications_none</i>
+                    Alerts
+                  </a>
+                </li>
+                <li>
+                  <a className="waves-effect waves-grey">
+                    <i className="material-icons">message</i>
+                    Messages
+                  </a>
+                </li>
+              </ul>
             </div>
           </header>
           <main>
@@ -139,8 +139,8 @@ class Dashboard extends React.Component {
               <div className="col s12 m6 l3">
                 <div className="card">
                   <div className="card-content black-text">
-                    <p><i className="mdi-social-group-add" /> New Users</p>
-                    <h4 className="card-stats-number">56.000</h4>
+                    <p><i className="mdi-social-group-add" /> Document 1</p>
+                    <h4 className="card-stats-number">Test Doc</h4>
                     <p className="card-stats-compare">
                       <i className="mdi-hardware-keyboard-arrow-up" />
                       {' '}
@@ -257,6 +257,7 @@ class Dashboard extends React.Component {
               </div>
             </div>
           </main>
+
           <main>
             <div id="shell" className="shell">
               <div className="shell-header">
@@ -275,84 +276,104 @@ class Dashboard extends React.Component {
                   DOC VAULT SHELL v1.0.2
                 </h6>
                 <div className="grey-text">
-                  Brought to you by
-                  {' '}
-                  <a
-                    href="http://720kb.net"
-                    target="_blank"
-                    className="white-text"
-                  >
-                    720kb
-                  </a>
+                  Powered by
+                  Doc Vault Server
                 </div>
                 <div className="white-text text-lighten-3">
-                  Welcome back Jeremy!
+                  Welcome back {this.username}!
                 </div>
                 <div className="deep-orange-text text-accent-1">
-                  host01:jeremy root$
+                  host01:{this.username} root$
                 </div>
                 <div className="deep-orange-text text-accent-1">
-                  host01:jeremy root$ sudo
+                  host01:{this.username} root$ sudo
                 </div>
                 <div className="deep-orange-text text-accent-1">
                   Your password:
                 </div>
                 <div className="deep-orange-text text-accent-1">
-                  host01:jeremy root$
-                  {' '}
+                  host01:{this.username} root$
+
                   <span className="deep-orange-text text-lighten-4">
-                    {' '}ls -la
+                    ls -la
                   </span>
                 </div>
                 <div className="deep-orange-text text-accent-1">
-                  host01:jeremy root$
-                  {' '}
+                  host01:{this.username} root$
                   <span className="deep-orange-text text-lighten-4">
                     usr/ bin/ etc/ var/ .git .gitignore
                   </span>
                 </div>
                 <div className="deep-orange-text text-accent-1">
-                  host01:jeremy root$
-                  {' '}
+                  host01:{this.username} root$
                   <span className="deep-orange-text text-lighten-4">
                     git clone git@github.com:720kb/hubuntu-ui.git hubuntu-ui
                   </span>
                 </div>
                 <div className="deep-orange-text text-accent-1">
-                  host01:jeremy root$
-                  {' '}
+                  host01:{this.username} root$
                   <span className="deep-orange-text text-lighten-4">
                     cd hubuntu-ui/
                   </span>
                 </div>
                 <div className="deep-orange-text text-accent-1">
-                  host01:jeremy root$
-                  {' '}
+                  host01:{this.username} root$
+
                   <span className="deep-orange-text text-lighten-4">
                     bower install
                   </span>
                 </div>
                 <div className="deep-orange-text text-accent-1">
-                  host01:jeremy root$
-                  {' '}
+                  host01:{this.username} root$
+
                   <span className="deep-orange-text text-lighten-4">
                     python -m SimpleHTTPServer
                   </span>
-                  {' '}
+
                   <span className="blink white-text">|</span>
                 </div>
               </div>
             </div>
           </main>
         </div>
-        <div className="fixed-action-btn">
-          <a href="#shell" className="btn-floating btn-large pink darken-4">
-            <i className="large white-text material-icons">code</i>
+        <Modal
+          header='Create Document'
+          trigger={
+           <div className="fixed-action-btn">
+          <a
+            className="btn-floating btn-large pink darken-4"
+          >
+            <i className="large white-text material-icons">edit</i>
           </a>
         </div>
-        </div>
+          }>
+          <CreateDocument />
+         </Modal>
+      </div>
     );
   }
 }
 
-export default Dashboard;
+Dashboard.propTypes = {
+  currentUser: PropTypes.object.isRequired,
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(
+      Object.assign(
+        {},
+        AuthActions
+      ),
+      dispatch
+    )
+  };
+}
+
+function mapStateToProps(state) {
+  return {
+    currentUser: state.Auth.user,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -15,10 +15,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      accessLevelId: {
-        type: DataTypes.INTEGER,
+      access: {
+        type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: 1
+        defaultValue: 'public'
       }
     },
     {

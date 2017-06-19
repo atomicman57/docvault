@@ -1,11 +1,11 @@
 import React from 'react';
-import NavigationBar from './NavigationBar.jsx';
+import NavigationBar from './includes/NavigationBar.jsx';
 
 class App extends React.Component {
   render() {
     return (
       <div>
-        {/*<NavigationBar />*/}
+        <NavigationBar />
         {this.props.children}
       </div>
     );
