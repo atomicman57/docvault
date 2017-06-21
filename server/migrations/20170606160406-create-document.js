@@ -30,10 +30,14 @@ module.exports = {
           as: 'userId'
         }
       },
-      accessLevelId: {
-        type: Sequelize.INTEGER,
+      access: {
+        type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 1
+        defaultValue: 'public'
+      },
+      userRoleId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
       }
     });
   },

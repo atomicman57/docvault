@@ -185,21 +185,18 @@ class UserController {
   }
 
   static personalDocuments(req, res) {
-    User.findAll({
-      include: [
-        {
-          model: Document,
-          as: 'documents'
-        }
-      ]
+    Document.findAll({
+      where: {
+        userId: req.params.id
+      }
     })
-      .then((user) => {
-        if (!user) {
+      .then((document) => {
+        if (!document) {
           return res.status(404).json({
-            message: 'User does not exist'
+            message: 'User does not have any record of document'
           });
         }
-        return res.status(200).json(user);
+        return res.status(200).json(document);
       })
       .catch(error => res.status(400).json(error));
   }

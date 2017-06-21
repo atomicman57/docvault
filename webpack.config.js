@@ -31,6 +31,10 @@ module.exports = {
         test: /\.(woff2?|jpe?g|png|gif|ico)$/,
         use: 'file-loader?name=./assets/images/[name].[ext]'
       },
+       {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
     ],
   },
   resolve: { extensions: ['.js', '.jsx', '.css'] },

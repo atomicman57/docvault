@@ -245,3 +245,24 @@ footer {
 		top: 11%;
 	}
 }
+
+.editbox{
+	outline: 1px solid black;
+}
+.card{
+	min-height: 250px;
+	overflow: auto;
+}
+.docpagination{
+	margin: auto;
+	width: 50%;
+}
+.pagination{
+	cursor: pointer;
+}
+.editbutton, .deletebutton{
+	background-color: #ee6e73;
+}
+.editbutton:hover, .deletebutton:hover{
+	background-color: #ee6e73;
+}

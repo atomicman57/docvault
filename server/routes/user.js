@@ -7,11 +7,11 @@ const userRoutes = (app) => {
   app.get('/search/users', User.search);
 
   app.post('/users/login', User.login);
-  app.get('/users/:id', User.find);
-  app.put('/users/:id', User.update);
-  app.delete('/users/:id', User.delete);
+  app.get('/users/:id', Authentication.checkToken, User.find);
+  app.put('/users/:id', Authentication.checkToken, User.update);
+  app.delete('/users/:id', Authentication.checkToken, User.delete);
   app.post('/users/logout', User.logout);
-  app.get('/users/:id/documents', User.personalDocuments);
+  app.get('/users/:id/documents', Authentication.checkToken, User.personalDocuments);
 };
 
 export default userRoutes;

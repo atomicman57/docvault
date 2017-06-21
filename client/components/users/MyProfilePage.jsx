@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import CreateDocument from '../documents/CreateDocument.jsx';
-import GetDocument from '../documents/GetDocument.jsx';
+import MyProfile from '../users/MyProfile.jsx';
 import { Modal } from 'react-materialize';
-// import * as UserActions from '../../actions/userActions';
 import * as AuthActions from '../../actions/authActions';
 
-class Dashboard extends React.Component {
+class MyDocumentPage extends React.Component {
   constructor(props, context) {
     super(props, context);
   }
@@ -24,117 +23,90 @@ class Dashboard extends React.Component {
     }
   }
   render() {
-    const toastContent = `<span>Welcome back ${this.username}</span>`;
-    const toastTimeout = window.setTimeout(() => {
-      // Some toast
-        Materialize.toast(toastContent, 2000);
-        window.clearTimeout(toastTimeout);
-      }, 4000),
-      secondToastTimeout = window.setTimeout(() => {
-        // Some toast
-        Materialize.toast('Welcome to your Doc vault Dashboard', 2000);
-        window.clearTimeout(secondToastTimeout);
-      }, 5000);
     const { currentUser } = this.props;
     return (
       <div>
         <div className="page">
-          {/*<header>
-            <div>
-              <ul
-                id="nav-mobile"
-                className="side-nav custom-side-nav fixed"
-                style={{ width: '240px' }}
-              >
-                <li className="grey darken-4">
-                  <div className="user">
-                    <div className="chip grey darken-3 white-text">
-                      <img
-                        src="http://blogs-images.forbes.com/jasonevangelho/files/2013/03/Linus-Torvalds.jpg"
-                        alt="Contact Person"
-                      />
-                      &gt;
-                      {this.firstname} {this.lastname}
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <a className="grey white-text darken-3 waves-effect waves-grey">
-                    <i className="material-icons deep-orange-text">airplay</i>
-                    <span>Dashboard</span>
-                  </a>
-                </li>
-                <li>
-                  <a className="waves-effect waves-grey">
-                    <i className="material-icons">perm_identity</i>
-                    <span className="badge deep-orange darken-1 white-text">
-                      33
-                    </span>
-                    {' '}
-                    Users
-                  </a>
-                </li>
-
-                <li>
-                  <a className="waves-effect waves-grey">
-                    <i className="material-icons">clear_all</i>
-                    Reports
-                  </a>
-                </li>
-                <li>
-                  <a className="waves-effect waves-grey">
-                    <i className="material-icons">trending_up</i>
-                    Analytics
-                  </a>
-                </li>
-                <li>
-                  <a className="waves-effect waves-grey">
-                    <i className="material-icons">layers</i>
-                    Servers
-                  </a>
-                </li>
-                <li>
-                  <a className="waves-effect waves-grey">
-                    <i className="material-icons">storage</i>
-                    Database
-                  </a>
-                </li>
-                <li>
-                  <a className="waves-effect waves-grey">
-                    <i className="material-icons">public</i>
-                    Domains
-                  </a>
-                </li>
-                <li>
-                  <a className="waves-effect waves-grey">
-                    <i className="material-icons">cloud_queue</i>
-                    Network
-                  </a>
-                </li>
-
-                <li>
-                  <a className="waves-effect waves-grey">
-                    <i className="material-icons">notifications_none</i>
-                    Alerts
-                  </a>
-                </li>
-                <li>
-                  <a className="waves-effect waves-grey">
-                    <i className="material-icons">message</i>
-                    Messages
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </header>*/}
           <main>
             <div className="breadcrumb grey lighten-3">
               <h6>
-                Dashboard
+                My Profile
               </h6>
             </div>
             <div className="row">
-               <GetDocument currentUser={currentUser} />
+              <MyProfile currentUser={currentUser} />
+              {/*<div className="col s12 m6 l3">
+                <div className="card">
+                  <div className="card-content black-text">
+                    <p><i className="mdi-social-group-add" /> Document 1</p>
+                    <h4 className="card-stats-number">Test Doc</h4>
+                    <p className="card-stats-compare">
+                      <i className="mdi-hardware-keyboard-arrow-up" />
+                      {' '}
+                      15%
+                      {' '}
+                      <span className="deep-orange-text text-lighten-2">
+                        from yesterday
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="col s12 m6 l3">
+                <div className="card">
+                  <div className="card-content black-text">
+                    <p><i className="mdi-editor-attach-money" />Total Sales</p>
+                    <h4 className="card-stats-number">$1990.63</h4>
+                    <p className="card-stats-compare">
+                      <i className="mdi-hardware-keyboard-arrow-up" />
+                      {' '}
+                      70%
+                      {' '}
+                      <span className="deep-orange-text text-lighten-2">
+                        last month
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="col s12 m6 l3">
+                <div className="card">
+                  <div className="card-content black-text">
+                    <p><i className="mdi-action-trending-up" /> Your Profit</p>
+                    <h4 className="card-stats-number">$500.52</h4>
+                    <p className="card-stats-compare">
+                      <i className="mdi-hardware-keyboard-arrow-up" />
+                      {' '}
+                      80%
+                      {' '}
+                      <span className="deep-orange-text text-lighten-2">
+                        from yesterday
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="col s12 m6 l3">
+                <div className="card">
+                  <div className="card-content black-text">
+                    <p>
+                      <i className="mdi-editor-insert-drive-file" />
+                      {' '}
+                      New Requests
+                    </p>
+                    <h4 className="card-stats-number">25</h4>
+                    <p className="card-stats-compare">
+                      <i className="mdi-hardware-keyboard-arrow-down" />
+                      {' '}
+                      3%
+                      {' '}
+                      <span className="deep-orange-text text-lighten-2">
+                        from last month
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>*/}
             </div>
             {/*<div className="row">
               <div className="col s12 m12 l6">
@@ -185,7 +157,7 @@ class Dashboard extends React.Component {
             </div>*/}
           </main>
 
-          <main>
+          {/*<main>
             <div id="shell" className="shell">
               <div className="shell-header">
                 <a href="#" className="deep-orange black-text">
@@ -260,46 +232,39 @@ class Dashboard extends React.Component {
                 </div>
               </div>
             </div>
-          </main>
+          </main>*/}
         </div>
         <Modal
-          header='Create Document'
+          header="Create Document"
           trigger={
-           <div className="fixed-action-btn">
-          <a
-            className="btn-floating btn-large pink darken-4"
-          >
-            <i className="large white-text material-icons">edit</i>
-          </a>
-        </div>
-          }>
+            <div className="fixed-action-btn">
+              <a className="btn-floating btn-large pink darken-4">
+                <i className="large white-text material-icons">edit</i>
+              </a>
+            </div>
+          }
+        >
           <CreateDocument currentUser={currentUser} />
-         </Modal>
+        </Modal>
       </div>
     );
   }
 }
 
-Dashboard.propTypes = {
-  currentUser: PropTypes.object.isRequired,
+MyDocumentPage.propTypes = {
+  currentUser: PropTypes.object.isRequired
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(
-      Object.assign(
-        {},
-        AuthActions
-      ),
-      dispatch
-    )
+    actions: bindActionCreators(Object.assign({}, AuthActions), dispatch)
   };
 }
 
 function mapStateToProps(state) {
   return {
-    currentUser: state.Auth.user,
+    currentUser: state.Auth.user
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(MyDocumentPage);

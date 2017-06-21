@@ -1,16 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class SignupForm extends React.Component {
+class EditProfileForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstname: '',
-      lastname: '',
-      username: '',
-      email: '',
+      firstname: this.props.currentUser.firstname,
+      lastname: this.props.currentUser.lastname,
+      username: this.props.currentUser.username,
+      email: this.props.currentUser.email,
       password: '',
-      confirm_password: '',
       errors: {}
     };
     this.onChange = this.onChange.bind(this);
@@ -36,7 +35,7 @@ class SignupForm extends React.Component {
     return (
       <div>
         <div className="card-panel">
-          <h4 className="header2">Sign Up</h4>
+          <h4 className="header2">Edit Profile</h4>
           {/*{errors.message}*/}
           <div className="mysignuprow row">
             <form className="col s12" onSubmit={this.onSubmit}>
@@ -50,7 +49,6 @@ class SignupForm extends React.Component {
                     value={this.state.firstname}
                     onChange={this.onChange}
                     className="validate"
-                    required
                   />
                   <label htmlFor="first_name">First Name</label>
                 </div>
@@ -65,7 +63,6 @@ class SignupForm extends React.Component {
                     value={this.state.lastname}
                     onChange={this.onChange}
                     className="validate"
-                    required
                   />
                   <label htmlFor="last_name">Last Name</label>
                 </div>
@@ -80,7 +77,6 @@ class SignupForm extends React.Component {
                     value={this.state.username}
                     onChange={this.onChange}
                     className="validate"
-                    required
                   />
                   <label htmlFor="user_name">Username</label>
                 </div>
@@ -95,7 +91,6 @@ class SignupForm extends React.Component {
                     value={this.state.email}
                     onChange={this.onChange}
                     className="validate"
-                    required
                   />
                   <label htmlFor="email">Email</label>
                 </div>
@@ -109,8 +104,6 @@ class SignupForm extends React.Component {
                     name="password"
                     value={this.state.password}
                     onChange={this.onChange}
-                    className="validate"
-                    required
                   />
                   <label htmlFor="password">Password</label>
                 </div>
@@ -122,7 +115,7 @@ class SignupForm extends React.Component {
                     type="submit"
                     name="submit"
                   >
-                    Submit
+                    Update Profile
                   </button>
                 </div>
               </div>
@@ -134,11 +127,15 @@ class SignupForm extends React.Component {
   }
 }
 
-SignupForm.propTypes = {
-  userSignupRequest: PropTypes.func.isRequired
+EditProfileForm.propTypes = {
+  currentUser: PropTypes.object.isRequired,
 };
-SignupForm.contextTypes = {
+
+// EditProfileForm.propTypes = {
+//   userSignupRequest: PropTypes.func.isRequired
+// };
+EditProfileForm.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default SignupForm;
+export default EditProfileForm;

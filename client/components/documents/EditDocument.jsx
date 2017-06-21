@@ -3,12 +3,11 @@ import { connect } from 'react-redux';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import PropTypes from 'prop-types';
-import SelectInput from '../common/SelectInput.jsx';
-import TextInput from '../common/TextInput.jsx';
+import { Modal } from 'react-materialize';
 import { userSaveDocumentRequest } from '../../actions/documentActions';
 import { convertToHTML } from 'draft-convert';
 
-class CreateDocument extends React.Component {
+class EditDocument extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,7 +28,7 @@ class CreateDocument extends React.Component {
    * 
    * @param {any} event
    * 
-   * @memberof CreateDocument
+   * @memberof EditDocument
    */
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
@@ -41,7 +40,7 @@ class CreateDocument extends React.Component {
    * 
    * @param {any} editorState 
    * 
-   * @memberof CreateDocument
+   * @memberof EditDocument
    */
   onEditorStateChange(editorState) {
     this.setState({
@@ -53,7 +52,7 @@ class CreateDocument extends React.Component {
    * 
    * @param {any} event 
    * 
-   * @memberof CreateDocument
+   * @memberof EditDocument
    */
   onSubmit(event) {
     event.preventDefault();
@@ -122,7 +121,8 @@ class CreateDocument extends React.Component {
   }
 }
 
-CreateDocument.propTypes = {
+EditDocument.propTypes = {
   currentUser: PropTypes.object.isRequired,
 };
-export default connect(null, { userSaveDocumentRequest })(CreateDocument);
+export default connect(null, { userSaveDocumentRequest })(EditDocument);
+
