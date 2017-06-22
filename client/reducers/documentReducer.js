@@ -1,4 +1,4 @@
-import { SAVE_USER_DOCUMENT, GET_USER_DOCUMENT, GET_CURRENT_USER_DOCUMENT} from '../actions/types';
+import { SAVE_USER_DOCUMENT, GET_USER_DOCUMENT, GET_CURRENT_USER_DOCUMENT } from '../actions/types';
 
 const initialState = {
   documents: {}

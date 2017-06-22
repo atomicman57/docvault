@@ -23,7 +23,8 @@ class DocumentController {
       content: req.body.content,
       userId: req.body.userId,
       access: req.body.access,
-      userRoleId: req.body.userRoleId
+      userRoleId: req.body.userRoleId,
+      username: req.body.username
     })
       .then(document => res.status(201).json(document))
       .catch(error => res.status(400).json(error));
@@ -155,10 +156,11 @@ class DocumentController {
             message: 'Document Not Found'
           });
         }
-        console.log(req.user);
-        if (document.userId != req.body.userId && req.body.roleId != 1) {
+        console.log(req.decoded);
+        console.log(document);
+        if (document.userId != req.decoded.id && req.decoded.roleId != 2) {
           return res.json({
-            message: 'You do not have the permission to edit this document'
+            message: 'You do not have the permission to delete this document'
           });
         }
         return document

@@ -37,6 +37,10 @@ module.exports = {
       },
       userRoleId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      username: {
+        type: Sequelize.STRING,
         allowNull: false
       }
     });

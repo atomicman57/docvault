@@ -1,7 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { userPersonalDocumentRequest } from '../../actions/documentActions';
+import DocumentCard from './DocumentCard.jsx';
 
 class MyDocument extends React.Component {
   constructor(props) {
@@ -11,26 +10,45 @@ class MyDocument extends React.Component {
       errors: {}
     };
   }
+
+  confirmDelete() {
+    swal(
+      {
+        title: 'Are you sure?',
+        text: 'You will not be able to recover this Document',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#DD6B55',
+        confirmButtonText: 'Yes, delete it!',
+        closeOnConfirm: false,
+        html: false
+      },
+      () => {
+        swal('Deleted!', 'Your Document has been deleted.', 'success');
+      }
+    );
+  }
+
   componentDidMount() {
-    this.props.userPersonalDocumentRequest(this.props.currentUser.id).then(() => {
-      console.log('props', this.props.documents);
-      this.setState({ document: this.props.documents });
-    });
+    this.props
+      .userPersonalDocumentRequest(this.props.currentUser.id)
+      .then(() => {
+        console.log('props', this.props.documents);
+        this.setState({ document: this.props.documents });
+      });
   }
   // componentWillReceiveProps(nextProps) {
   //     const newdocument = nextProps.documents;
   //     this.setState({ document: newdocument.documents });
   //   }
   render() {
-    // const { documents } = this.props;
+    const { currentUser } = this.props;
     const { document } = this.state;
     const documents = document;
-    console.log(this.state.document);
-    // console.log(documents.documents);
-    
     return (
       <div>
-        {documents.map(document => (
+        
+        {/* {documents.map(document => (
           <div className="col s12 m6 l3" key={document.id}>
             <div className="card">
               <div className="card-content black-text">
@@ -49,7 +67,16 @@ class MyDocument extends React.Component {
               </div>
             </div>
           </div>
+        ))}*/}
+        {documents.map(document => (
+          <DocumentCard
+            key={document.id}
+            document={document}
+            currentUser={currentUser}
+            confirmDelete={this.confirmDelete}
+          />
         ))}
+
       </div>
     );
   }
@@ -57,10 +84,8 @@ class MyDocument extends React.Component {
 
 MyDocument.propTypes = {
   currentUser: PropTypes.object.isRequired,
+  userPersonalDocumentRequest: PropTypes.func.isRequired,
+  documents: PropTypes.array.isRequired
 };
-function mapStateToProps(state) {
-  return {
-    documents: state.Document
-  };
-}
-export default connect(mapStateToProps, { userPersonalDocumentRequest })(MyDocument);
+
+export default MyDocument;

@@ -1,11 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import PropTypes from 'prop-types';
-import SelectInput from '../common/SelectInput.jsx';
-import TextInput from '../common/TextInput.jsx';
-import { userSaveDocumentRequest } from '../../actions/documentActions';
 import { convertToHTML } from 'draft-convert';
 
 class CreateDocument extends React.Component {
@@ -17,6 +13,7 @@ class CreateDocument extends React.Component {
       userId: '',
       access: '',
       userRoleId: '',
+      username: '',
       editorState: '',
       errors: {}
     };
@@ -25,10 +22,10 @@ class CreateDocument extends React.Component {
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
   }
   /**
-   * 
-   * 
+   *
+   *
    * @param {any} event
-   * 
+   *
    * @memberof CreateDocument
    */
   onChange(event) {
@@ -37,27 +34,30 @@ class CreateDocument extends React.Component {
   }
 
   /**
-   * 
-   * 
-   * @param {any} editorState 
-   * 
+   *
+   *
+   * @param {any} editorState
+   *
    * @memberof CreateDocument
    */
   onEditorStateChange(editorState) {
     this.setState({
-      editorState, content: convertToHTML(editorState.getCurrentContent()) });
+      editorState,
+      content: convertToHTML(editorState.getCurrentContent())
+    });
   }
 
   /**
-   * 
-   * 
-   * @param {any} event 
-   * 
+   *
+   *
+   * @param {any} event
+   *
    * @memberof CreateDocument
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.userSaveDocumentRequest(this.state)
+    this.props
+      .userSaveDocumentRequest(this.state)
       .then(() => {
         const $toastContent = '<span>Document Created Successfully</span>';
         Materialize.toast($toastContent, 5000);
@@ -69,8 +69,11 @@ class CreateDocument extends React.Component {
         Materialize.toast($toastContent, 5000);
       });
   }
-  componentDidMount(){
-     this.setState({ userId: this.props.currentUser.id, userRoleId: this.props.currentUser.roleId });
+  componentDidMount() {
+    this.setState({
+      userId: this.props.currentUser.id,
+      userRoleId: this.props.currentUser.roleId
+    });
   }
   render() {
     const { editorState } = this.state;
@@ -90,28 +93,28 @@ class CreateDocument extends React.Component {
               required
               icon="book"
             />
-            <select name="access" required defaultValue="" style={{ display: 'block' }} onChange={this.onChange}>
-              <option value="" >Select Role</option>
+            <select
+              name="access"
+              required
+              defaultValue=""
+              style={{ display: 'block' }}
+              onChange={this.onChange}
+            >
+              <option value="">Select Access</option>
               <option value="public">Public</option>
               <option value="private">Private</option>
               <option value="role">Role</option>
             </select>
             <br />
-            {/*<textarea
-              name="content"
-              value={this.state.content}
-              onChange={this.onChange}
-              className="validate"
-              required
-              icon="book"
-            />*/}
-             <div className="editbox"><Editor 
-             editorState={editorState}
-            toolbarClassName="home-toolbar"
-            wrapperClassName="home-wrapper"
-            editorClassName="home-editor"
-             onEditorStateChange={this.onEditorStateChange}
-              /> </div>
+            <div className="editbox">
+              <Editor
+                editorState={editorState}
+                toolbarClassName="home-toolbar"
+                wrapperClassName="home-wrapper"
+                editorClassName="home-editor"
+                onEditorStateChange={this.onEditorStateChange}
+              />
+            </div>
             <div className="input-field center">
               <button className="pink darken-4 btn">Save</button>
             </div>
@@ -124,5 +127,6 @@ class CreateDocument extends React.Component {
 
 CreateDocument.propTypes = {
   currentUser: PropTypes.object.isRequired,
+  userSaveDocumentRequest: PropTypes.func.isRequired
 };
-export default connect(null, { userSaveDocumentRequest })(CreateDocument);
+export default CreateDocument;

@@ -1,7 +1,10 @@
 import axios from 'axios';
-import { SAVE_USER_DOCUMENT, GET_USER_DOCUMENT,GET_CURRENT_USER_DOCUMENT } from '../actions/types';
-
-
+import {
+  SAVE_USER_DOCUMENT,
+  GET_USER_DOCUMENT,
+  GET_CURRENT_USER_DOCUMENT,
+  SEARCH_DOCUMENTS
+} from '../actions/types';
 
 export function getUserDocument(documents) {
   return {
@@ -10,7 +13,6 @@ export function getUserDocument(documents) {
   };
 }
 
-
 export function getCurrentUserDocument(documents) {
   return {
     type: GET_CURRENT_USER_DOCUMENT,
@@ -18,17 +20,43 @@ export function getCurrentUserDocument(documents) {
   };
 }
 
+// export function getUserSearchResult(documents) {
+//   return {
+//     type: SEARCH_DOCUMENTS,
+//     documents
+//   };
+// }
+
+
 export function userDocumentRequest(offset = 0, limit = 8) {
   return (dispatch) => {
-    return axios.get(`/documents?limit=${limit}&offset=${offset}`).then((documents) => {
-        dispatch(getUserDocument({
-          documents: documents.data.document,
-          pagination: documents.data.pagination
-        }));
-    });
+    return axios
+      .get(`/documents?limit=${limit}&offset=${offset}`)
+      .then((documents) => {
+        dispatch(
+          getUserDocument({
+            documents: documents.data.document,
+            pagination: documents.data.pagination
+          })
+        );
+      });
   };
 }
 
+export function userSearchRequest(query = 'aaaaaa', offset = 0, limit = 8) {
+  return (dispatch) => {
+    return axios
+      .get(`/search/documents?q=${query}&limit=${limit}&offset=${offset}`)
+      .then((documents) => {
+        dispatch(
+          getUserDocument({
+            documents: documents.data.document,
+            pagination: documents.data.pagination
+          })
+        );
+      });
+  };
+}
 
 export function saveUserDocument(document) {
   return {
@@ -37,11 +65,10 @@ export function saveUserDocument(document) {
   };
 }
 
-
 export function userSaveDocumentRequest(document) {
   return (dispatch) => {
     return axios.post('/documents', document).then((documents) => {
-        dispatch(userDocumentRequest());
+      dispatch(userDocumentRequest());
     });
   };
 }
@@ -49,7 +76,15 @@ export function userSaveDocumentRequest(document) {
 export function userPersonalDocumentRequest(userId) {
   return (dispatch) => {
     return axios.get(`/users/${userId}/documents`).then((documents) => {
-        dispatch(getCurrentUserDocument(documents.data));
+      dispatch(getCurrentUserDocument(documents.data));
+    });
+  };
+}
+
+export function userDeleteDocumentRequest(id) {
+  return (dispatch) => {
+    return axios.delete(`/documents/${id}`, document).then(() => {
+      dispatch(userDocumentRequest());
     });
   };
 }

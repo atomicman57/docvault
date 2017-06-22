@@ -1,12 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Modal } from 'react-materialize';
 import swal from 'sweetalert';
+// import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+// import { Modal } from 'react-materialize';
 import 'sweetalert/dist/sweetalert.css';
 import ReactPaginate from 'react-paginate';
-import EditDocument from './EditDocument.jsx';
-import { userDocumentRequest } from '../../actions/documentActions';
+// import EditDocument from './EditDocument.jsx';
+import DocumentCard from './DocumentCard.jsx';
+// import { userDocumentRequest } from '../../actions/documentActions';
 
 class GetDocument extends React.Component {
   /**
@@ -26,7 +27,7 @@ class GetDocument extends React.Component {
       errors: {}
     };
     this.handlePageClick = this.handlePageClick.bind(this);
-    this.deleteconfirm = this.deleteconfirm.bind(this);
+    this.confirmDelete = this.confirmDelete.bind(this);
   }
 
   handlePageClick(data) {
@@ -49,6 +50,7 @@ class GetDocument extends React.Component {
    * @memberof GetDocument
    */
   componentDidMount() {
+    console.log(this.props);
     this.setState({
       userId: this.props.currentUser.id,
       userRoleId: this.props.currentUser.roleId
@@ -69,10 +71,14 @@ class GetDocument extends React.Component {
    * @memberof GetDocument
    */
   componentWillReceiveProps(nextProps) {
-    const newdocument = nextProps.documents;
-    this.setState({ document: newdocument.documents });
+    const newDocument = nextProps.documents;
+    const newPagination = newDocument.pagination;
+    this.setState({
+      document: newDocument.documents,
+      pageCount: newPagination.pageCount
+    });
   }
-  deleteconfirm() {
+  confirmDelete(id) {
     swal(
       {
         title: 'Are you sure?',
@@ -84,9 +90,10 @@ class GetDocument extends React.Component {
         closeOnConfirm: false,
         html: false
       },
-      () => {
-        swal('Deleted!', 'Your Document has been deleted.', 'success');
-      }
+      () =>
+        this.props.userDeleteDocumentRequest(id).then(() => {
+          swal('Deleted!', 'Your Document has been deleted.', 'success');
+        })
     );
   }
   render() {
@@ -116,7 +123,7 @@ class GetDocument extends React.Component {
             activeClassName={'active'}
           />
         </div>
-        {documents.map(document => (
+        {/* {documents.map(document => (
           <div className="col s12 m6 l3" key={document.id}>
             <div className="card">
               <div className="card-content black-text">
@@ -152,7 +159,7 @@ class GetDocument extends React.Component {
                         <EditDocument currentUser={currentUser} />
                       </Modal>
                       <a
-                        onClick={this.deleteconfirm}
+                        onClick={this.confirmDelete}
                         className="btn-floating deletebutton"
                       >
                         <i className="material-icons">delete</i>
@@ -162,18 +169,30 @@ class GetDocument extends React.Component {
               </div>
             </div>
           </div>
+        ))}*/}
+        {documents.map(document => (
+          <DocumentCard
+            document={document}
+            key={document.id}
+            currentUser={currentUser}
+            confirmDelete={this.confirmDelete}
+          />
         ))}
+        {document.length == 0 && <h3>No document Found</h3>}
       </div>
     );
   }
 }
 
 GetDocument.propTypes = {
-  currentUser: PropTypes.object.isRequired
+  currentUser: PropTypes.object.isRequired,
+  userDocumentRequest: PropTypes.func.isRequired,
+  userDeleteDocumentRequest: PropTypes.func.isRequired,
+  documents: PropTypes.object.isRequired
 };
-function mapStateToProps(state) {
-  return {
-    documents: state.Document
-  };
-}
-export default connect(mapStateToProps, { userDocumentRequest })(GetDocument);
+// function mapStateToProps(state) {
+//   return {
+//     documents: state.Document
+//   };
+// }
+export default GetDocument;

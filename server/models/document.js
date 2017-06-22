@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
       userRoleId: {
         type: DataTypes.INTEGER,
         allowNull: false
+      },
+      username: {
+        type: DataTypes.STRING,
+        allowNull: false
       }
     },
     {

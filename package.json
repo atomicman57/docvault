@@ -41,10 +41,12 @@
     "react-paginate": "^4.4.3",
     "react-redux": "^5.0.5",
     "react-router": "^3.0.5",
+    "react-spinner-material": "^1.0.13",
     "react-swal": "^2.0.0",
     "react-tinymce": "^0.5.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
+    "reinstall": "^2.0.0",
     "sass-loader": "^6.0.5",
     "sequelize": "^3.30.4",
     "style-loader": "^0.18.2",
@@ -59,7 +61,7 @@
     "eslint-config-airbnb": "^15.0.1",
     "eslint-plugin-import": "^2.3.0",
     "eslint-plugin-jsx-a11y": "^5.0.3",
-    "eslint-plugin-react": "^7.0.1",
+    "eslint-plugin-react": "^7.1.0",
     "nodemon": "^1.11.0",
     "react-hot-loader": "^3.0.0-beta.7"
   }

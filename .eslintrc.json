@@ -11,6 +11,23 @@
     "es6": true,
     "mocha": true
   },
+  "globals": {
+    "localStorage": true,
+    "sinon": true,
+    "$": true,
+    "window": true,
+    "Materialize": true,
+    "location": true,
+    "document": true,
+    "alert": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
   "rules": {
      "max-len": [ 1, 80, 2 ],
     "indent": [ 1, 2 ],
@@ -19,6 +36,7 @@
     "new-cap": 0,
     "consistent-return": 0,
     "no-param-reassign": 0,
+    "import/extensions": [2, {"jsx": "always" }],
     "comma-dangle": 0,
     "eqeqeq": 0,
     "arrow-body-style": 0,
@@ -62,11 +80,11 @@
     "react/prefer-es6-class": 1,
     "react/prop-types": 0,
     "react/react-in-jsx-scope": 1,
-    "react/require-extension": 1,
+    "react/require-extension": 0,
     "react/self-closing-comp": 1,
     "react/sort-comp": 1,
     "curly": ["error", "multi-line"],
-    "no-shadow": ["error", { "allow": ["req", "res", "err"] }],
+    "no-shadow": [ 0, { "allow": ["req", "res", "err"] }],
     "valid-jsdoc": ["error", {
       "requireReturn": true,
       "requireReturnType": true,
