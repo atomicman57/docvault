@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_USERS_SUCCESS } from '../actions/types';
+import { GET_USERS_SUCCESS, UPDATE_USERS_SUCCESS } from '../actions/types';
 
 export function getUsers(users) {
   return {
@@ -8,12 +8,12 @@ export function getUsers(users) {
   };
 }
 
-// export function getUserSearchResult(documents) {
-//   return {
-//     type: SEARCH_DOCUMENTS,
-//     documents
-//   };
-// }
+export function updateUser(user) {
+  return {
+    type: UPDATE_USERS_SUCCESS,
+    user
+  };
+}
 
 export function getUsersRequest(offset = 0, limit = 8) {
   return (dispatch) => {
@@ -28,17 +28,10 @@ export function getUsersRequest(offset = 0, limit = 8) {
   };
 }
 
-// export function saveUserDocument(document) {
-//   return {
-//     type: SAVE_USER_DOCUMENT,
-//     document
-//   };
-// }
-
 export function DeleteUserRequest(id) {
   return (dispatch) => {
     return axios.delete(`/users/${id}`, document).then(() => {
-        dispatch(getUsersRequest());
+      dispatch(getUsersRequest());
     });
   };
 }
@@ -56,5 +49,13 @@ export function userSearchRequest(query) {
           })
         );
       });
+  };
+}
+
+export function userUpdateUserRequest(user) {
+  return (dispatch) => {
+    return axios.put(`/users/${document.id}`, user).then((user) => {
+      dispatch(updateUser(user));
+    });
   };
 }

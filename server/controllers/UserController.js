@@ -114,6 +114,15 @@ class UserController {
       search = `%${req.query.q}%`;
     }
     return User.findAndCountAll({
+      attributes: [
+        'id',
+        'username',
+        'firstname',
+        'lastname',
+        'email',
+        'roleId',
+        'createdAt'
+      ],
       where: {
         $or: [
           {
@@ -140,8 +149,8 @@ class UserController {
       order: [['createdAt', 'DESC']]
     })
       .then((user) => {
-        const limit = req.query.limit;
-        const offset = req.query.offset;
+        const limit = req.query.limit || 15;
+        const offset = req.query.offset || 0;
         const totalCount = user.count;
         const pageCount = Math.ceil(totalCount / limit);
         const currentPage = Math.floor(offset / limit) + 1;

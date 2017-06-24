@@ -10,6 +10,7 @@ class EditProfileForm extends React.Component {
       username: this.props.currentUser.username,
       email: this.props.currentUser.email,
       password: '',
+      confirm_password: '',
       errors: {}
     };
     this.onChange = this.onChange.bind(this);
@@ -21,14 +22,15 @@ class EditProfileForm extends React.Component {
   }
   onSubmit(event) {
     event.preventDefault();
-    this.props
-      .userSignupRequest(this.state)
-      .then(
-        () => {
-          this.context.router.push('/dashboard');
-        }
-      )
-      
+    this.props.userSignupRequest(this.state).then(() => {
+      this.context.router.push('/dashboard');
+    });
+  }
+  onSubmitPassword(event) {
+    event.preventDefault();
+    this.props.userSignupRequest(this.state).then(() => {
+      this.context.router.push('/dashboard');
+    });
   }
   render() {
     const { errors } = this.state;
@@ -36,7 +38,6 @@ class EditProfileForm extends React.Component {
       <div>
         <div className="card-panel">
           <h4 className="header2">Edit Profile</h4>
-          {/*{errors.message}*/}
           <div className="mysignuprow row">
             <form className="col s12" onSubmit={this.onSubmit}>
               <div className="mysignuprow row">
@@ -74,12 +75,12 @@ class EditProfileForm extends React.Component {
                     id="icon_prefix"
                     type="text"
                     name="username"
+                    placeholder="Username"
                     value={this.state.username}
                     onChange={this.onChange}
                     className="validate"
                     disabled="disabled"
                   />
-                  <label htmlFor="user_name">Username</label>
                 </div>
               </div>
               <div className="mysignuprow row">
@@ -89,25 +90,12 @@ class EditProfileForm extends React.Component {
                     id="icon_prefix"
                     type="email"
                     name="email"
+                    placeholder="Email"
                     value={this.state.email}
                     onChange={this.onChange}
                     className="validate"
                     disabled="disabled"
                   />
-                  <label htmlFor="email">Email</label>
-                </div>
-              </div>
-              <div className="mysignuprow row">
-                <div className="input-field col s12">
-                  <i className="material-icons prefix">lock_outline</i>
-                  <input
-                    id="icon_prefix"
-                    type="password"
-                    name="password"
-                    value={this.state.password}
-                    onChange={this.onChange}
-                  />
-                  <label htmlFor="password">Password</label>
                 </div>
               </div>
               <div className="mysignuprow row">
@@ -123,6 +111,49 @@ class EditProfileForm extends React.Component {
               </div>
             </form>
           </div>
+          <h4 className="header2">Change Password</h4>
+          <div className="mysignuprow row">
+            <form className="col s12" onSubmit={this.onSubmitPassword}>
+              <div className="mysignuprow row" />
+              <div className="mysignuprow row">
+                <div className="input-field col s12">
+                  <i className="material-icons prefix">lock_outline</i>
+                  <input
+                    id="icon_prefix"
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    value={this.state.password}
+                    onChange={this.onChange}
+                  />
+                </div>
+              </div>
+              <div className="mysignuprow row">
+                <div className="input-field col s12">
+                  <i className="material-icons prefix">lock_outline</i>
+                  <input
+                    id="icon_prefix"
+                    type="password"
+                    name="confirm_password"
+                    placeholder="Confirm Password"
+                    value={this.state.confirm_password}
+                    onChange={this.onChange}
+                  />
+                </div>
+              </div>
+              <div className="mysignuprow row">
+                <div className="input-field col s12">
+                  <button
+                    className="mybutton btn waves-effect waves-light right"
+                    type="submit"
+                    name="submit"
+                  >
+                    Change Password
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     );
@@ -130,7 +161,7 @@ class EditProfileForm extends React.Component {
 }
 
 EditProfileForm.propTypes = {
-  currentUser: PropTypes.object.isRequired,
+  currentUser: PropTypes.object.isRequired
 };
 
 // EditProfileForm.propTypes = {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Modal, Icon } from 'react-materialize';
+import { Modal } from 'react-materialize';
 import CreateDocument from '../documents/CreateDocument.jsx';
 import GetDocument from '../documents/GetDocument.jsx';
 import SearchDocument from '../documents/SearchDocument.jsx';
@@ -27,7 +27,6 @@ class Dashboard extends React.Component {
       this.username = this.props.currentUser.username;
       this.email = this.props.currentUser.email;
     }
-
   }
   render() {
     const {
@@ -49,7 +48,10 @@ class Dashboard extends React.Component {
               </h6>
             </div>
             <br />
-            <SearchDocument userSearchRequest={userSearchRequest} currentUser={currentUser} />
+            <SearchDocument
+              userSearchRequest={userSearchRequest}
+              currentUser={currentUser}
+            />
             <br />
             <div className="row">
               <GetDocument
