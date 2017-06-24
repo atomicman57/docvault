@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Icon } from 'react-materialize';
 
 class SearchDocument extends React.Component {
   constructor(props) {
@@ -60,9 +59,7 @@ class SearchDocument extends React.Component {
 SearchDocument.propTypes = {
   currentUser: PropTypes.object.isRequired,
   documentType: PropTypes.string,
-  //   userPersonalDocumentRequest: PropTypes.func.isRequired,
   userSearchRequest: PropTypes.func.isRequired
-  //   documents: PropTypes.object.isRequired
 };
 
 export default SearchDocument;

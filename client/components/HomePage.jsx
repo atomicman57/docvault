@@ -1,8 +1,9 @@
 import React from 'react';
-import img1 from '../assets/images/Document_management_ECM_INSIGHT_papers_LARGE_969x686.jpg';
+import img1
+  from '../assets/images/Document_management_ECM_INSIGHT_papers_LARGE_969x686.jpg';
 import img2 from '../assets/images/SAP Document Management.jpg';
 import img3 from '../assets/images/digidoc_mainimage.jpg';
-import NavigationBar from './includes/NavigationBar.jsx';
+
 class HomePage extends React.Component {
   render() {
     return (
@@ -33,10 +34,7 @@ class HomePage extends React.Component {
             </div>
           </div>
           <div className="parallax" id="parallax2">
-             <img
-              src={img1}
-              alt="Unsplashed background img 1"
-            />
+            <img src={img1} alt="Unsplashed background img 1" />
           </div>
         </div>
 

@@ -31,9 +31,9 @@ class GetDocument extends React.Component {
   }
 
   handlePageClick(data) {
-    let selected = data.selected;
-    let limit = 8;
-    let offset = Math.ceil(selected * limit);
+    const selected = data.selected;
+    const limit = 8;
+    const offset = Math.ceil(selected * limit);
     this.setState({ offset }, () => {
       this.props.userDocumentRequest(offset, limit).then(() => {
         this.setState({
@@ -50,13 +50,11 @@ class GetDocument extends React.Component {
    * @memberof GetDocument
    */
   componentDidMount() {
-    console.log(this.props);
     this.setState({
       userId: this.props.currentUser.id,
       userRoleId: this.props.currentUser.roleId
     });
     this.props.userDocumentRequest().then(() => {
-      console.log('pagination', this.props.documents.pagination);
       this.setState({
         document: this.props.documents.documents,
         pageCount: this.props.documents.pagination.pageCount
@@ -98,14 +96,11 @@ class GetDocument extends React.Component {
   }
   render() {
     // const { documents } = this.props;
-    const { currentUser,userUpdateDocumentRequest } = this.props;
+    const { currentUser, userUpdateDocumentRequest } = this.props;
     const { document } = this.state;
     const documents = document;
-    console.log(this.state.document);
-    console.log(documents.documents);
     const { userId } = this.state;
     const { userRoleId } = this.state;
-    console.log(userId);
     return (
       <div>
         <div className="docpagination">

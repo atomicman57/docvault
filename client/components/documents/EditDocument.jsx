@@ -58,25 +58,29 @@ class EditDocument extends React.Component {
    *
    * @memberof EditDocument
    */
-    onSubmit(event) {
-      event.preventDefault();
-      this.props
-        .userUpdateDocumentRequest(this.state, this.props.currentUser.id, this.props.documentType)
-        .then(() => {
-          const $toastContent = '<span>Document Updated Successfully</span>';
-          Materialize.toast($toastContent, 5000);
-        })
-        .catch((error) => {
-          this.setState({ errors: error.response.data });
-          const { errors } = this.state;
-          const $toastContent = `<span>${errors.message}</span>`;
-          Materialize.toast($toastContent, 5000);
-        });
-    }
+  onSubmit(event) {
+    event.preventDefault();
+    this.props
+      .userUpdateDocumentRequest(
+        this.state,
+        this.props.currentUser.id,
+        this.props.documentType
+      )
+      .then(() => {
+        const $toastContent = '<span>Document Updated Successfully</span>';
+        Materialize.toast($toastContent, 5000);
+      })
+      .catch((error) => {
+        this.setState({ errors: error.response.data });
+        const { errors } = this.state;
+        const $toastContent = `<span>${errors.message}</span>`;
+        Materialize.toast($toastContent, 5000);
+      });
+  }
   componentDidMount() {
     this.setState({
       userId: this.props.currentUser.id,
-      userRoleId: this.props.currentUser.roleId,
+      userRoleId: this.props.currentUser.roleId
     });
   }
 
@@ -134,6 +138,6 @@ EditDocument.propTypes = {
   currentUser: PropTypes.object.isRequired,
   document: PropTypes.object.isRequired,
   userUpdateDocumentRequest: PropTypes.func.isRequired,
-  documentType: PropTypes.string,
+  documentType: PropTypes.string
 };
 export default EditDocument;

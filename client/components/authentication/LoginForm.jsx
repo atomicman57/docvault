@@ -40,7 +40,10 @@ class LoginForm extends React.Component {
     const { errors } = this.state;
     return (
       <div>
-        <div className="card-panel" style={{ marginTop: '60px', marginBottom: '170px' }}>
+        <div
+          className="card-panel"
+          style={{ marginTop: '60px', marginBottom: '170px' }}
+        >
           <h5 className="header2">Login</h5>
           {errors.message}
           <div className="mysignuprow row">

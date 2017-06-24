@@ -19,13 +19,6 @@ export function getCurrentUserDocument(documents) {
   };
 }
 
-// export function getUserSearchResult(documents) {
-//   return {
-//     type: SEARCH_DOCUMENTS,
-//     documents
-//   };
-// }
-
 export function userDocumentRequest(offset = 0, limit = 8) {
   return (dispatch) => {
     return axios
@@ -116,14 +109,14 @@ export function userSearchRequest(query, userId, doctype) {
         });
     }
     return axios
-        .get(`/search/documents?q=${query}&limit=${limit}&offset=${offset}`)
-        .then((documents) => {
-          dispatch(
-            getUserDocument({
-              documents: documents.data.document,
-              pagination: documents.data.pagination
-            })
-          );
-        });
+      .get(`/search/documents?q=${query}&limit=${limit}&offset=${offset}`)
+      .then((documents) => {
+        dispatch(
+          getUserDocument({
+            documents: documents.data.document,
+            pagination: documents.data.pagination
+          })
+        );
+      });
   };
 }

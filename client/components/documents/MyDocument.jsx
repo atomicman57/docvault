@@ -6,7 +6,7 @@ import 'sweetalert/dist/sweetalert.css';
 import DocumentCard from './DocumentCard.jsx';
 
 class MyDocument extends React.Component {
-   /**
+  /**
    * Creates an instance of GetDocument.
    * @param {any} props
    *
@@ -51,15 +51,14 @@ class MyDocument extends React.Component {
       userId: this.props.currentUser.id,
       userRoleId: this.props.currentUser.roleId
     });
-    this.props.userPersonalDocumentRequest(this.props.currentUser.id).then(() => {
-      console.log('pagination', this.props.documents.pagination);
-      this.setState({
-        document: this.props.documents.documents,
-        pageCount: this.props.documents.pagination.pageCount
+    this.props
+      .userPersonalDocumentRequest(this.props.currentUser.id)
+      .then(() => {
+        this.setState({
+          document: this.props.documents.documents,
+          pageCount: this.props.documents.pagination.pageCount
+        });
       });
-    });
-    console.log('document', this.props.documents.documents);
-     console.log('pagination', this.props.documents.pagination);
   }
   /**
    *
@@ -89,9 +88,15 @@ class MyDocument extends React.Component {
         html: false
       },
       () =>
-        this.props.userDeleteDocumentRequest(id, this.props.currentUser.id, this.props.documentType).then(() => {
-          swal('Deleted!', 'Your Document has been deleted.', 'success');
-        })
+        this.props
+          .userDeleteDocumentRequest(
+            id,
+            this.props.currentUser.id,
+            this.props.documentType
+          )
+          .then(() => {
+            swal('Deleted!', 'Your Document has been deleted.', 'success');
+          })
     );
   }
   render() {
@@ -99,11 +104,6 @@ class MyDocument extends React.Component {
     const { currentUser, userUpdateDocumentRequest, documentType } = this.props;
     const { document } = this.state;
     const documents = document;
-    // console.log(this.state.document);
-    // console.log(documents.documents);
-    const { userId } = this.state;
-    const { userRoleId } = this.state;
-    // console.log(userId);
     return (
       <div>
         <div className="docpagination">
