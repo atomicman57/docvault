@@ -36,11 +36,16 @@ module.exports = {
       access: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 'public',
+        defaultValue: 'public'
       },
       userRoleId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
+      username: {
+        type: Sequelize.STRING,
+        allowNull: false
+      }
     });
   },
   down(queryInterface, Sequelize) {
