@@ -1,24 +1,42 @@
 import React, { PropTypes } from 'react';
 import { Modal } from 'react-materialize';
+import renderHTML from 'react-render-html';
 import EditDocument from './EditDocument.jsx';
+import ViewDocument from './ViewDocument.jsx';
 
-const DocumentCard = ({ document, currentUser, confirmDelete }) => (
+const DocumentCard = ({
+  document,
+  currentUser,
+  confirmDelete,
+  userUpdateDocumentRequest,
+  documentType
+}) => (
   <div>
     <div className="col s12 m6 l3" key={document.id}>
       <div className="card">
         <div className="card-content black-text">
           <div key={document.id}>
-            <h5 style={{ fontSize: '1.2em' }}>
-              <i className="mdi-social-group-add" /> {document.title}
-            </h5>
-            <p className="card-stats-number">{document.access} </p>
+            <div className="title">
+              {document.title}
+            </div>
+            <hr />
+            <div className="document-content">
+              {renderHTML(document.content)}
+            </div>
+            <hr />
+            <p className="card-stats-number">Access: {document.access} </p>
             <p className="card-stats-compare">
               <span className="deep-orange-text text-lighten-2">
-                {new Date(document.createdAt).toDateString()}
+                Date: {new Date(document.createdAt).toDateString()}
               </span>
             </p>
+            <p className="card-stats-number">
+              Created by: {document.username}{' '}
+            </p>
             <p className="card-stats-number" style={{ fontSize: '0.8em' }}>
-              View More{' '}
+              <Modal header="View Document" trigger={<a href="">View More</a>}>
+                <ViewDocument document={document} />
+              </Modal>
             </p>
             {(currentUser.id === document.userId || currentUser.roleId === 2) &&
               <span style={{ padding: '20px' }}>
@@ -33,7 +51,12 @@ const DocumentCard = ({ document, currentUser, confirmDelete }) => (
                     </a>
                   }
                 >
-                  <EditDocument document={document} currentUser={currentUser} />
+                  <EditDocument
+                    document={document}
+                    currentUser={currentUser}
+                    userUpdateDocumentRequest={userUpdateDocumentRequest}
+                    documentType={documentType}
+                  />
                 </Modal>
                 <a
                   onClick={() => confirmDelete(document.id)}
@@ -52,7 +75,9 @@ const DocumentCard = ({ document, currentUser, confirmDelete }) => (
 DocumentCard.propTypes = {
   document: PropTypes.object.isRequired,
   currentUser: PropTypes.object.isRequired,
-  confirmDelete: PropTypes.func.isRequired
+  confirmDelete: PropTypes.func.isRequired,
+  documentType: PropTypes.string,
+  // userUpdateDocumentRequest: PropTypes.func.isRequired
 };
 
 export default DocumentCard;

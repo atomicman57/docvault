@@ -251,9 +251,28 @@ footer {
 	padding: 20px;
 }
 .card{
-	min-height: 250px;
+	height: 350px;
 	overflow: auto;
 }
+.document-content{
+  overflow: hidden !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 6 !important;
+  -webkit-box-orient: vertical !important;
+  height: 60px !important;
+   font-size: 15px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.title{
+	 overflow: hidden !important;
+   white-space: nowrap !important;
+   text-overflow: ellipsis !important;
+   font-size: 1.5em;
+
+}
+ 
 .docpagination{
 	margin: auto;
 	width: 50%;

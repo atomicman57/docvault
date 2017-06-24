@@ -3,8 +3,8 @@ import Authentication from '../middleware/Authentication';
 
 const userRoutes = (app) => {
   app.post('/users', User.create);
-  app.get('/users', User.list);
-  app.get('/search/users', User.search);
+  app.get('/users', Authentication.checkToken, User.list);
+  app.get('/search/users', Authentication.checkToken, User.list);
 
   app.post('/users/login', User.login);
   app.get('/users/:id', Authentication.checkToken, User.find);

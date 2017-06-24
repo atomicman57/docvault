@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -7,7 +8,7 @@ class LoginForm extends React.Component {
     this.state = {
       email: '',
       password: '',
-      errors: {},
+      errors: {}
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -20,15 +21,18 @@ class LoginForm extends React.Component {
     event.preventDefault();
     this.props
       .userLoginRequest(this.state)
-      .then(
-        () => {
-          this.context.router.push('/dashboard');
-        }
-      )
+      .then(() => {
+        this.context.router.push('/dashboard');
+
+        const WelcomeToast = window.setTimeout(() => {
+          Materialize.toast('Welcome to your Doc vault Dashboard', 2000);
+          window.clearTimeout(WelcomeToast);
+        }, 1000);
+      })
       .catch((error) => {
         this.setState({ errors: error.response.data });
         const { errors } = this.state;
-        const $toastContent = (`<span>${errors.message}</span>`);
+        const $toastContent = `<span>${errors.message}</span>`;
         Materialize.toast($toastContent, 5000);
       });
   }
@@ -36,8 +40,8 @@ class LoginForm extends React.Component {
     const { errors } = this.state;
     return (
       <div>
-        <div className="card-panel">
-          <h4 className="header2">Login</h4>
+        <div className="card-panel" style={{ marginTop: '60px', marginBottom: '170px' }}>
+          <h5 className="header2">Login</h5>
           {errors.message}
           <div className="mysignuprow row">
             <form className="col s12" onSubmit={this.onSubmit}>
@@ -84,6 +88,8 @@ class LoginForm extends React.Component {
               </div>
             </form>
           </div>
+          <br />
+          <h6> Dont have an Account? <Link to="/signup">Sign Up</Link> </h6>
         </div>
       </div>
     );

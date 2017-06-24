@@ -20,20 +20,10 @@ class NavBar extends React.Component {
       admin = (
         <div>
           <li>
-            <a className="waves-effect waves-grey">
+            <Link to="/userslist" className="waves-effect waves-grey">
               <i className="material-icons">perm_identity</i>
-              <span className="badge deep-orange darken-1 white-text">
-                33
-              </span>
-              {' '}
               Users
-            </a>
-          </li>
-          <li>
-            <a className="waves-effect waves-grey">
-              <i className="material-icons">clear_all</i>
-              Roles
-            </a>
+            </Link>
           </li>
         </div>
       );
@@ -53,12 +43,6 @@ class NavBar extends React.Component {
               Doc Vault
             </span>
             <ul className="right hide-on-med-and-down">
-              {/* <li>
-              <a href="#">
-                <span className="nav-badge">3</span>
-                <i className="material-icons">chat_bubble</i>
-              </a>
-            </li>*/}
               <li>
                 <a >
                   <i className="material-icons">settings</i>
@@ -97,45 +81,19 @@ class NavBar extends React.Component {
                   <span>Dashboard</span>
                 </Link>
               </li>
-              {admin}
               <li>
                 <Link to="/mydocuments" className="waves-effect waves-grey">
                   <i className="material-icons">storage</i>
                   My Documents
                 </Link>
               </li>
+               {admin}
               <li>
                 <Link to="/myprofile" className="waves-effect waves-grey">
                   <i className="material-icons">settings</i>
                   My Profile
                 </Link>
               </li>
-              {/* <li>
-                  <a className="waves-effect waves-grey">
-                    <i className="material-icons">layers</i>
-                    Servers
-                  </a>
-                </li>*/}
-
-              {/* <li>
-                  <a className="waves-effect waves-grey">
-                    <i className="material-icons">public</i>
-                    Domains
-                  </a>
-                </li>
-                <li>
-                  <a className="waves-effect waves-grey">
-                    <i className="material-icons">cloud_queue</i>
-                    Network
-                  </a>
-                </li>
-
-                <li>
-                  <a className="waves-effect waves-grey">
-                    <i className="material-icons">notifications_none</i>
-                    Alerts
-                  </a>
-                </li>*/}
               <li>
                 <a
                   onClick={this.logout.bind(this)}

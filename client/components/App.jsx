@@ -1,5 +1,6 @@
 import React from 'react';
 import NavigationBar from './includes/NavigationBar.jsx';
+import Footer from './includes/Footer.jsx';
 
 class App extends React.Component {
   render() {
@@ -7,6 +8,7 @@ class App extends React.Component {
       <div>
         <NavigationBar />
         {this.props.children}
+        <Footer />
       </div>
     );
   }

@@ -7,7 +7,6 @@ class HomePage extends React.Component {
   render() {
     return (
       <div>
-         {/*<NavigationBar />*/}
         <div id="index-banner" className="parallax-container">
           <div className="section no-pad-bot">
             <div className="container">
@@ -163,17 +162,14 @@ class HomePage extends React.Component {
         <footer className="page-footer myfooter">
           <div className="container">
             <div className="row">
-              <div className="col l6 s12">
-                <h5 className="white-text">
-                  {' '}Copyright © 2017
+              <div className="col s12">
+                <h6 className="white-text">
+                  Copyright © 2017
                   - All Rights Reserved Document Vault
-                </h5>
+                  <br />
+                   Developed by Philips Blessing
+                </h6>
               </div>
-            </div>
-          </div>
-          <div className="footer-copyright">
-            <div className="container">
-              Developed by Philips Blessing
             </div>
           </div>
         </footer>

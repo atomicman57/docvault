@@ -21,9 +21,7 @@ class SearchDocument extends React.Component {
     event.preventDefault();
     this.props
       .userSearchRequest(
-        this.state.search,
-        this.props.currentUser.id,
-        this.props.documentType
+        this.state.search
       )
       .then()
       .catch((error) => {
@@ -59,7 +57,6 @@ class SearchDocument extends React.Component {
 
 SearchDocument.propTypes = {
   currentUser: PropTypes.object.isRequired,
-  documentType: PropTypes.string,
   //   userPersonalDocumentRequest: PropTypes.func.isRequired,
   userSearchRequest: PropTypes.func.isRequired
   //   documents: PropTypes.object.isRequired

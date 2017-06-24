@@ -47,10 +47,10 @@ class EditProfileForm extends React.Component {
                     type="text"
                     name="firstname"
                     value={this.state.firstname}
+                    placeholder="First Name"
                     onChange={this.onChange}
                     className="validate"
                   />
-                  <label htmlFor="first_name">First Name</label>
                 </div>
               </div>
               <div className="mysignuprow row">
@@ -60,11 +60,11 @@ class EditProfileForm extends React.Component {
                     id="icon_prefix"
                     type="text"
                     name="lastname"
+                    placeholder="Last Name"
                     value={this.state.lastname}
                     onChange={this.onChange}
                     className="validate"
                   />
-                  <label htmlFor="last_name">Last Name</label>
                 </div>
               </div>
               <div className="mysignuprow row">
@@ -77,6 +77,7 @@ class EditProfileForm extends React.Component {
                     value={this.state.username}
                     onChange={this.onChange}
                     className="validate"
+                    disabled="disabled"
                   />
                   <label htmlFor="user_name">Username</label>
                 </div>
@@ -91,6 +92,7 @@ class EditProfileForm extends React.Component {
                     value={this.state.email}
                     onChange={this.onChange}
                     className="validate"
+                    disabled="disabled"
                   />
                   <label htmlFor="email">Email</label>
                 </div>

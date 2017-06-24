@@ -1,19 +1,17 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Editor } from 'react-draft-wysiwyg';
 import { convertToHTML, convertFromHTML } from 'draft-convert';
 import { EditorState } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import PropTypes from 'prop-types';
-import { Modal } from 'react-materialize';
-import { userSaveDocumentRequest } from '../../actions/documentActions';
 
 class EditDocument extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: this.props.document.id,
       title: this.props.document.title,
-      content: '',
+      content: this.props.document.content,
       userId: '',
       access: this.props.document.access,
       userRoleId: '',
@@ -24,7 +22,7 @@ class EditDocument extends React.Component {
       errors: {}
     };
     this.onChange = this.onChange.bind(this);
-    // this.onSubmit = this.onSubmit.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
   }
   /**
@@ -60,30 +58,30 @@ class EditDocument extends React.Component {
    *
    * @memberof EditDocument
    */
-  //   onSubmit(event) {
-  //     event.preventDefault();
-  //     this.props
-  //       .userSaveDocumentRequest(this.state)
-  //       .then(() => {
-  //         const $toastContent = '<span>Document Created Successfully</span>';
-  //         Materialize.toast($toastContent, 5000);
-  //       })
-  //       .catch((error) => {
-  //         this.setState({ errors: error.response.data });
-  //         const { errors } = this.state;
-  //         const $toastContent = `<span>${errors.message}</span>`;
-  //         Materialize.toast($toastContent, 5000);
-  //       });
-  //   }
+    onSubmit(event) {
+      event.preventDefault();
+      this.props
+        .userUpdateDocumentRequest(this.state, this.props.currentUser.id, this.props.documentType)
+        .then(() => {
+          const $toastContent = '<span>Document Updated Successfully</span>';
+          Materialize.toast($toastContent, 5000);
+        })
+        .catch((error) => {
+          this.setState({ errors: error.response.data });
+          const { errors } = this.state;
+          const $toastContent = `<span>${errors.message}</span>`;
+          Materialize.toast($toastContent, 5000);
+        });
+    }
   componentDidMount() {
     this.setState({
       userId: this.props.currentUser.id,
-      userRoleId: this.props.currentUser.roleId
+      userRoleId: this.props.currentUser.roleId,
     });
   }
+
   render() {
     const { editorState } = this.state;
-    // console.log(this.state.content);
     return (
       <div>
         <form className="col s12" onSubmit={this.onSubmit}>
@@ -134,6 +132,8 @@ class EditDocument extends React.Component {
 
 EditDocument.propTypes = {
   currentUser: PropTypes.object.isRequired,
-  document: PropTypes.object.isRequired
+  document: PropTypes.object.isRequired,
+  userUpdateDocumentRequest: PropTypes.func.isRequired,
+  documentType: PropTypes.string,
 };
 export default EditDocument;

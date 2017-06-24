@@ -98,7 +98,7 @@ class GetDocument extends React.Component {
   }
   render() {
     // const { documents } = this.props;
-    const { currentUser } = this.props;
+    const { currentUser,userUpdateDocumentRequest } = this.props;
     const { document } = this.state;
     const documents = document;
     console.log(this.state.document);
@@ -176,6 +176,7 @@ class GetDocument extends React.Component {
             key={document.id}
             currentUser={currentUser}
             confirmDelete={this.confirmDelete}
+            userUpdateDocumentRequest={userUpdateDocumentRequest}
           />
         ))}
         {document.length == 0 && <h3>No document Found</h3>}
@@ -188,6 +189,7 @@ GetDocument.propTypes = {
   currentUser: PropTypes.object.isRequired,
   userDocumentRequest: PropTypes.func.isRequired,
   userDeleteDocumentRequest: PropTypes.func.isRequired,
+  userUpdateDocumentRequest: PropTypes.func.isRequired,
   documents: PropTypes.object.isRequired
 };
 // function mapStateToProps(state) {

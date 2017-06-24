@@ -43,7 +43,12 @@ class DocumentController {
     let query = { access: 'public', title: { $iLike: search } };
     if (req.decoded) {
       query = req.decoded.roleId === 2
-        ? { title: { $iLike: search } }
+        ? {
+          title: { $iLike: search },
+          $or: [{ access: 'public' }, { access: 'role' },
+          { $and: [{ access: 'private' }, { userId: req.decoded.id }]}
+          ]
+        }
         : {
           $or: [
               { access: 'public' },

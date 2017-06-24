@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { User, Document } from '../models';
+import { User, Document, Role } from '../models';
 
 const createToken = (user) => {
   return jwt.sign(user, 'secretTokenKey', { expiresIn: '24h' });
@@ -7,8 +7,12 @@ const createToken = (user) => {
 
 class UserController {
   static create(req, res) {
-    if (!req.body.username || !req.body.firstname || !req.body.lastname ||
-      !req.body.email || !req.body.password
+    if (
+      !req.body.username ||
+      !req.body.firstname ||
+      !req.body.lastname ||
+      !req.body.email ||
+      !req.body.password
     ) {
       return res.status(401).json({ message: 'Enter all required field' });
     }
@@ -105,38 +109,60 @@ class UserController {
   }
 
   static list(req, res) {
-    if (req.query.limit || req.query.offset) {
-      return User.findAndCountAll({
-        limit: req.query.limit,
-        offset: req.query.offset
-      })
-        .then((user) => {
-          const limit = req.query.limit;
-          const offset = req.query.offset;
-          const totalCount = user.count;
-          const pageCount = Math.ceil(totalCount / limit);
-          const currentPage = Math.floor(offset / limit) + 1;
-          const pageSize =
-          (totalCount - offset) > limit ? limit : (totalCount - offset);
-          res.status(200).json({
-            user: user.rows,
-            pagination: {
-              totalCount,
-              limit,
-              offset,
-              pageCount,
-              pageSize,
-              currentPage
-            }
-          });
-        })
-        .catch((error) => {
-          res.status(400).json(error);
-        });
+    let search = '%%';
+    if (req.query.q) {
+      search = `%${req.query.q}%`;
     }
-    return User.all()
-      .then(user => res.status(200).json(user))
-      .catch(error => res.status(400).json(error));
+    return User.findAndCountAll({
+      where: {
+        $or: [
+          {
+            username: {
+              $iLike: `%${search}%`
+            }
+          },
+          {
+            firstname: {
+              $iLike: `%${search}%`
+            }
+          },
+          {
+            lastname: {
+              $iLike: `%${search}%`
+            }
+          }
+        ],
+        $not: [{ id: req.decoded.id }]
+      },
+      include: [{ model: Role }],
+      limit: req.query.limit || 15,
+      offset: req.query.offset || 0,
+      order: [['createdAt', 'DESC']]
+    })
+      .then((user) => {
+        const limit = req.query.limit;
+        const offset = req.query.offset;
+        const totalCount = user.count;
+        const pageCount = Math.ceil(totalCount / limit);
+        const currentPage = Math.floor(offset / limit) + 1;
+        const pageSize = totalCount - offset > limit
+          ? limit
+          : totalCount - offset;
+        res.status(200).json({
+          users: user.rows,
+          pagination: {
+            totalCount,
+            limit,
+            offset,
+            pageCount,
+            pageSize,
+            currentPage
+          }
+        });
+      })
+      .catch((error) => {
+        res.status(400).json(error);
+      });
   }
 
   static find(req, res) {
@@ -185,18 +211,35 @@ class UserController {
   }
 
   static personalDocuments(req, res) {
-    Document.findAll({
+    let search = '%%';
+    if (req.query.q) {
+      search = `%${req.query.q}%`;
+    }
+    Document.findAndCountAll({
       where: {
-        userId: req.params.id
-      }
+        userId: req.params.id,
+        title: { $iLike: search }
+      },
+      limit: req.query.limit || 15,
+      offset: req.query.offset || 0,
+      order: [['createdAt', 'DESC']]
     })
       .then((document) => {
-        if (!document) {
-          return res.status(404).json({
-            message: 'User does not have any record of document'
-          });
-        }
-        return res.status(200).json(document);
+        const limit = req.query.limit || 15;
+        const offset = req.query.offset || 0;
+        const totalCount = document.count;
+        const pageCount = Math.ceil(totalCount / limit);
+        const currentPage = Math.floor(offset / limit) + 1;
+        return res.status(200).json({
+          document: document.rows,
+          pagination: {
+            totalCount,
+            limit,
+            offset,
+            pageCount,
+            currentPage
+          }
+        });
       })
       .catch(error => res.status(400).json(error));
   }

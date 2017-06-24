@@ -57,7 +57,11 @@ class CreateDocument extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     this.props
-      .userSaveDocumentRequest(this.state)
+      .userSaveDocumentRequest(
+        this.state,
+        this.props.currentUser.id,
+        this.props.documentType
+      )
       .then(() => {
         const $toastContent = '<span>Document Created Successfully</span>';
         Materialize.toast($toastContent, 5000);
@@ -72,12 +76,12 @@ class CreateDocument extends React.Component {
   componentDidMount() {
     this.setState({
       userId: this.props.currentUser.id,
-      userRoleId: this.props.currentUser.roleId
+      userRoleId: this.props.currentUser.roleId,
+      username: this.props.currentUser.username
     });
   }
   render() {
     const { editorState } = this.state;
-    console.log(this.state.content);
     return (
       <div>
         <form className="col s12" onSubmit={this.onSubmit}>
@@ -127,6 +131,7 @@ class CreateDocument extends React.Component {
 
 CreateDocument.propTypes = {
   currentUser: PropTypes.object.isRequired,
-  userSaveDocumentRequest: PropTypes.func.isRequired
+  userSaveDocumentRequest: PropTypes.func.isRequired,
+  documentType: PropTypes.string.isRequired
 };
 export default CreateDocument;

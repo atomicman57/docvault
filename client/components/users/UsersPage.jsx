@@ -1,24 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Modal, Icon } from 'react-materialize';
-import CreateDocument from '../documents/CreateDocument.jsx';
-import GetDocument from '../documents/GetDocument.jsx';
-import SearchDocument from '../documents/SearchDocument.jsx';
+import GetUsers from './GetUsers.jsx';
+import SearchUsers from '../users/SearchUsers.jsx';
 import {
-  userSaveDocumentRequest,
-  userDocumentRequest,
-  userDeleteDocumentRequest,
-  userUpdateDocumentRequest,
-  userSearchRequest
-} from '../../actions/documentActions';
+  getUsersRequest,
+  userSearchRequest,
+  DeleteUserRequest
+} from '../../actions/userActions';
 
-class Dashboard extends React.Component {
+class UsersPage extends React.Component {
   constructor(props, context) {
     super(props, context);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const token = localStorage.getItem('jwtToken');
     if (token) {
       this.userId = this.props.currentUser.id;
@@ -27,17 +23,14 @@ class Dashboard extends React.Component {
       this.username = this.props.currentUser.username;
       this.email = this.props.currentUser.email;
     }
-
   }
   render() {
     const {
       currentUser,
-      userSaveDocumentRequest,
-      userDocumentRequest,
-      userDeleteDocumentRequest,
       userSearchRequest,
-      userUpdateDocumentRequest,
-      documents
+      getUsersRequest,
+      DeleteUserRequest,
+      users
     } = this.props;
     return (
       <div>
@@ -45,19 +38,21 @@ class Dashboard extends React.Component {
           <main>
             <div className="breadcrumb grey lighten-3">
               <h6>
-                Dashboard
+                Users
               </h6>
             </div>
             <br />
-            <SearchDocument userSearchRequest={userSearchRequest} currentUser={currentUser} />
+            <SearchUsers
+              userSearchRequest={userSearchRequest}
+              currentUser={currentUser}
+            />
             <br />
             <div className="row">
-              <GetDocument
+              <GetUsers
+                getUsersRequest={getUsersRequest}
                 currentUser={currentUser}
-                userDocumentRequest={userDocumentRequest}
-                documents={documents}
-                userDeleteDocumentRequest={userDeleteDocumentRequest}
-                userUpdateDocumentRequest={userUpdateDocumentRequest}
+                users={users}
+                DeleteUserRequest={DeleteUserRequest}
               />
             </div>
           </main>
@@ -139,47 +134,30 @@ class Dashboard extends React.Component {
             </div>
           </main>
         </div>
-        <Modal
-          header="Create Document"
-          trigger={
-            <div className="fixed-action-btn">
-              <a className="btn-floating btn-large pink darken-4">
-                <i className="large white-text material-icons">edit</i>
-              </a>
-            </div>
-          }
-        >
-          <CreateDocument
-            currentUser={currentUser}
-            userSaveDocumentRequest={userSaveDocumentRequest}
-          />
-        </Modal>
       </div>
     );
   }
 }
 
-Dashboard.propTypes = {
+UsersPage.propTypes = {
   currentUser: PropTypes.object.isRequired,
-  userSaveDocumentRequest: PropTypes.func.isRequired,
-  userDocumentRequest: PropTypes.func.isRequired,
-  userDeleteDocumentRequest: PropTypes.func.isRequired,
+  getUsersRequest: PropTypes.func.isRequired,
   userSearchRequest: PropTypes.func.isRequired,
-  userUpdateDocumentRequest: PropTypes.func.isRequired,
-  documents: PropTypes.object.isRequired
+  DeleteUserRequest: PropTypes.func.isRequired,
+  // userPersonalDocumentRequest: PropTypes.func.isRequired,
+  // documentType: PropTypes.string.isRequired,
+  users: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
   return {
     currentUser: state.Auth.user,
-    documents: state.Document.documents
+    users: state.Users.users
   };
 }
 
 export default connect(mapStateToProps, {
-  userSaveDocumentRequest,
-  userDocumentRequest,
-  userDeleteDocumentRequest,
-  userUpdateDocumentRequest,
-  userSearchRequest
-})(Dashboard);
+  getUsersRequest,
+  userSearchRequest,
+  DeleteUserRequest
+})(UsersPage);

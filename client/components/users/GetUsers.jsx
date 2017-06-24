@@ -1,23 +1,24 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import swal from 'sweetalert';
-import ReactPaginate from 'react-paginate';
+import PropTypes from 'prop-types';
 import 'sweetalert/dist/sweetalert.css';
-import DocumentCard from './DocumentCard.jsx';
+import ReactPaginate from 'react-paginate';
+import UsersCard from './UsersCard.jsx';
 
-class MyDocument extends React.Component {
-   /**
-   * Creates an instance of GetDocument.
+
+class GetUsers extends React.Component {
+  /**
+   * Creates an instance of GetUsers.
    * @param {any} props
    *
-   * @memberof GetDocument
+   * @memberof GetUsers
    */
   constructor(props) {
     super(props);
     this.state = {
       userId: '',
       userRoleId: '',
-      document: [],
+      users: [],
       offset: 0,
       pageCount: 0,
       errors: {}
@@ -31,9 +32,9 @@ class MyDocument extends React.Component {
     let limit = 8;
     let offset = Math.ceil(selected * limit);
     this.setState({ offset }, () => {
-      this.props.userPersonalDocumentRequest(offset, limit).then(() => {
+      this.props.getUsersRequest(offset, limit).then(() => {
         this.setState({
-          document: this.props.documents.documents
+          users: this.props.users.users
         });
       });
     });
@@ -43,36 +44,34 @@ class MyDocument extends React.Component {
    *
    *
    *
-   * @memberof GetDocument
+   * @memberof GetUsers
    */
   componentDidMount() {
-    // console.log(this.props);
+    console.log(this.props);
     this.setState({
       userId: this.props.currentUser.id,
       userRoleId: this.props.currentUser.roleId
     });
-    this.props.userPersonalDocumentRequest(this.props.currentUser.id).then(() => {
-      console.log('pagination', this.props.documents.pagination);
+    this.props.getUsersRequest().then(() => {
+    //   console.log('pagination', this.props.documents.pagination);
       this.setState({
-        document: this.props.documents.documents,
-        pageCount: this.props.documents.pagination.pageCount
+        users: this.props.users.users,
+        pageCount: this.props.users.pagination.pageCount
       });
     });
-    console.log('document', this.props.documents.documents);
-     console.log('pagination', this.props.documents.pagination);
   }
   /**
    *
    *
    * @param {any} nextProps
    *
-   * @memberof GetDocument
+   * @memberof GetUsers
    */
   componentWillReceiveProps(nextProps) {
-    const newDocument = nextProps.documents;
-    const newPagination = newDocument.pagination;
+    const newUser = nextProps.users;
+    const newPagination = newUser.pagination;
     this.setState({
-      document: newDocument.documents,
+      users: newUser.users,
       pageCount: newPagination.pageCount
     });
   }
@@ -89,21 +88,21 @@ class MyDocument extends React.Component {
         html: false
       },
       () =>
-        this.props.userDeleteDocumentRequest(id, this.props.currentUser.id, this.props.documentType).then(() => {
-          swal('Deleted!', 'Your Document has been deleted.', 'success');
+        this.props.DeleteUserRequest(id).then(() => {
+          swal('Deleted!', 'The User has been deleted.', 'success');
         })
     );
   }
   render() {
     // const { documents } = this.props;
-    const { currentUser, userUpdateDocumentRequest, documentType } = this.props;
-    const { document } = this.state;
-    const documents = document;
-    // console.log(this.state.document);
+    const { currentUser } = this.props;
+    const { users } = this.state;
+    // const documents = document;
+    console.log(users);
     // console.log(documents.documents);
     const { userId } = this.state;
-    const { userRoleId } = this.state;
-    // console.log(userId);
+    // const { userRoleId } = this.state;
+    console.log(userId);
     return (
       <div>
         <div className="docpagination">
@@ -121,29 +120,30 @@ class MyDocument extends React.Component {
             activeClassName={'active'}
           />
         </div>
-        {documents.map(document => (
-          <DocumentCard
-            document={document}
-            key={document.id}
+        {users.map(user => (
+          <UsersCard
+           user={user}
+            key={user.id}
             currentUser={currentUser}
             confirmDelete={this.confirmDelete}
-            userUpdateDocumentRequest={userUpdateDocumentRequest}
-            documentType={documentType}
           />
         ))}
-        {document.length == 0 && <h3>No document Found</h3>}
+        {/*{document.length == 0 && <h3>No document Found</h3>}*/}
       </div>
     );
   }
 }
 
-MyDocument.propTypes = {
+GetUsers.propTypes = {
   currentUser: PropTypes.object.isRequired,
-  userDeleteDocumentRequest: PropTypes.func.isRequired,
-  userUpdateDocumentRequest: PropTypes.func.isRequired,
-  userPersonalDocumentRequest: PropTypes.func.isRequired,
-  documentType: PropTypes.string.isRequired,
-  documents: PropTypes.array.isRequired
+//   userDocumentRequest: PropTypes.func.isRequired,
+  DeleteUserRequest: PropTypes.func.isRequired,
+//   userUpdateDocumentRequest: PropTypes.func.isRequired,
+  users: PropTypes.object.isRequired
 };
-
-export default MyDocument;
+// function mapStateToProps(state) {
+//   return {
+//     documents: state.Document
+//   };
+// }
+export default GetUsers;
