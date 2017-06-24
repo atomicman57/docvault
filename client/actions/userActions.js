@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { GET_USERS_SUCCESS, UPDATE_USERS_SUCCESS } from '../actions/types';
+import { setCurrentUser } from './authActions';
 
 export function getUsers(users) {
   return {
@@ -53,9 +54,10 @@ export function userSearchRequest(query) {
 }
 
 export function userUpdateUserRequest(user) {
+    console.log('user', user);
   return (dispatch) => {
-    return axios.put(`/users/${document.id}`, user).then((user) => {
-      dispatch(updateUser(user));
+    return axios.put(`/users/${user.id}`, user).then((user) => {
+      dispatch(setCurrentUser(user.data));
     });
   };
 }

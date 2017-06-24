@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Modal } from 'react-materialize';
-import CreateDocument from '../documents/CreateDocument.jsx';
 import MyProfile from '../users/MyProfile.jsx';
-import * as AuthActions from '../../actions/authActions';
+import { userUpdateUserRequest } from '../../actions/userActions';
+
 
 class MyProfilePage extends React.Component {
   constructor(props, context) {
@@ -23,7 +22,7 @@ class MyProfilePage extends React.Component {
     }
   }
   render() {
-    const { currentUser } = this.props;
+    const { currentUser, userUpdateUserRequest } = this.props;
     return (
       <div>
         <div className="page">
@@ -34,7 +33,7 @@ class MyProfilePage extends React.Component {
               </h6>
             </div>
             <div className="row">
-              <MyProfile currentUser={currentUser} />
+              <MyProfile currentUser={currentUser} userUpdateUserRequest={userUpdateUserRequest} />
 
             </div>
       
@@ -46,14 +45,10 @@ class MyProfilePage extends React.Component {
 }
 
 MyProfilePage.propTypes = {
-  currentUser: PropTypes.object.isRequired
+  currentUser: PropTypes.object.isRequired,
+  userUpdateUserRequest: PropTypes.func.isRequired,
 };
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(Object.assign({}, AuthActions), dispatch)
-  };
-}
 
 function mapStateToProps(state) {
   return {
@@ -61,4 +56,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyProfilePage);
+export default connect(mapStateToProps, { userUpdateUserRequest })(MyProfilePage);

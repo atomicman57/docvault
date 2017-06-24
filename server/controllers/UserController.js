@@ -195,9 +195,22 @@ class UserController {
             message: 'User Not Found'
           });
         }
+        if (req.body.password) {
+          req.body.password = user.encryptUpdatePassword(req.body.password);
+        }
         return user
           .update(req.body)
-          .then(() => res.status(200).json(user))
+          .then((user) => {
+            const userInfo = {
+              id: user.id,
+              username: user.username,
+              firstname: user.firstname,
+              lastname: user.lastname,
+              email: user.email,
+              roleId: user.roleId
+            };
+            res.status(200).json(userInfo);
+          })
           .catch(error => res.status(400).json(error));
       })
       .catch(error => res.status(400).json(error));

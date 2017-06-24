@@ -83,15 +83,22 @@ module.exports = (sequelize, DataTypes) => {
         },
         validatePassword(password) {
           return bcrypt.compareSync(password, this.password);
+        },
+        encryptUpdatePassword(password) {
+          const encryptedPassword = bcrypt.hashSync(
+            password,
+            bcrypt.genSaltSync(8)
+          );
+          return encryptedPassword;
         }
       },
       hooks: {
         beforeCreate(user) {
           user.encryptPassword();
-        },
-        beforeUpdate(user) {
-          user.encryptPassword();
         }
+        // beforeUpdate(user) {
+        //   user.encryptPassword();
+        // }
       }
     }
   );

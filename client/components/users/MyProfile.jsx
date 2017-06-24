@@ -5,6 +5,7 @@ class EditProfileForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: this.props.currentUser.id,
       firstname: this.props.currentUser.firstname,
       lastname: this.props.currentUser.lastname,
       username: this.props.currentUser.username,
@@ -15,6 +16,7 @@ class EditProfileForm extends React.Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onSubmitPassword = this.onSubmitPassword.bind(this);
   }
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
@@ -22,15 +24,28 @@ class EditProfileForm extends React.Component {
   }
   onSubmit(event) {
     event.preventDefault();
-    this.props.userSignupRequest(this.state).then(() => {
-      this.context.router.push('/dashboard');
+    const userData = {
+      id: this.state.id,
+      firstname: this.state.firstname,
+      lastname: this.state.lastname
+    };
+    this.props.userUpdateUserRequest(userData).then(() => {
+      Materialize.toast('User Details Updated Successfully', 2000);
     });
   }
   onSubmitPassword(event) {
     event.preventDefault();
-    this.props.userSignupRequest(this.state).then(() => {
-      this.context.router.push('/dashboard');
-    });
+    if (this.state.password !== this.state.confirm_password) {
+      Materialize.toast('Password do not match', 2000);
+    } else {
+      const userData = {
+        id: this.state.id,
+        password: this.state.password
+      };
+      this.props.userUpdateUserRequest(userData).then(() => {
+        Materialize.toast('Password Changed Successfully', 2000);
+      });
+    }
   }
   render() {
     const { errors } = this.state;
@@ -51,6 +66,7 @@ class EditProfileForm extends React.Component {
                     placeholder="First Name"
                     onChange={this.onChange}
                     className="validate"
+                    required
                   />
                 </div>
               </div>
@@ -65,6 +81,7 @@ class EditProfileForm extends React.Component {
                     value={this.state.lastname}
                     onChange={this.onChange}
                     className="validate"
+                    required
                   />
                 </div>
               </div>
@@ -95,6 +112,7 @@ class EditProfileForm extends React.Component {
                     onChange={this.onChange}
                     className="validate"
                     disabled="disabled"
+                    required
                   />
                 </div>
               </div>
@@ -123,8 +141,10 @@ class EditProfileForm extends React.Component {
                     type="password"
                     name="password"
                     placeholder="Password"
+                    className="validate"
                     value={this.state.password}
                     onChange={this.onChange}
+                    required
                   />
                 </div>
               </div>
@@ -136,8 +156,10 @@ class EditProfileForm extends React.Component {
                     type="password"
                     name="confirm_password"
                     placeholder="Confirm Password"
+                    className="validate"
                     value={this.state.confirm_password}
                     onChange={this.onChange}
+                    required
                   />
                 </div>
               </div>
@@ -161,7 +183,8 @@ class EditProfileForm extends React.Component {
 }
 
 EditProfileForm.propTypes = {
-  currentUser: PropTypes.object.isRequired
+  currentUser: PropTypes.object.isRequired,
+  userUpdateUserRequest: PropTypes.func.isRequired
 };
 
 // EditProfileForm.propTypes = {
