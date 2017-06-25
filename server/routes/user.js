@@ -1,5 +1,5 @@
 import { User } from '../controllers';
-// import Authentication from '../middleware/Authentication';
+import Authentication from '../middleware/Authentication';
 
 const userRoutes = (app) => {
   app.post('/users', User.create);
@@ -11,7 +11,11 @@ const userRoutes = (app) => {
   app.put('/users/:id', Authentication.checkToken, User.update);
   app.delete('/users/:id', Authentication.checkToken, User.delete);
   app.post('/users/logout', User.logout);
-  app.get('/users/:id/documents', Authentication.checkToken, User.personalDocuments);
+  app.get(
+    '/users/:id/documents',
+    Authentication.checkToken,
+    User.personalDocuments
+  );
 };
 
 export default userRoutes;

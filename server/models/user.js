@@ -91,9 +91,6 @@ module.exports = (sequelize, DataTypes) => {
         beforeCreate(user) {
           user.encryptPassword();
         }
-        // beforeUpdate(user) {
-        //   user.encryptPassword();
-        // }
       }
     }
   );

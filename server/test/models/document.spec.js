@@ -2,24 +2,24 @@ import chai from 'chai';
 import { Document } from '../../models';
 import mockData from '../mockData/mockData';
 
-const { simpleDocument } = mockData;
+const { sampleDocument } = mockData;
 let updateDocId;
 const expect = chai.expect;
 
 describe('Document Model', () => {
   describe('Create Document', () => {
     it('should create a document', (done) => {
-      Document.create(simpleDocument)
+      Document.create(sampleDocument)
         .then((document) => {
-          expect(document.dataValues.title).to.equal(simpleDocument.title);
-          expect(document.dataValues.content).to.equal(simpleDocument.content);
+          expect(document.dataValues.title).to.equal(sampleDocument.title);
+          expect(document.dataValues.content).to.equal(sampleDocument.content);
           updateDocId = document.dataValues.id;
           done();
         });
     });
 
     it('should fail if title already exist', (done) => {
-      Document.create(simpleDocument)
+      Document.create(sampleDocument)
         .then()
         .catch((error) => {
           expect(error.errors[0].message).to.equal('Title already exist');
@@ -29,8 +29,8 @@ describe('Document Model', () => {
     });
 
     it('should fail if title was not provided', (done) => {
-      simpleDocument.title = '';
-      Document.create(simpleDocument)
+      sampleDocument.title = '';
+      Document.create(sampleDocument)
         .then()
         .catch((error) => {
           expect(error.errors[0].message).to.equal('Title cannot be empty');
@@ -39,9 +39,9 @@ describe('Document Model', () => {
     });
 
     it('should fail if content was not provided', (done) => {
-      simpleDocument.title = 'sample title';
-      simpleDocument.content = '';
-      Document.create(simpleDocument)
+      sampleDocument.title = 'sample title';
+      sampleDocument.content = '';
+      Document.create(sampleDocument)
         .then()
         .catch((error) => {
           expect(error.errors[0].message).to.equal('Content cannot be empty');
@@ -50,9 +50,9 @@ describe('Document Model', () => {
     });
 
     it('should fail if access is not public, private or role', (done) => {
-      simpleDocument.content = 'sample content';
-      simpleDocument.access = 'wrongRole';
-      Document.create(simpleDocument)
+      sampleDocument.content = 'sample content';
+      sampleDocument.access = 'wrongRole';
+      Document.create(sampleDocument)
         .then()
         .catch((error) => {
           expect(error.errors[0].message).to.equal('Use a valid access type');

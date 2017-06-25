@@ -31,6 +31,7 @@ class Middleware {
       next();
     });
   }
+  
   static checkAdmin(req, res, next) {
     User.findById(req.decoded.id)
     .then((user) => {

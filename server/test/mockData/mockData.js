@@ -20,7 +20,7 @@ export default {
     createdAt: new Date(),
     updatedAt: new Date()
   },
-  userThree: {
+  thirdUser: {
     username: faker.internet.userName(),
     fullName: faker.name.findName(),
     email: faker.internet.email(),
@@ -44,11 +44,12 @@ export default {
     createdAt: new Date(),
     updatedAt: new Date()
   },
-  simpleDocument: {
+  sampleDocument: {
     title: faker.lorem.words(),
     content: faker.lorem.paragraph(),
     access: 'public',
     userId: 1,
+    username: 'adetom',
     userRoleId: 1,
     createdAt: new Date(),
     updatedAt: new Date()

@@ -4,27 +4,37 @@ module.exports = {
       'Documents',
       [
         {
-          title: 'Doc-Mage Welcome Message',
-          content: `Hello and welcome, if this is the first time running the app,
-                  you can login with the following default admin settings:
-                username: admin
-                password: alpine
-                Please login and change the default root password.`,
+          title: 'It Started With A Converse',
+          content: `One of the best ways of improving your English is to read 
+          the language. This part of our site includes complete short stories 
+          by some of the very best classic writers. All stories are complete 
+          and unabridged. Read them online or print them off and read them 
+          in bed! One new story is added to our site every month. 
+          All stories are in the public domain and now copyright free.`,
           userId: 1,
+          userRoleId: 1,
+          username: 'testuser',
           access: 'public',
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          title: 'A Song of Ice and Fire III',
-          content: `The day was grey and bitter cold, and the dogs would not take the scent.
-The big black bitch had taken one sniff at the bear tracks, backed off, and skulked back to the pack with her tail between her legs.
-The dogs huddled together miserably on the riverbank as the wind snapped at them.
-Chett felt it too, biting through his layers of black wool and boiled leather.
-It was too bloody cold for man or beast, but here they were. His mouth twisted, and he could almost feel the boils that covered his cheeks and neck growing red and angry.
-I should be safe back at the Wall, tending the bloody ravens and making fires for old Maester Aemon. It was the bastard Jon Snow who had taken that from him, him and his fat friend Sam Tarly.
-It was their fault he was here, freezing his bloody balls off with a pack of hounds deep in the haunted forest.`,
+          title: 'The Wolf and the Lamb',
+          content: `Wolf, meeting with a Lamb astray from the fold, resolved 
+          not to lay violent hands on him, but to find some plea to justify 
+          to the Lamb the Wolf's right to eat him. He thus addressed him: 
+          "Sirrah, last year you grossly insulted me." "Indeed," bleated the 
+          Lamb in a mournful tone of voice, "I was not then born." Then said 
+          the Wolf, "You feed in my pasture." "No, good sir," replied the Lamb,
+           "I have not yet tasted grass." Again said the Wolf, "You drink of 
+           my well." "No," exclaimed the Lamb, "I never yet drank water, for 
+           as yet my mother's milk is both food and drink to me." Upon 
+           which the Wolf seized him and ate him up, saying, "Well! I won't 
+           remain supper-less, even though you refute every one of my 
+           imputations." The tyrant will always find a pretext for his tyranny.`,
           userId: 2,
+          userRoleId: 1,
+          username: 'testuser',
           access: 'public',
           createdAt: new Date(),
           updatedAt: new Date()
