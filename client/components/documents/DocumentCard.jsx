@@ -31,10 +31,10 @@ const DocumentCard = ({
               </span>
             </p>
             <p className="card-stats-number">
-              Created by: {document.username}{' '}
+              Created by: {document.User.username}
             </p>
             <p className="card-stats-number" style={{ fontSize: '0.8em' }}>
-              <Modal header="View Document" trigger={<a href="">View More</a>}>
+              <Modal trigger={<a href="">View More</a>}>
                 <ViewDocument document={document} />
               </Modal>
             </p>
