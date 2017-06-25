@@ -243,6 +243,7 @@ class UserController {
         userId: req.params.id,
         title: { $iLike: search }
       },
+        include: [{ model: User }],
       limit: req.query.limit || 15,
       offset: req.query.offset || 0,
       order: [['createdAt', 'DESC']]

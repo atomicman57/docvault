@@ -77,6 +77,7 @@ class DocumentController {
       limit: req.query.limit || 15,
       offset: req.query.offset || 0,
       where: query,
+       include: [{ model: User }],
       order: [['createdAt', 'DESC']]
     })
       .then((document) => {
