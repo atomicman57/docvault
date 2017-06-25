@@ -27,9 +27,6 @@ class ViewDocument extends React.Component {
 }
 
 ViewDocument.propTypes = {
-  //   currentUser: PropTypes.object.isRequired,
-  //   userPersonalDocumentRequest: PropTypes.func.isRequired,
-  //   userSearchRequest: PropTypes.func.isRequired,
   document: PropTypes.object.isRequired
 };
 
