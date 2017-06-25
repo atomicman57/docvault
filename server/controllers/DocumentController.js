@@ -11,9 +11,10 @@ class DocumentController {
    * @return{*} document
    */
   static create(req, res) {
-    if (req.body.title === '' || req.body.content === ''
-      || req.body.accessLevelId === '') {
-      return res.status(400).send({
+    if (
+      req.body.title === '' || req.body.content === '' || req.body.access === ''
+    ) {
+      return res.status(400).json({
         message: 'Fields cannot be empty'
       });
     }
@@ -21,7 +22,9 @@ class DocumentController {
       title: req.body.title,
       content: req.body.content,
       userId: req.body.userId,
-      accessLevelId: req.body.accesslevel
+      access: req.body.access,
+      userRoleId: req.body.userRoleId,
+      username: req.body.username
     })
       .then(document => res.status(201).json(document))
       .catch(error => res.status(400).json(error));
@@ -33,26 +36,72 @@ class DocumentController {
    * @param {*} res
    */
   static list(req, res) {
-    if (req.query.limit || req.query.offset) {
-      return Document.findAll({
-        limit: req.query.limit,
-        offset: req.query.offset
-      })
-        .then((document) => {
-          if (document.length === 0) {
-            return res.status(404).json({
-              message: 'Sorry, No documents found'
-            });
-          }
-          res.status(200).json(document);
-        })
-        .catch((error) => {
-          res.status(400).json(error);
-        });
+    let search = '%%';
+    if (req.query.q) {
+      search = `%${req.query.q}%`;
     }
-    return Document.all()
-      .then(document => res.status(200).json(document))
-      .catch(error => res.status(400).json(error));
+    let query = { access: 'public', title: { $iLike: search } };
+    if (req.decoded) {
+      query = req.decoded.roleId === 2
+        ? {
+          title: { $iLike: search },
+          $or: [{ access: 'public' }, { access: 'role' },
+          { $and: [{ access: 'private' }, { userId: req.decoded.id }]}
+          ]
+        }
+        : {
+          $or: [
+              { access: 'public' },
+            {
+              userId: req.decoded.id
+            },
+            {
+              userId: req.decoded.id,
+              $and: [
+                  { access: 'private' },
+                  { $not: [{ userRoleId: req.decoded.roleId }] }
+              ]
+            },
+            {
+              $and: [
+                  { access: 'role' },
+                  { $and: [{ userRoleId: req.decoded.roleId }] }
+              ]
+            }
+          ],
+          title: { $iLike: search }
+        };
+    }
+
+    return Document.findAndCountAll({
+      limit: req.query.limit || 15,
+      offset: req.query.offset || 0,
+      where: query,
+      order: [['createdAt', 'DESC']]
+    })
+      .then((document) => {
+        const limit = req.query.limit || 15;
+        const offset = req.query.offset || 0;
+        const totalCount = document.count;
+        const pageCount = Math.ceil(totalCount / limit);
+        const currentPage = Math.floor(offset / limit) + 1;
+        res.status(200).json({
+          document: document.rows,
+          pagination: {
+            totalCount,
+            limit,
+            offset,
+            pageCount,
+            currentPage
+          }
+        });
+      })
+      .catch((error) => {
+        res.status(400).json(error);
+      });
+    // return Document.all()
+    //   .then(document => res.status(200).json(document))
+    //   .catch(error => res.status(400).json(error));
   }
 
   /**
@@ -92,9 +141,7 @@ class DocumentController {
           });
         }
         return document
-          .update({
-            title: req.body.title || document.title
-          })
+          .update(req.body)
           .then(() => res.status(200).json(document))
           .catch(error => res.status(400).json(error));
       })
@@ -114,10 +161,11 @@ class DocumentController {
             message: 'Document Not Found'
           });
         }
-        console.log(req.user);
-        if (document.userId != req.body.userId && req.body.roleId != 1) {
+        console.log(req.decoded);
+        console.log(document);
+        if (document.userId != req.decoded.id && req.decoded.roleId != 2) {
           return res.json({
-            message: 'You do not have the permission to edit this document'
+            message: 'You do not have the permission to delete this document'
           });
         }
         return document
@@ -128,36 +176,38 @@ class DocumentController {
       .catch(error => res.status(400).json(error));
   }
 
-
   static myDocuments(req, res) {
-    return Document
-    .findAll({
+    return Document.findAll({
       where: {
         $or: [
-          { accessLevelId: 1 },
+          { access: 'public' },
           {
-            role: req.body.roleId
+            userId: req.decoded.id
           },
           {
-            userId: req.body.id
+            userId: req.decoded.id,
+            $and: [
+              { access: 'private' },
+              { $not: [{ userRoleId: req.decoded.roleId }] }
+            ]
           }
         ]
-      },
-      include: [User],
-      order: [['updatedAt', 'DESC']]
-    })
-    .then((document) => {
-      if (!document) {
-        return res.status(404).send({
-          message: 'Document Not Found',
-        });
       }
-      return res.status(200).send(document);
     })
-    .catch(error => res.status(400).send({
-      error,
-      message: 'Error occurred while retrieving documents'
-    }));
+      .then((document) => {
+        if (!document) {
+          return res.status(404).json({
+            message: 'Document Not Found'
+          });
+        }
+        return res.status(200).json(document);
+      })
+      .catch(error =>
+        res.status(400).json({
+          error,
+          message: 'An Error occurred'
+        })
+      );
   }
 
   static search(req, res) {
