@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         defaultValue: 'public',
-         validate: {
+        validate: {
           isIn: {
             args: [['public', 'private', 'role']],
             msg: 'Use a valid access type'
@@ -30,10 +30,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       userRoleId: {
         type: DataTypes.INTEGER,
-        allowNull: false
-      },
-      username: {
-        type: DataTypes.STRING,
         allowNull: false
       }
     },
