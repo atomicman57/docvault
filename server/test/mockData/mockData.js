@@ -8,7 +8,7 @@ export default {
     lastname: 'iyan',
     email: faker.internet.email(),
     password: 'amalaiyan',
-    roleId: 1,
+    roleId: 1
   },
   secondUser: {
     username: faker.internet.userName(),
@@ -34,6 +34,8 @@ export default {
     title: 'private document',
     content: 'private document2',
     access: 'private',
+    userId: 1,
+    userRoleId: 1,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -41,6 +43,8 @@ export default {
     title: 'check role document',
     content: 'check role document1',
     access: 'role',
+    userId: 1,
+    userRoleId: 1,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -49,23 +53,24 @@ export default {
     content: faker.lorem.paragraph(),
     access: 'public',
     userId: 1,
-    username: 'adetom',
     userRoleId: 1,
     createdAt: new Date(),
     updatedAt: new Date()
   },
-  editorOne: {
+  TestUser1: {
     username: 'kenpachi',
-    fullName: 'Kenpachi Zaraki',
-    email: faker.internet.email(),
+    firstname: 'Kenpachi',
+    lastname: 'Zaraki',
+    email: 'testuser@dms.com',
     password: bcrypt.hashSync('alpine', bcrypt.genSaltSync(10)),
     roleId: 2,
     createdAt: new Date(),
     updatedAt: new Date()
   },
-  editorTwo: {
+  TestUser2: {
     username: faker.internet.userName(),
-    fullName: faker.name.findName(),
+    firstname: faker.name.findName(),
+    lastname: faker.name.findName(),
     email: faker.internet.email(),
     password: bcrypt.hashSync('alpine', bcrypt.genSaltSync(10)),
     roleId: 2,
@@ -83,14 +88,14 @@ export default {
   roleOne: {
     title: 'regular',
     createdAt: new Date(),
-    updatedAt: new Date(),
+    updatedAt: new Date()
   },
   admin: {
-    username: 'admin',
-    password: 'alpine'
+    email: 'admin@dms.com',
+    password: 'montaro'
   },
   regularUser: {
-    username: 'montaro',
-    password: 'montaro'
+    email: 'user@dms.com',
+    password: 'amaladudu'
   }
 };

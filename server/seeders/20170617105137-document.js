@@ -13,7 +13,6 @@ module.exports = {
           All stories are in the public domain and now copyright free.`,
           userId: 1,
           userRoleId: 1,
-          username: 'testuser',
           access: 'public',
           createdAt: new Date(),
           updatedAt: new Date()
@@ -34,7 +33,6 @@ module.exports = {
            imputations." The tyrant will always find a pretext for his tyranny.`,
           userId: 2,
           userRoleId: 1,
-          username: 'testuser',
           access: 'public',
           createdAt: new Date(),
           updatedAt: new Date()

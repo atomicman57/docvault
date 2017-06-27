@@ -5,7 +5,21 @@ const createToken = (user) => {
   return jwt.sign(user, 'secretTokenKey', { expiresIn: '24h' });
 };
 
+/**
+ * 
+ * 
+ * @class UserController
+ */
 class UserController {
+  /**
+   * 
+   * 
+   * @static
+   * @param {any} req 
+   * @param {any} res 
+   * @returns 
+   * @memberof UserController
+   */
   static create(req, res) {
     if (
       !req.body.username ||
@@ -68,6 +82,15 @@ class UserController {
     });
   }
 
+  /**
+   * 
+   * 
+   * @static
+   * @param {any} req 
+   * @param {any} res 
+   * @returns 
+   * @memberof UserController
+   */
   static login(req, res) {
     return User.findOne({
       where: { email: req.body.email }
@@ -102,6 +125,14 @@ class UserController {
       .catch(error => res.status(400).json(error));
   }
 
+  /**
+   * 
+   * 
+   * @static
+   * @param {any} request 
+   * @param {any} response 
+   * @memberof UserController
+   */
   static logout(request, response) {
     response.status(200).json({
       message: 'User logged out'
