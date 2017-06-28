@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import swal from "sweetalert";
-import ReactPaginate from "react-paginate";
-import "sweetalert/dist/sweetalert.css";
-import DocumentCard from "./DocumentCard.jsx";
+import React from 'react';
+import PropTypes from 'prop-types';
+import swal from 'sweetalert';
+import ReactPaginate from 'react-paginate';
+import 'sweetalert/dist/sweetalert.css';
+import DocumentCard from './DocumentCard.jsx';
 
 class MyDocument extends React.Component {
   /**
@@ -44,14 +44,16 @@ class MyDocument extends React.Component {
    * @memberof GetDocument
    */
   componentDidMount() {
-    this.props
-      .userPersonalDocumentRequest(this.props.currentUser.id)
-      .then(() => {
-        this.setState({
-          document: this.props.documents.documents,
-          pageCount: this.props.documents.pagination.pageCount
+    if (Object.keys(this.props.currentUser).length > 0) {
+      this.props
+        .userPersonalDocumentRequest(this.props.currentUser.id)
+        .then(() => {
+          this.setState({
+            document: this.props.documents.documents,
+            pageCount: this.props.documents.pagination.pageCount
+          });
         });
-      });
+    }
   }
   /**
    *
@@ -73,12 +75,12 @@ class MyDocument extends React.Component {
   confirmDelete(id) {
     swal(
       {
-        title: "Are you sure?",
-        text: "You will not be able to reverse this action!",
-        type: "warning",
+        title: 'Are you sure?',
+        text: 'You will not be able to reverse this action!',
+        type: 'warning',
         showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "Yes, delete it!",
+        confirmButtonColor: '#DD6B55',
+        confirmButtonText: 'Yes, delete it!',
         closeOnConfirm: false,
         html: false
       },
@@ -90,7 +92,7 @@ class MyDocument extends React.Component {
             this.props.documentType
           )
           .then(() => {
-            swal("Deleted!", "Your Document has been deleted.", "success");
+            swal('Deleted!', 'Your Document has been deleted.', 'success');
           })
     );
   }
@@ -107,17 +109,17 @@ class MyDocument extends React.Component {
       <div>
         <div className="docpagination">
           <ReactPaginate
-            previousLabel={"previous"}
-            nextLabel={"next"}
+            previousLabel={'previous'}
+            nextLabel={'next'}
             breakLabel={<a href="">...</a>}
-            breakClassName={"break-me"}
+            breakClassName={'break-me'}
             pageCount={this.state.pageCount}
             marginPagesDisplayed={2}
             pageRangeDisplayed={5}
             onPageChange={this.handlePageClick}
-            containerClassName={"pagination"}
-            subContainerClassName={"pages pagination"}
-            activeClassName={"active"}
+            containerClassName={'pagination'}
+            subContainerClassName={'pages pagination'}
+            activeClassName={'active'}
           />
         </div>
         {documents.map(document => (
