@@ -1,25 +1,17 @@
 import chai from 'chai';
 import { User } from '../../models';
-import mockData from '../mockData/mockData';
+import TestData from '../TestData/TestData';
 
-const { firstUser } = mockData;
+const { firstUser } = TestData;
 let mockUserId;
 const expect = chai.expect;
 
 describe('User Model', () => {
   describe('Create User', () => {
-    it('should create a user', (done) => {
+    it('should create a new user', (done) => {
       User.create(firstUser).then((user) => {
         expect(user.dataValues.title).to.equal(firstUser.title);
         mockUserId = user.dataValues.id;
-        done();
-      });
-    });
-
-    it('should fail if email already exist', (done) => {
-      User.create(firstUser).then().catch((error) => {
-        expect(error.errors[0].message).to.equal('email must be unique');
-        expect(error.errors[0].type).to.equal('unique violation');
         done();
       });
     });
@@ -37,7 +29,7 @@ describe('User Model', () => {
     it('should fail if email already exist', (done) => {
       firstUser.username = 'mynewusername';
       User.create(firstUser).then().catch((error) => {
-        expect(error.errors[0].message).to.equal('email must be unique');
+        expect(error.errors[0].message).to.equal('Email already exist');
         expect(error.errors[0].type).to.equal('unique violation');
         done();
       });
@@ -63,16 +55,24 @@ describe('User Model', () => {
         done();
       });
     });
-    //   });
 
     describe('Update User', () => {
+      const updatedUser = {};
       it('should update a user', (done) => {
         User.findById(mockUserId).then((user) => {
-          user.update({ username: 'Tesing57' }).then((updatedUser) => {
-            expect(updatedUser.dataValues.id).to.equal(mockUserId);
+          user.update({ username: 'Tesing57' }).then((upUser) => {
+            Object.assign(updatedUser, upUser.dataValues);
+            expect(upUser.dataValues.id).to.equal(mockUserId);
             expect(user.dataValues.username).to.equal('Tesing57');
             done();
           });
+        });
+      });
+      it('ensures password is hashed', (done) => {
+        User.findById(updatedUser.id).then((user) => {
+          expect(user.dataValues.id).to.equal(mockUserId);
+          expect(user.dataValues.password).to.not.equal(firstUser.password);
+          done();
         });
       });
     });
