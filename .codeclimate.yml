@@ -3,6 +3,8 @@ engines:
     enabled: true
     channel: "eslint-3"
     checks:
+      Similar code:
+        enabled: false
       import/no-unresolved:
         enabled: false
       import/extensions:
@@ -17,6 +19,6 @@ ratings:
   - "**.js"
 exclude_paths:
 - server/test/
-- config/
-- test/
+- server/config/
+- client/test/
 - node_modules/
