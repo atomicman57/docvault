@@ -22,7 +22,6 @@ app.use(
     noInfo: true
   })
 );
-// app.use(compression());
 app.use(express.static(path.join(__dirname, '../client')));
 
 const port = parseInt(process.env.PORT, 10) || 8000;
