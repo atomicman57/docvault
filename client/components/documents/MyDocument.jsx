@@ -15,8 +15,6 @@ class MyDocument extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: '',
-      userRoleId: '',
       document: [],
       offset: 0,
       pageCount: 0,
@@ -46,11 +44,6 @@ class MyDocument extends React.Component {
    * @memberof GetDocument
    */
   componentDidMount() {
-    // console.log(this.props);
-    this.setState({
-      userId: this.props.currentUser.id,
-      userRoleId: this.props.currentUser.roleId
-    });
     this.props
       .userPersonalDocumentRequest(this.props.currentUser.id)
       .then(() => {
