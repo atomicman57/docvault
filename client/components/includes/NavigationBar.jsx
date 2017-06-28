@@ -14,7 +14,6 @@ class NavBar extends React.Component {
   render() {
     const { isAuthenticated } = this.props.auth;
     const { currentUser } = this.props;
-    console.log(currentUser);
     let admin;
     if (currentUser.roleId == 2) {
       admin = (
