@@ -1,34 +1,32 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Modal } from 'react-materialize';
-import CreateDocument from '../documents/CreateDocument.jsx';
-import GetDocument from '../documents/GetDocument.jsx';
-import SearchDocument from '../documents/SearchDocument.jsx';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Modal } from "react-materialize";
+import CreateDocument from "../documents/CreateDocument.jsx";
+import GetDocument from "../documents/GetDocument.jsx";
+import SearchDocument from "../documents/SearchDocument.jsx";
 import {
   userSaveDocumentRequest,
   userDocumentRequest,
   userDeleteDocumentRequest,
   userUpdateDocumentRequest,
   userSearchRequest
-} from '../../actions/documentActions';
-
+} from "../../actions/documentActions";
 
 /**
- * 
- * 
+ *
+ *
  * @class Dashboard
  * @extends {React.Component}
  */
 class Dashboard extends React.Component {
-
   /**
    * 
    * 
    * @memberof Dashboard
    */
   componentWillMount() {
-    const token = localStorage.getItem('jwtToken');
+    const token = localStorage.getItem("jwtToken");
     if (token) {
       this.userId = this.props.currentUser.id;
       this.firstname = this.props.currentUser.firstname;
@@ -45,7 +43,8 @@ class Dashboard extends React.Component {
       userDeleteDocumentRequest,
       userSearchRequest,
       userUpdateDocumentRequest,
-      documents
+      documents,
+      loading
     } = this.props;
     return (
       <div>
@@ -69,6 +68,7 @@ class Dashboard extends React.Component {
                 documents={documents}
                 userDeleteDocumentRequest={userDeleteDocumentRequest}
                 userUpdateDocumentRequest={userUpdateDocumentRequest}
+                loading={loading}
               />
             </div>
           </main>
@@ -100,13 +100,15 @@ Dashboard.propTypes = {
   userDeleteDocumentRequest: PropTypes.func.isRequired,
   userSearchRequest: PropTypes.func.isRequired,
   userUpdateDocumentRequest: PropTypes.func.isRequired,
-  documents: PropTypes.object.isRequired
+   documents: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  loading: PropTypes.number.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     currentUser: state.Auth.user,
-    documents: state.Document.documents
+    documents: state.Document.documents,
+    loading: state.ajaxCallsInProgress
   };
 }
 

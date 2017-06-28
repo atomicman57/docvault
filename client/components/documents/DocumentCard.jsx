@@ -78,7 +78,6 @@ DocumentCard.propTypes = {
   currentUser: PropTypes.object.isRequired,
   confirmDelete: PropTypes.func.isRequired,
   documentType: PropTypes.string,
-  // userUpdateDocumentRequest: PropTypes.func.isRequired
 };
 
 export default DocumentCard;

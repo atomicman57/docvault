@@ -54,7 +54,6 @@ export function userSearchRequest(query) {
 }
 
 export function userUpdateUserRequest(user) {
-  console.log('user', user);
   return (dispatch) => {
     return axios.put(`/users/${user.id}`, user).then((user) => {
       dispatch(setCurrentUser(user.data));

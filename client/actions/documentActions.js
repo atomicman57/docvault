@@ -4,6 +4,7 @@ import {
   GET_USER_DOCUMENT_SUCCESS,
   GET_CURRENT_USER_DOCUMENT_SUCCESS
 } from '../actions/types';
+import { beginAjaxCall } from './ajaxStatusAction';
 
 export function getUserDocument(documents) {
   return {
@@ -21,6 +22,7 @@ export function getCurrentUserDocument(documents) {
 
 export function userDocumentRequest(offset = 0, limit = 8) {
   return (dispatch) => {
+   dispatch(beginAjaxCall());
     return axios
       .get(`/documents?limit=${limit}&offset=${offset}`)
       .then((documents) => {
@@ -43,6 +45,7 @@ export function saveUserDocument(document) {
 
 export function userPersonalDocumentRequest(userId) {
   return (dispatch) => {
+    dispatch(beginAjaxCall());
     return axios.get(`/users/${userId}/documents`).then((documents) => {
       dispatch(
         getCurrentUserDocument({
@@ -94,6 +97,7 @@ export function userSaveDocumentRequest(document, userId, doctype) {
 export function userSearchRequest(query, userId, doctype) {
   const offset = 0, limit = 8;
   return (dispatch) => {
+   dispatch(beginAjaxCall());
     if (doctype) {
       return axios
         .get(

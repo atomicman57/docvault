@@ -34,7 +34,8 @@ class MyDocumentPage extends React.Component {
       userSearchRequest,
       userUpdateDocumentRequest,
       userPersonalDocumentRequest,
-      documents
+      documents,
+      loading
     } = this.props;
     return (
       <div>
@@ -73,6 +74,7 @@ class MyDocumentPage extends React.Component {
                 currentUser={currentUser}
                 userDocumentRequest={userDocumentRequest}
                 documents={documents}
+                loading={loading}
                 userDeleteDocumentRequest={userDeleteDocumentRequest}
                 userUpdateDocumentRequest={userUpdateDocumentRequest}
                 userPersonalDocumentRequest={userPersonalDocumentRequest}
@@ -92,14 +94,15 @@ MyDocumentPage.propTypes = {
   userDeleteDocumentRequest: PropTypes.func.isRequired,
   userUpdateDocumentRequest: PropTypes.func.isRequired,
   userPersonalDocumentRequest: PropTypes.func.isRequired,
-  documentType: PropTypes.string.isRequired,
-  documents: PropTypes.array.isRequired
+  documents: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  loading: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
   return {
     currentUser: state.Auth.user,
-    documents: state.Document.documents
+    documents: state.Document.documents,
+    loading: state.ajaxCallsInProgress
   };
 }
 
