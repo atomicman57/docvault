@@ -10,10 +10,7 @@ class CreateDocument extends React.Component {
     this.state = {
       title: '',
       content: '',
-      userId: '',
       access: '',
-      userRoleId: '',
-      username: '',
       editorState: '',
       errors: {}
     };
@@ -73,13 +70,8 @@ class CreateDocument extends React.Component {
         Materialize.toast($toastContent, 5000);
       });
   }
-  componentDidMount() {
-    this.setState({
-      userId: this.props.currentUser.id,
-      userRoleId: this.props.currentUser.roleId,
-      username: this.props.currentUser.username
-    });
-  }
+
+
   render() {
     const { editorState } = this.state;
     return (
