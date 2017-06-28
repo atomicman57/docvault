@@ -124,6 +124,6 @@ class CreateDocument extends React.Component {
 CreateDocument.propTypes = {
   currentUser: PropTypes.object.isRequired,
   userSaveDocumentRequest: PropTypes.func.isRequired,
-  documentType: PropTypes.string.isRequired
+  documentType: PropTypes.string
 };
 export default CreateDocument;
