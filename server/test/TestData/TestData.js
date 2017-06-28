@@ -1,5 +1,5 @@
 import faker from 'faker';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt-nodejs';
 
 export default {
   firstUser: {

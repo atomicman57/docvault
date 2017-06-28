@@ -1,14 +1,15 @@
+dist: trusty
 language: node_js
+node_js:
+  - 6
 services:
   - postgresql
 
 before_script:
   - psql -c "CREATE DATABASE docvaulttest;" -U postgres
   - psql -c "CREATE USER blessingphilips;" -U postgres
-
-node_js:
-  - 6
-
+  - npm install -g mocha
+  npm install -g nyc
 script:
   - npm test
 
