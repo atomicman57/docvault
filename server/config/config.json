@@ -1,0 +1,27 @@
+{
+  "development": {
+    "username": "blessingphilips",
+    "password": null,
+    "database": "docvault",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "blessingphilips",
+    "password": null,
+    "database": "docvaulttest",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres",
+    "logging": false
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "docvault",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+  }
+}
