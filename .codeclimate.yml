@@ -11,6 +11,10 @@ engines:
         enabled: false
       max-len:
         enabled: false
+      require-jsdoc:
+        enabled: false
+      no-use-before-define:
+        enabled: false
   duplication:
     enabled: false
     config:
@@ -24,3 +28,4 @@ exclude_paths:
 - server/config/
 - client/test/
 - node_modules/
+-  client/assets/
