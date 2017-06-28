@@ -39,7 +39,7 @@ class RoleController {
       .then((roles) => {
         if (!roles) {
           return res.status(404).json({
-            message: 'roles Not Found'
+            message: 'Role Not Found'
           });
         }
         return res.status(200).json(roles);
@@ -57,7 +57,7 @@ class RoleController {
       .then((roles) => {
         if (!roles) {
           return res.status(404).json({
-            message: 'roles Not Found'
+            message: 'Role Not Found'
           });
         }
         return roles
@@ -80,13 +80,12 @@ class RoleController {
       .then((roles) => {
         if (!roles) {
           return res.status(404).json({
-            message: 'roles Not Found'
+            message: 'Roles Not Found'
           });
         }
         return roles
           .destroy()
-          .then(() => res.status(200).json({ message: 'Deleted' }))
-          .catch(error => res.status(400).json(error));
+          .then(() => res.status(200).json({ message: 'Deleted' }));
       })
       .catch(error => res.status(400).json(error));
   }
