@@ -4,9 +4,6 @@ import {
   GET_CURRENT_USER_DOCUMENT_SUCCESS
 } from '../actions/types';
 import initialState from './initialState';
-// const initialState = {
-//   documents: {}
-// };
 
 export default (state = initialState, action = {}) => {
   switch (action.type) {
