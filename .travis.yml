@@ -1,3 +1,4 @@
+sudo: required
 dist: trusty
 language: node_js
 node_js:
@@ -10,7 +11,7 @@ before_script:
   - psql -c "CREATE USER blessingphilips;" -U postgres
   - npm install -g mocha
   - npm install -g nyc
-  - npm install -g sequelize
+  - npm install -g sequelize-cli
 script:
   - npm test
 
