@@ -2,5 +2,6 @@ export default{
   isAuthenticated: false,
   user: {},
   documents: [],
-  users: []
+  users: [],
+  ajaxCallsInProgress: 0
 };
