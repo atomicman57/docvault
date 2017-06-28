@@ -18,12 +18,21 @@ class DocumentController {
         message: 'Fields cannot be empty'
       });
     }
+
+    if (
+      req.body.title.length < 4 || req.body.content < 4
+    ) {
+      return res.status(400).json({
+        message: 'Title and content length must be more than 4'
+      });
+    }
+
     return Document.create({
       title: req.body.title,
       content: req.body.content,
-      userId: req.body.userId,
+      userId: req.decoded.id,
       access: req.body.access,
-      userRoleId: req.body.userRoleId
+      userRoleId: req.decoded.roleId
     })
       .then(document => res.status(201).json(document))
       .catch(error => res.status(400).json(error));
@@ -39,7 +48,7 @@ class DocumentController {
     if (req.query.q) {
       search = `%${req.query.q}%`;
     }
-    let query = { access: 'public', title: { $iLike: search } };
+    let query;
     if (req.decoded) {
       query = req.decoded.roleId === 2
         ? {
@@ -122,8 +131,7 @@ class DocumentController {
           });
         }
         return res.status(200).json(document);
-      })
-      .catch(error => res.status(400).json(error));
+      });
   }
 
   /**
@@ -134,22 +142,11 @@ class DocumentController {
   static update(req, res) {
     return Document.findById(req.params.documentId)
       .then((document) => {
-        if (!document) {
-          return res.status(404).json({
-            message: 'Document Not Found'
-          });
-        }
-        if (document.userId != req.body.userId) {
-          return res.json({
-            message: 'You do not have the permission to edit this document'
-          });
-        }
         return document
           .update(req.body)
           .then(() => res.status(200).json(document))
           .catch(error => res.status(400).json(error));
-      })
-      .catch(error => res.status(400).json(error));
+      });
   }
 
   /**
@@ -160,22 +157,10 @@ class DocumentController {
   static delete(req, res) {
     return Document.findById(req.params.documentId)
       .then((document) => {
-        if (!document) {
-          return res.status(404).json({
-            message: 'Document Not Found'
-          });
-        }
-        if (document.userId != req.decoded.id && req.decoded.roleId != 2) {
-          return res.json({
-            message: 'You do not have the permission to delete this document'
-          });
-        }
         return document
           .destroy()
-          .then(() => res.status(200).json({ message: 'Deleted' }))
-          .catch(error => res.status(400).json(error));
-      })
-      .catch(error => res.status(400).json(error));
+          .then(() => res.status(200).json({ message: 'Deleted' }));
+      });
   }
 }
 export default DocumentController;
