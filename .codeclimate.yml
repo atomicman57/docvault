@@ -3,6 +3,8 @@ engines:
     enabled: true
     channel: "eslint-3"
     checks:
+     max-len:
+        enabled: false
       Similar code:
         enabled: false
       import/no-unresolved:
