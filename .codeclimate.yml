@@ -11,8 +11,6 @@ engines:
         enabled: false
       max-len:
         enabled: false
-      require-jsdoc:
-        enabled: false
       no-use-before-define:
         enabled: false
   duplication:
