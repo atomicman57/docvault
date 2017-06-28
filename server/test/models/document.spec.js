@@ -1,8 +1,8 @@
 import chai from 'chai';
 import { Document } from '../../models';
-import mockData from '../mockData/mockData';
+import TestData from '../TestData/TestData';
 
-const { sampleDocument } = mockData;
+const { sampleDocument } = TestData;
 let updateDocId;
 const expect = chai.expect;
 
