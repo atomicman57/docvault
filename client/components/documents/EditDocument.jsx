@@ -12,9 +12,7 @@ class EditDocument extends React.Component {
       id: this.props.document.id,
       title: this.props.document.title,
       content: this.props.document.content,
-      userId: '',
       access: this.props.document.access,
-      userRoleId: '',
       editorState: EditorState.createWithContent(
         convertFromHTML(this.props.document.content),
         null
@@ -76,12 +74,6 @@ class EditDocument extends React.Component {
         const $toastContent = `<span>${errors.message}</span>`;
         Materialize.toast($toastContent, 5000);
       });
-  }
-  componentDidMount() {
-    this.setState({
-      userId: this.props.currentUser.id,
-      userRoleId: this.props.currentUser.roleId
-    });
   }
 
   render() {
