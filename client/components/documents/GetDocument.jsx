@@ -1,13 +1,9 @@
 import React from 'react';
 import swal from 'sweetalert';
-// import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import { Modal } from 'react-materialize';
 import 'sweetalert/dist/sweetalert.css';
 import ReactPaginate from 'react-paginate';
-// import EditDocument from './EditDocument.jsx';
 import DocumentCard from './DocumentCard.jsx';
-// import { userDocumentRequest } from '../../actions/documentActions';
 
 class GetDocument extends React.Component {
   /**
@@ -19,8 +15,6 @@ class GetDocument extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: '',
-      userRoleId: '',
       document: [],
       offset: 0,
       pageCount: 0,
@@ -50,10 +44,6 @@ class GetDocument extends React.Component {
    * @memberof GetDocument
    */
   componentDidMount() {
-    this.setState({
-      userId: this.props.currentUser.id,
-      userRoleId: this.props.currentUser.roleId
-    });
     this.props.userDocumentRequest().then(() => {
       this.setState({
         document: this.props.documents.documents,
