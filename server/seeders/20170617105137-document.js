@@ -31,9 +31,22 @@ module.exports = {
            which the Wolf seized him and ate him up, saying, "Well! I won't 
            remain supper-less, even though you refute every one of my 
            imputations." The tyrant will always find a pretext for his tyranny.`,
-          userId: 2,
+          userId: 1,
           userRoleId: 1,
           access: 'public',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          title: 'The Ass and the Grasshopper',
+          content: `An Ass having heard some Grasshoppers chirping, was highly
+           enchanted; and, desiring to possess the same charms of melody, 
+           demanded what sort of food they lived on to give them such beautiful 
+           voices. They replied, "The dew." The Ass resolved that he would 
+           live only upon dew, and in a short time died of hunger.`,
+          userId: 2,
+          userRoleId: 2,
+          access: 'role',
           createdAt: new Date(),
           updatedAt: new Date()
         }
