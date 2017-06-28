@@ -1,24 +1,24 @@
 import chai from 'chai';
 import { Role } from '../../models/';
-import testData from '../mockData/mockData';
+import testData from '../TestData/TestData';
 
-const { roleOne } = testData;
+const { TestRole } = testData;
 let updateRoleId;
 const expect = chai.expect;
 
 describe('Role Model', () => {
   describe('Create Role', () => {
     it('should create a role', (done) => {
-      Role.create(roleOne)
+      Role.create(TestRole)
         .then((role) => {
-          expect(role.dataValues.name).to.equal(roleOne.name);
+          expect(role.dataValues.title).to.equal(TestRole.title);
           updateRoleId = role.dataValues.id;
           done();
         });
     });
 
     it('should fail when role name already exist', (done) => {
-      Role.create({ title: 'regular' })
+      Role.create({ title: 'Fellow' })
         .then()
         .catch((error) => {
           expect(error.errors[0].message).to.equal('Role already exist');
