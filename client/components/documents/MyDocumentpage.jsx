@@ -42,9 +42,25 @@ class MyDocumentPage extends React.Component {
           <main>
             <div className="breadcrumb grey lighten-3">
               <h6>
-                My Dashboard
+                My Documents
               </h6>
             </div>
+            <Modal
+          header="Create Document"
+          trigger={
+            <div className="fixed-action-btn">
+              <a className="btn-floating btn-large pink darken-4">
+                <i className="large white-text material-icons">edit</i>
+              </a>
+            </div>
+          }
+        >
+          <CreateDocument
+            currentUser={currentUser}
+            userSaveDocumentRequest={userSaveDocumentRequest}
+            documentType={'personal'}
+          />
+        </Modal>
             <br />
             <SearchDocument
               userSearchRequest={userSearchRequest}
@@ -65,22 +81,6 @@ class MyDocumentPage extends React.Component {
             </div>
           </main>
         </div>
-        <Modal
-          header="Create Document"
-          trigger={
-            <div className="fixed-action-btn">
-              <a className="btn-floating btn-large pink darken-4">
-                <i className="large white-text material-icons">edit</i>
-              </a>
-            </div>
-          }
-        >
-          <CreateDocument
-            currentUser={currentUser}
-            userSaveDocumentRequest={userSaveDocumentRequest}
-            documentType={'personal'}
-          />
-        </Modal>
       </div>
     );
   }

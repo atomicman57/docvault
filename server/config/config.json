@@ -8,12 +8,13 @@
     "dialect": "postgres"
   },
   "test": {
-    "username": "root",
+    "username": "blessingphilips",
     "password": null,
-    "database": "docvault",
+    "database": "docvaulttest",
     "host": "127.0.0.1",
     "port": 5432,
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "logging": false
   },
   "production": {
     "username": "root",

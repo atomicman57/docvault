@@ -13,7 +13,20 @@ import {
   userSearchRequest
 } from '../../actions/documentActions';
 
+
+/**
+ * 
+ * 
+ * @class Dashboard
+ * @extends {React.Component}
+ */
 class Dashboard extends React.Component {
+
+  /**
+   * 
+   * 
+   * @memberof Dashboard
+   */
   componentWillMount() {
     const token = localStorage.getItem('jwtToken');
     if (token) {

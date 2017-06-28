@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Icon } from 'react-materialize';
 
 class SearchDocument extends React.Component {
   constructor(props) {

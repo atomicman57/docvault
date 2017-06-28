@@ -18,13 +18,21 @@ class DocumentController {
         message: 'Fields cannot be empty'
       });
     }
+
+    if (
+      req.body.title.length < 4 || req.body.content < 4
+    ) {
+      return res.status(400).json({
+        message: 'Title and content length must be more than 4'
+      });
+    }
+
     return Document.create({
       title: req.body.title,
       content: req.body.content,
-      userId: req.body.userId,
+      userId: req.decoded.id,
       access: req.body.access,
-      userRoleId: req.body.userRoleId,
-      username: req.body.username
+      userRoleId: req.decoded.roleId
     })
       .then(document => res.status(201).json(document))
       .catch(error => res.status(400).json(error));
@@ -40,13 +48,15 @@ class DocumentController {
     if (req.query.q) {
       search = `%${req.query.q}%`;
     }
-    let query = { access: 'public', title: { $iLike: search } };
+    let query;
     if (req.decoded) {
       query = req.decoded.roleId === 2
         ? {
           title: { $iLike: search },
-          $or: [{ access: 'public' }, { access: 'role' },
-          { $and: [{ access: 'private' }, { userId: req.decoded.id }]}
+          $or: [
+              { access: 'public' },
+              { access: 'role' },
+              { $and: [{ access: 'private' }, { userId: req.decoded.id }] }
           ]
         }
         : {
@@ -77,6 +87,12 @@ class DocumentController {
       limit: req.query.limit || 15,
       offset: req.query.offset || 0,
       where: query,
+      include: [
+        {
+          model: User,
+          attributes: ['username', 'roleId']
+        }
+      ],
       order: [['createdAt', 'DESC']]
     })
       .then((document) => {
@@ -99,9 +115,6 @@ class DocumentController {
       .catch((error) => {
         res.status(400).json(error);
       });
-    // return Document.all()
-    //   .then(document => res.status(200).json(document))
-    //   .catch(error => res.status(400).json(error));
   }
 
   /**
@@ -118,8 +131,7 @@ class DocumentController {
           });
         }
         return res.status(200).json(document);
-      })
-      .catch(error => res.status(400).json(error));
+      });
   }
 
   /**
@@ -130,22 +142,11 @@ class DocumentController {
   static update(req, res) {
     return Document.findById(req.params.documentId)
       .then((document) => {
-        if (!document) {
-          return res.status(404).json({
-            message: 'Document Not Found'
-          });
-        }
-        if (document.userId != req.body.userId) {
-          return res.json({
-            message: 'You do not have the permission to edit this document'
-          });
-        }
         return document
           .update(req.body)
           .then(() => res.status(200).json(document))
           .catch(error => res.status(400).json(error));
-      })
-      .catch(error => res.status(400).json(error));
+      });
   }
 
   /**
@@ -156,84 +157,9 @@ class DocumentController {
   static delete(req, res) {
     return Document.findById(req.params.documentId)
       .then((document) => {
-        if (!document) {
-          return res.status(404).json({
-            message: 'Document Not Found'
-          });
-        }
-        console.log(req.decoded);
-        console.log(document);
-        if (document.userId != req.decoded.id && req.decoded.roleId != 2) {
-          return res.json({
-            message: 'You do not have the permission to delete this document'
-          });
-        }
         return document
           .destroy()
-          .then(() => res.status(200).json({ message: 'Deleted' }))
-          .catch(error => res.status(400).json(error));
-      })
-      .catch(error => res.status(400).json(error));
-  }
-
-  static myDocuments(req, res) {
-    return Document.findAll({
-      where: {
-        $or: [
-          { access: 'public' },
-          {
-            userId: req.decoded.id
-          },
-          {
-            userId: req.decoded.id,
-            $and: [
-              { access: 'private' },
-              { $not: [{ userRoleId: req.decoded.roleId }] }
-            ]
-          }
-        ]
-      }
-    })
-      .then((document) => {
-        if (!document) {
-          return res.status(404).json({
-            message: 'Document Not Found'
-          });
-        }
-        return res.status(200).json(document);
-      })
-      .catch(error =>
-        res.status(400).json({
-          error,
-          message: 'An Error occurred'
-        })
-      );
-  }
-
-  static search(req, res) {
-    const search = req.query.q;
-    return Document.findAll({
-      where: {
-        title: {
-          $iLike: `%${search}%`
-        }
-      }
-    })
-      .then((documents) => {
-        if (documents.length === 0) {
-          return res.status(404).json({
-            message: 'Sorry, No document found'
-          });
-        }
-        return res.status(200).json({
-          documents
-        });
-      })
-      .catch((error) => {
-        res.status(500).json({
-          error,
-          message: 'An Error occurred'
-        });
+          .then(() => res.status(200).json({ message: 'Deleted' }));
       });
   }
 }

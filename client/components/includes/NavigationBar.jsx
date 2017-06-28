@@ -14,7 +14,6 @@ class NavBar extends React.Component {
   render() {
     const { isAuthenticated } = this.props.auth;
     const { currentUser } = this.props;
-    console.log(currentUser);
     let admin;
     if (currentUser.roleId == 2) {
       admin = (
@@ -43,11 +42,6 @@ class NavBar extends React.Component {
               Doc Vault
             </span>
             <ul className="right hide-on-med-and-down">
-              <li>
-                <a >
-                  <i className="material-icons">settings</i>
-                </a>
-              </li>
               <li>
                 <a onClick={this.logout.bind(this)}>
                   <i className="material-icons">exit_to_app</i>
@@ -90,7 +84,7 @@ class NavBar extends React.Component {
                {admin}
               <li>
                 <Link to="/myprofile" className="waves-effect waves-grey">
-                  <i className="material-icons">settings</i>
+                  <i className="material-icons">account_circle</i>
                   My Profile
                 </Link>
               </li>

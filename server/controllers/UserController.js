@@ -4,8 +4,32 @@ import { User, Document, Role } from '../models';
 const createToken = (user) => {
   return jwt.sign(user, 'secretTokenKey', { expiresIn: '24h' });
 };
+const userInfo = (user) => {
+  return {
+    id: user.id,
+    username: user.username,
+    firstname: user.firstname,
+    lastname: user.lastname,
+    email: user.email,
+    roleId: user.roleId,
+  };
+};
 
+/**
+ *
+ *
+ * @class UserController
+ */
 class UserController {
+  /**
+   *
+   *
+   * @static
+   * @param {any} req
+   * @param {any} res
+   * @returns
+   * @memberof UserController
+   */
   static create(req, res) {
     if (
       !req.body.username ||
@@ -22,6 +46,24 @@ class UserController {
         message: 'Email is not rightly formatted'
       });
     }
+    if (req.body.password.length < 5) {
+      return res.status(400).json({
+        message: 'Password length must be more than 4'
+      });
+    }
+
+    if (req.body.username.length < 4) {
+      return res.status(400).json({
+        message: 'username length must be more than 3'
+      });
+    }
+
+    if (req.body.firstname.length < 3 || req.body.lastname.length < 3) {
+      return res.status(400).json({
+        message: 'firstname and lastname length must be more than 2'
+      });
+    }
+
     User.findOne({
       where: {
         $or: [
@@ -68,6 +110,15 @@ class UserController {
     });
   }
 
+  /**
+   *
+   *
+   * @static
+   * @param {any} req
+   * @param {any} res
+   * @returns
+   * @memberof UserController
+   */
   static login(req, res) {
     return User.findOne({
       where: { email: req.body.email }
@@ -102,6 +153,14 @@ class UserController {
       .catch(error => res.status(400).json(error));
   }
 
+  /**
+   *
+   *
+   * @static
+   * @param {any} request
+   * @param {any} response
+   * @memberof UserController
+   */
   static logout(request, response) {
     response.status(200).json({
       message: 'User logged out'
@@ -177,59 +236,32 @@ class UserController {
   static find(req, res) {
     return User.findById(req.params.id)
       .then((user) => {
-        if (!user) {
-          return res.status(404).json({
-            message: 'User Not Found'
-          });
-        }
-        return res.status(200).json(user);
-      })
-      .catch(error => res.status(400).json(error));
+        return res.status(200).json(userInfo(user));
+      });
   }
 
   static update(req, res) {
     return User.findById(req.params.id)
       .then((user) => {
-        if (!user) {
-          return res.status(404).json({
-            message: 'User Not Found'
-          });
-        }
         if (req.body.password) {
           req.body.password = user.encryptUpdatePassword(req.body.password);
         }
         return user
           .update(req.body)
           .then((user) => {
-            const userInfo = {
-              id: user.id,
-              username: user.username,
-              firstname: user.firstname,
-              lastname: user.lastname,
-              email: user.email,
-              roleId: user.roleId
-            };
-            res.status(200).json(userInfo);
+            res.status(200).json(userInfo(user));
           })
           .catch(error => res.status(400).json(error));
-      })
-      .catch(error => res.status(400).json(error));
+      });
   }
 
   static delete(req, res) {
     return User.findById(req.params.id)
       .then((user) => {
-        if (!user) {
-          return res.status(404).json({
-            message: 'user Not Found'
-          });
-        }
         return user
           .destroy()
-          .then(() => res.status(200).json({ message: 'Deleted' }))
-          .catch(error => res.status(400).json(error));
-      })
-      .catch(error => res.status(400).json(error));
+          .then(() => res.status(200).json({ message: 'Deleted' }));
+      });
   }
 
   static personalDocuments(req, res) {
@@ -237,11 +269,40 @@ class UserController {
     if (req.query.q) {
       search = `%${req.query.q}%`;
     }
+    let query;
+    if (req.decoded) {
+      query = req.decoded.roleId === 2
+        ? {
+          title: { $iLike: search },
+          $or: [
+              { $and: [{ access: 'private' }, { userId: req.decoded.id }] },
+            {
+              userId: req.params.id,
+              $or: [{ access: 'public' }, { access: 'role' }]
+            }
+          ]
+        }
+        : {
+          userId: req.params.id,
+          title: { $iLike: search }
+        };
+    }
     Document.findAndCountAll({
-      where: {
-        userId: req.params.id,
-        title: { $iLike: search }
-      },
+      where: query,
+      include: [
+        {
+          model: User,
+          attributes: [
+            'id',
+            'username',
+            'firstname',
+            'lastname',
+            'email',
+            'roleId',
+            'createdAt'
+          ]
+        }
+      ],
       limit: req.query.limit || 15,
       offset: req.query.offset || 0,
       order: [['createdAt', 'DESC']]
@@ -263,48 +324,7 @@ class UserController {
           }
         });
       })
-      .catch(error => res.status(400).json(error));
-  }
-
-  static search(req, res) {
-    const search = req.query.q;
-    return User.findAll({
-      where: {
-        $or: [
-          {
-            username: {
-              $iLike: `%${search}%`
-            }
-          },
-          {
-            firstname: {
-              $iLike: `%${search}%`
-            }
-          },
-          {
-            lastname: {
-              $iLike: `%${search}%`
-            }
-          }
-        ]
-      }
-    })
-      .then((user) => {
-        if (user.length === 0) {
-          return res.status(404).json({
-            message: 'Sorry, No User found'
-          });
-        }
-        return res.status(200).json({
-          user
-        });
-      })
-      .catch((error) => {
-        res.status(500).json({
-          error,
-          message: 'An Error occurred'
-        });
-      });
+      // .catch(error => res.status(400).json(error));
   }
 }
 

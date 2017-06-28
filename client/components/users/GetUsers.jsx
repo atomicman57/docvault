@@ -16,8 +16,6 @@ class GetUsers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: '',
-      userRoleId: '',
       users: [],
       offset: 0,
       pageCount: 0,
@@ -47,13 +45,7 @@ class GetUsers extends React.Component {
    * @memberof GetUsers
    */
   componentDidMount() {
-    console.log(this.props);
-    this.setState({
-      userId: this.props.currentUser.id,
-      userRoleId: this.props.currentUser.roleId
-    });
     this.props.getUsersRequest().then(() => {
-    //   console.log('pagination', this.props.documents.pagination);
       this.setState({
         users: this.props.users.users,
         pageCount: this.props.users.pagination.pageCount
@@ -94,15 +86,8 @@ class GetUsers extends React.Component {
     );
   }
   render() {
-    // const { documents } = this.props;
     const { currentUser } = this.props;
     const { users } = this.state;
-    // const documents = document;
-    console.log(users);
-    // console.log(documents.documents);
-    const { userId } = this.state;
-    // const { userRoleId } = this.state;
-    console.log(userId);
     return (
       <div>
         <div className="docpagination">

@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Modal } from 'react-materialize';
 import renderHTML from 'react-render-html';
 import EditDocument from './EditDocument.jsx';
@@ -31,10 +32,10 @@ const DocumentCard = ({
               </span>
             </p>
             <p className="card-stats-number">
-              Created by: {document.username}{' '}
+              Created by: {document.User.username}
             </p>
             <p className="card-stats-number" style={{ fontSize: '0.8em' }}>
-              <Modal header="View Document" trigger={<a href="">View More</a>}>
+              <Modal trigger={<a href="">View More</a>}>
                 <ViewDocument document={document} />
               </Modal>
             </p>
