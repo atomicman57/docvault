@@ -1,0 +1,24 @@
+engines:
+  eslint:
+    enabled: true
+    channel: "eslint-3"
+    checks:
+      Similar code:
+        enabled: false
+      import/no-unresolved:
+        enabled: false
+      import/extensions:
+        enabled: false
+  duplication:
+    enabled: false
+    config:
+      languages:
+      - javascript
+ratings:
+  paths:
+  - "**.js"
+exclude_paths:
+- server/test/
+- server/config/
+- client/test/
+- node_modules/
