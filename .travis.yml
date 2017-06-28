@@ -10,6 +10,7 @@ before_script:
   - psql -c "CREATE USER blessingphilips;" -U postgres
   - npm install -g mocha
   - npm install -g nyc
+  - npm install -g sequelize
 script:
   - npm test
 
