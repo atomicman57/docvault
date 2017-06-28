@@ -22,8 +22,14 @@ export default function (ComposedComponent) {
             this.context.router.push('/login');
           }
         });
-      } else if (!this.props.isAuthenticated) {
+      }
+
+      if (!this.props.isAuthenticated) {
         this.context.router.push('/login');
+      }
+
+      if (this.props.isAuthenticated && this.props.roleId !== 2) {
+        this.context.router.push('/dashboard');
       }
     }
 
@@ -59,7 +65,10 @@ export default function (ComposedComponent) {
     } else {
       isAuthenticated = false;
     }
-    return { isAuthenticated };
+    return {
+      isAuthenticated,
+      roleId: state.Auth.user.roleId
+    };
   }
 
   return connect(mapStateToProps, { logout })(Authenticate);
