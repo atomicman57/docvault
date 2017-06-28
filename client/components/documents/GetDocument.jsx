@@ -1,9 +1,9 @@
-import React from 'react';
-import swal from 'sweetalert';
-import PropTypes from 'prop-types';
-import 'sweetalert/dist/sweetalert.css';
-import ReactPaginate from 'react-paginate';
-import DocumentCard from './DocumentCard.jsx';
+import React from "react";
+import swal from "sweetalert";
+import PropTypes from "prop-types";
+import "sweetalert/dist/sweetalert.css";
+import ReactPaginate from "react-paginate";
+import DocumentCard from "./DocumentCard.jsx";
 
 class GetDocument extends React.Component {
   /**
@@ -61,49 +61,51 @@ class GetDocument extends React.Component {
   componentWillReceiveProps(nextProps) {
     const newDocument = nextProps.documents;
     const newPagination = newDocument.pagination;
+    if (newPagination){
     this.setState({
       document: newDocument.documents,
       pageCount: newPagination.pageCount
     });
+    }
   }
 
   confirmDelete(id) {
     swal(
       {
-        title: 'Are you sure?',
-        text: 'You will not be able to reverse this action!',
-        type: 'warning',
+        title: "Are you sure?",
+        text: "You will not be able to reverse this action!",
+        type: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#DD6B55',
-        confirmButtonText: 'Yes, delete it!',
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, delete it!",
         closeOnConfirm: false,
         html: false
       },
       () =>
         this.props.userDeleteDocumentRequest(id).then(() => {
-          swal('Deleted!', 'Your Document has been deleted.', 'success');
+          swal("Deleted!", "Your Document has been deleted.", "success");
         })
     );
   }
   render() {
-    const { currentUser, userUpdateDocumentRequest } = this.props;
+    const { currentUser, userUpdateDocumentRequest, loading } = this.props;
     const { document } = this.state;
     const documents = document;
     return (
       <div>
         <div className="docpagination">
           <ReactPaginate
-            previousLabel={'previous'}
-            nextLabel={'next'}
+            previousLabel={"previous"}
+            nextLabel={"next"}
             breakLabel={<a href="">...</a>}
-            breakClassName={'break-me'}
+            breakClassName={"break-me"}
             pageCount={this.state.pageCount}
             marginPagesDisplayed={2}
             pageRangeDisplayed={5}
             onPageChange={this.handlePageClick}
-            containerClassName={'pagination'}
-            subContainerClassName={'pages pagination'}
-            activeClassName={'active'}
+            containerClassName={"pagination"}
+            subContainerClassName={"pages pagination"}
+            activeClassName={"active"}
           />
         </div>
         {documents.map(document => (
@@ -115,7 +117,11 @@ class GetDocument extends React.Component {
             userUpdateDocumentRequest={userUpdateDocumentRequest}
           />
         ))}
-        {document.length == 0 && <h3>No document Found</h3>}
+        {document.length === 0 &&
+          !loading &&
+          <div className="center-align">
+            <h3>No document Found</h3>
+          </div>}
       </div>
     );
   }
@@ -126,7 +132,8 @@ GetDocument.propTypes = {
   userDocumentRequest: PropTypes.func.isRequired,
   userDeleteDocumentRequest: PropTypes.func.isRequired,
   userUpdateDocumentRequest: PropTypes.func.isRequired,
-  documents: PropTypes.object.isRequired
+  documents: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  loading: PropTypes.number.isRequired
 };
 
 export default GetDocument;
