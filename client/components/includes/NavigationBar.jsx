@@ -43,7 +43,7 @@ class NavBar extends React.Component {
             </span>
             <ul className="right hide-on-med-and-down">
               <li>
-                <a onClick={this.logout.bind(this)}>
+                <a onClick={this.logout.bind(this)} id="logout">
                   <i className="material-icons">exit_to_app</i>
                 </a>
               </li>
@@ -110,8 +110,8 @@ class NavBar extends React.Component {
             Doc Vault
           </Link>
           <ul className="right hide-on-med-and-down">
-            <li><Link to="/login">Login</Link></li>
-            <li><Link to="/signup">Sign Up</Link></li>
+            <li><Link to="/login" id="login">Login</Link></li>
+            <li><Link to="/signup" id="signup">Sign Up</Link></li>
           </ul>
 
           <ul id="nav-mobile" className="side-nav">

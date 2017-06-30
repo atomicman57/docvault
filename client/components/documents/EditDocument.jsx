@@ -117,7 +117,7 @@ class EditDocument extends React.Component {
               {' '}
             </div>
             <div className="input-field center">
-              <button className="pink darken-4 btn">Save</button>
+              <button className="pink darken-4 btn" id="edit-doc">Save</button>
             </div>
           </div>
         </form>
