@@ -53,7 +53,8 @@ class CreateDocument extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    if (this.state.content > 12) {
+    console.log()
+    if (this.state.content.length > 12) {
       this.props
         .userSaveDocumentRequest(
           this.state,
