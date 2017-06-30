@@ -3,3 +3,6 @@ node_modules
 client/dist
 coverage
 .nyc_output
+.env
+reports
+screenshots

@@ -22,7 +22,7 @@ export function getCurrentUserDocument(documents) {
 
 export function userDocumentRequest(offset = 0, limit = 8) {
   return (dispatch) => {
-   dispatch(beginAjaxCall());
+    dispatch(beginAjaxCall());
     return axios
       .get(`/documents?limit=${limit}&offset=${offset}`)
       .then((documents) => {
@@ -60,7 +60,7 @@ export function userPersonalDocumentRequest(userId) {
 export function userDeleteDocumentRequest(id, userId, doctype) {
   return (dispatch) => {
     return axios.delete(`/documents/${id}`, document).then(() => {
-      console.log('doctype', doctype);
+      dispatch({ type: 'DELETE_DOCUMENT_SUCCESS' });
       if (doctype) {
         dispatch(userPersonalDocumentRequest(userId));
       } else {
@@ -73,6 +73,7 @@ export function userDeleteDocumentRequest(id, userId, doctype) {
 export function userUpdateDocumentRequest(document, userId, doctype) {
   return (dispatch) => {
     return axios.put(`/documents/${document.id}`, document).then(() => {
+      dispatch({ type: 'UPDATE_DOCUMENT_SUCCESS' });
       if (doctype) {
         dispatch(userPersonalDocumentRequest(userId));
       } else {
@@ -85,6 +86,7 @@ export function userUpdateDocumentRequest(document, userId, doctype) {
 export function userSaveDocumentRequest(document, userId, doctype) {
   return (dispatch) => {
     return axios.post('/documents', document).then(() => {
+      dispatch({ type: 'CREATE_DOCUMENT_SUCCESS' });
       if (doctype) {
         dispatch(userPersonalDocumentRequest(userId));
       } else {
@@ -97,7 +99,7 @@ export function userSaveDocumentRequest(document, userId, doctype) {
 export function userSearchRequest(query, userId, doctype) {
   const offset = 0, limit = 8;
   return (dispatch) => {
-   dispatch(beginAjaxCall());
+    dispatch(beginAjaxCall());
     if (doctype) {
       return axios
         .get(

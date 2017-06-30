@@ -35,7 +35,7 @@ const DocumentCard = ({
               Created by: {document.User.username}
             </p>
             <p className="card-stats-number" style={{ fontSize: '0.8em' }}>
-              <Modal trigger={<a href="">View More</a>}>
+              <Modal trigger={<a href="" id="view_more">View More</a>}>
                 <ViewDocument document={document} />
               </Modal>
             </p>

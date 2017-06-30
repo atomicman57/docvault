@@ -53,24 +53,30 @@ class CreateDocument extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props
-      .userSaveDocumentRequest(
-        this.state,
-        this.props.currentUser.id,
-        this.props.documentType
-      )
-      .then(() => {
-        const $toastContent = '<span>Document Created Successfully</span>';
-        Materialize.toast($toastContent, 5000);
-      })
-      .catch((error) => {
-        this.setState({ errors: error.response.data });
-        const { errors } = this.state;
-        const $toastContent = `<span>${errors.message}</span>`;
-        Materialize.toast($toastContent, 5000);
-      });
+    if (this.state.content > 12) {
+      this.props
+        .userSaveDocumentRequest(
+          this.state,
+          this.props.currentUser.id,
+          this.props.documentType
+        )
+        .then(() => {
+          const $toastContent =
+            '<span id="doc_success">Document Created Successfully</span>';
+          Materialize.toast($toastContent, 5000);
+        })
+        .catch((error) => {
+          this.setState({ errors: error.response.data });
+          const { errors } = this.state;
+          const $toastContent = `<span>${errors.message}</span>`;
+          Materialize.toast($toastContent, 5000);
+        });
+    } else {
+      const $toastContent =
+        '<span id="doc_failure"> Content length must be atleast 5 </span>';
+      Materialize.toast($toastContent, 5000);
+    }
   }
-
 
   render() {
     const { editorState } = this.state;
@@ -112,7 +118,7 @@ class CreateDocument extends React.Component {
               />
             </div>
             <div className="input-field center">
-              <button className="pink darken-4 btn">Save</button>
+              <button className="pink darken-4 btn" id="save-doc">Save</button>
             </div>
           </div>
         </form>
