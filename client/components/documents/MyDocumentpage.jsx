@@ -34,7 +34,8 @@ class MyDocumentPage extends React.Component {
       userSearchRequest,
       userUpdateDocumentRequest,
       userPersonalDocumentRequest,
-      documents
+      documents,
+      loading
     } = this.props;
     return (
       <div>
@@ -42,30 +43,10 @@ class MyDocumentPage extends React.Component {
           <main>
             <div className="breadcrumb grey lighten-3">
               <h6>
-                My Dashboard
+                My Documents
               </h6>
             </div>
-            <br />
-            <SearchDocument
-              userSearchRequest={userSearchRequest}
-              currentUser={currentUser}
-              documentType={'personal'}
-            />
-            <br />
-            <div className="row">
-              <MyDocuments
-                currentUser={currentUser}
-                userDocumentRequest={userDocumentRequest}
-                documents={documents}
-                userDeleteDocumentRequest={userDeleteDocumentRequest}
-                userUpdateDocumentRequest={userUpdateDocumentRequest}
-                userPersonalDocumentRequest={userPersonalDocumentRequest}
-                documentType={'personal'}
-              />
-            </div>
-          </main>
-        </div>
-        <Modal
+            <Modal
           header="Create Document"
           trigger={
             <div className="fixed-action-btn">
@@ -81,6 +62,27 @@ class MyDocumentPage extends React.Component {
             documentType={'personal'}
           />
         </Modal>
+            <br />
+            <SearchDocument
+              userSearchRequest={userSearchRequest}
+              currentUser={currentUser}
+              documentType={'personal'}
+            />
+            <br />
+            <div className="row">
+              <MyDocuments
+                currentUser={currentUser}
+                userDocumentRequest={userDocumentRequest}
+                documents={documents}
+                loading={loading}
+                userDeleteDocumentRequest={userDeleteDocumentRequest}
+                userUpdateDocumentRequest={userUpdateDocumentRequest}
+                userPersonalDocumentRequest={userPersonalDocumentRequest}
+                documentType={'personal'}
+              />
+            </div>
+          </main>
+        </div>
       </div>
     );
   }
@@ -92,14 +94,15 @@ MyDocumentPage.propTypes = {
   userDeleteDocumentRequest: PropTypes.func.isRequired,
   userUpdateDocumentRequest: PropTypes.func.isRequired,
   userPersonalDocumentRequest: PropTypes.func.isRequired,
-  documentType: PropTypes.string.isRequired,
-  documents: PropTypes.array.isRequired
+  documents: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  loading: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
   return {
     currentUser: state.Auth.user,
-    documents: state.Document.documents
+    documents: state.Document.documents,
+    loading: state.ajaxCallsInProgress
   };
 }
 

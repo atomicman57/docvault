@@ -1,13 +1,9 @@
 import React from 'react';
 import swal from 'sweetalert';
-// import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import { Modal } from 'react-materialize';
 import 'sweetalert/dist/sweetalert.css';
 import ReactPaginate from 'react-paginate';
-// import EditDocument from './EditDocument.jsx';
 import DocumentCard from './DocumentCard.jsx';
-// import { userDocumentRequest } from '../../actions/documentActions';
 
 class GetDocument extends React.Component {
   /**
@@ -19,8 +15,6 @@ class GetDocument extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: '',
-      userRoleId: '',
       document: [],
       offset: 0,
       pageCount: 0,
@@ -50,16 +44,14 @@ class GetDocument extends React.Component {
    * @memberof GetDocument
    */
   componentDidMount() {
-    this.setState({
-      userId: this.props.currentUser.id,
-      userRoleId: this.props.currentUser.roleId
-    });
-    this.props.userDocumentRequest().then(() => {
-      this.setState({
-        document: this.props.documents.documents,
-        pageCount: this.props.documents.pagination.pageCount
+    if (Object.keys(this.props.currentUser).length > 0) {
+      this.props.userDocumentRequest().then(() => {
+        this.setState({
+          document: this.props.documents.documents,
+          pageCount: this.props.documents.pagination.pageCount
+        });
       });
-    });
+    }
   }
   /**
    *
@@ -71,11 +63,14 @@ class GetDocument extends React.Component {
   componentWillReceiveProps(nextProps) {
     const newDocument = nextProps.documents;
     const newPagination = newDocument.pagination;
-    this.setState({
-      document: newDocument.documents,
-      pageCount: newPagination.pageCount
-    });
+    if (newPagination) {
+      this.setState({
+        document: newDocument.documents,
+        pageCount: newPagination.pageCount
+      });
+    }
   }
+
   confirmDelete(id) {
     swal(
       {
@@ -95,12 +90,9 @@ class GetDocument extends React.Component {
     );
   }
   render() {
-    // const { documents } = this.props;
-    const { currentUser, userUpdateDocumentRequest } = this.props;
+    const { currentUser, userUpdateDocumentRequest, loading } = this.props;
     const { document } = this.state;
     const documents = document;
-    const { userId } = this.state;
-    const { userRoleId } = this.state;
     return (
       <div>
         <div className="docpagination">
@@ -118,53 +110,6 @@ class GetDocument extends React.Component {
             activeClassName={'active'}
           />
         </div>
-        {/* {documents.map(document => (
-          <div className="col s12 m6 l3" key={document.id}>
-            <div className="card">
-              <div className="card-content black-text">
-                <div key={document.id}>
-                  <h5 style={{ fontSize: '1.2em' }}>
-                    <i className="mdi-social-group-add" /> {document.title}
-                  </h5>
-                  <p className="card-stats-number">{document.access} </p>
-                  <p className="card-stats-compare">
-                    <span className="deep-orange-text text-lighten-2">
-                      {new Date(document.createdAt).toDateString()}
-                    </span>
-                  </p>
-                  <p
-                    className="card-stats-number"
-                    style={{ fontSize: '0.8em' }}
-                  >
-                    View More{' '}
-                  </p>
-                  {(userId === document.userId || userRoleId === 2) &&
-                    <span style={{ padding: '20px' }}>
-                      <Modal
-                        header="Edit Document"
-                        trigger={
-                          <a
-                            className="btn-floating editbutton"
-                            style={{ marginRight: '20px' }}
-                          >
-                            <i className="material-icons">edit</i>
-                          </a>
-                        }
-                      >
-                        <EditDocument currentUser={currentUser} />
-                      </Modal>
-                      <a
-                        onClick={this.confirmDelete}
-                        className="btn-floating deletebutton"
-                      >
-                        <i className="material-icons">delete</i>
-                      </a>
-                    </span>}
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}*/}
         {documents.map(document => (
           <DocumentCard
             document={document}
@@ -174,7 +119,11 @@ class GetDocument extends React.Component {
             userUpdateDocumentRequest={userUpdateDocumentRequest}
           />
         ))}
-        {document.length == 0 && <h3>No document Found</h3>}
+        {document.length === 0 &&
+          !loading &&
+          <div className="center-align">
+            <h3>No document Found</h3>
+          </div>}
       </div>
     );
   }
@@ -185,11 +134,8 @@ GetDocument.propTypes = {
   userDocumentRequest: PropTypes.func.isRequired,
   userDeleteDocumentRequest: PropTypes.func.isRequired,
   userUpdateDocumentRequest: PropTypes.func.isRequired,
-  documents: PropTypes.object.isRequired
+  documents: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  loading: PropTypes.number.isRequired
 };
-// function mapStateToProps(state) {
-//   return {
-//     documents: state.Document
-//   };
-// }
+
 export default GetDocument;

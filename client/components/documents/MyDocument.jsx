@@ -15,8 +15,6 @@ class MyDocument extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: '',
-      userRoleId: '',
       document: [],
       offset: 0,
       pageCount: 0,
@@ -46,19 +44,16 @@ class MyDocument extends React.Component {
    * @memberof GetDocument
    */
   componentDidMount() {
-    // console.log(this.props);
-    this.setState({
-      userId: this.props.currentUser.id,
-      userRoleId: this.props.currentUser.roleId
-    });
-    this.props
-      .userPersonalDocumentRequest(this.props.currentUser.id)
-      .then(() => {
-        this.setState({
-          document: this.props.documents.documents,
-          pageCount: this.props.documents.pagination.pageCount
+    if (Object.keys(this.props.currentUser).length > 0) {
+      this.props
+        .userPersonalDocumentRequest(this.props.currentUser.id)
+        .then(() => {
+          this.setState({
+            document: this.props.documents.documents,
+            pageCount: this.props.documents.pagination.pageCount
+          });
         });
-      });
+    }
   }
   /**
    *
@@ -70,10 +65,12 @@ class MyDocument extends React.Component {
   componentWillReceiveProps(nextProps) {
     const newDocument = nextProps.documents;
     const newPagination = newDocument.pagination;
-    this.setState({
-      document: newDocument.documents,
-      pageCount: newPagination.pageCount
-    });
+    if (newPagination) {
+      this.setState({
+        document: newDocument.documents,
+        pageCount: newPagination.pageCount
+      });
+    }
   }
   confirmDelete(id) {
     swal(
@@ -100,8 +97,12 @@ class MyDocument extends React.Component {
     );
   }
   render() {
-    // const { documents } = this.props;
-    const { currentUser, userUpdateDocumentRequest, documentType } = this.props;
+    const {
+      currentUser,
+      userUpdateDocumentRequest,
+      loading,
+      documentType
+    } = this.props;
     const { document } = this.state;
     const documents = document;
     return (
@@ -131,7 +132,11 @@ class MyDocument extends React.Component {
             documentType={documentType}
           />
         ))}
-        {document.length == 0 && <h3>No document Found</h3>}
+        {document.length === 0 &&
+          !loading &&
+          <div className="center-align">
+            <h3>No document Found</h3>
+          </div>}
       </div>
     );
   }
@@ -143,7 +148,8 @@ MyDocument.propTypes = {
   userUpdateDocumentRequest: PropTypes.func.isRequired,
   userPersonalDocumentRequest: PropTypes.func.isRequired,
   documentType: PropTypes.string.isRequired,
-  documents: PropTypes.array.isRequired
+  documents: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  loading: PropTypes.number.isRequired
 };
 
 export default MyDocument;

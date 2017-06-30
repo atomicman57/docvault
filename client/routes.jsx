@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import App from './components/App.jsx';
+import requireAuth from './utils/requireAuth.jsx';
+import requireAdminAuth from './utils/requireAdminAuth.jsx';
 import HomePage from './components/HomePage.jsx';
 import SignupPage from './components/authentication/SignupPage.jsx';
 import LoginPage from './components/authentication/LoginPage.jsx';
@@ -16,10 +18,10 @@ export default (
       <IndexRoute component={HomePage} />
       <Route path="login" component={LoginPage} />
       <Route path="signup" component={SignupPage} />
-      <Route path="dashboard" component={DashboardPage} />
-      <Route path="mydocuments" component={myDocumentpage} />
-      <Route path="myprofile" component={MyProfilePage} />
-      <Route path="userslist" component={UsersPage} />
+      <Route path="dashboard" component={requireAuth(DashboardPage)} />
+      <Route path="mydocuments" component={requireAuth(myDocumentpage)} />
+      <Route path="myprofile" component={requireAuth(MyProfilePage)} />
+      <Route path="userslist" component={requireAdminAuth(UsersPage)} />
     </Route>
   </div>
 );

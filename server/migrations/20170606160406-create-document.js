@@ -8,10 +8,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       title: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false
       },
       content: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
@@ -38,10 +41,6 @@ module.exports = {
       userRoleId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-      },
-      username: {
-        type: Sequelize.STRING,
-        allowNull: false
       }
     });
   },

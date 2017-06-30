@@ -5,11 +5,13 @@ module.exports = (sequelize, DataTypes) => {
       title: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        unique: { args: true, msg: 'Title already exist' },
+        validate: { notEmpty: { args: true, msg: 'Title cannot be empty' } }
       },
       content: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: false,
+        validate: { notEmpty: { args: true, msg: 'Content cannot be empty' } }
       },
       userId: {
         type: DataTypes.INTEGER,
@@ -18,14 +20,16 @@ module.exports = (sequelize, DataTypes) => {
       access: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: 'public'
+        defaultValue: 'public',
+        validate: {
+          isIn: {
+            args: [['public', 'private', 'role']],
+            msg: 'Use a valid access type'
+          }
+        }
       },
       userRoleId: {
         type: DataTypes.INTEGER,
-        allowNull: false
-      },
-      username: {
-        type: DataTypes.STRING,
         allowNull: false
       }
     },

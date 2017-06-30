@@ -13,7 +13,18 @@ import {
   userSearchRequest
 } from '../../actions/documentActions';
 
+/**
+ *
+ *
+ * @class Dashboard
+ * @extends {React.Component}
+ */
 class Dashboard extends React.Component {
+  /**
+   *
+   *
+   * @memberof Dashboard
+   */
   componentWillMount() {
     const token = localStorage.getItem('jwtToken');
     if (token) {
@@ -32,7 +43,8 @@ class Dashboard extends React.Component {
       userDeleteDocumentRequest,
       userSearchRequest,
       userUpdateDocumentRequest,
-      documents
+      documents,
+      loading
     } = this.props;
     return (
       <div>
@@ -56,6 +68,7 @@ class Dashboard extends React.Component {
                 documents={documents}
                 userDeleteDocumentRequest={userDeleteDocumentRequest}
                 userUpdateDocumentRequest={userUpdateDocumentRequest}
+                loading={loading}
               />
             </div>
           </main>
@@ -87,13 +100,16 @@ Dashboard.propTypes = {
   userDeleteDocumentRequest: PropTypes.func.isRequired,
   userSearchRequest: PropTypes.func.isRequired,
   userUpdateDocumentRequest: PropTypes.func.isRequired,
-  documents: PropTypes.object.isRequired
+  documents: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  loading: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
   return {
     currentUser: state.Auth.user,
-    documents: state.Document.documents
+    documents: state.Document.documents,
+    loading: state.ajaxCallsInProgress,
+    isAuthenticated: state.Auth.isAuthenticated
   };
 }
 

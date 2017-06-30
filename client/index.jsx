@@ -12,13 +12,6 @@ import ConfigureStore from './store/ConfigureStore';
 
 const app = document.getElementById('app');
 
-// const store = createStore(
-//   rootReducer,
-//   compose(
-//     applyMiddleware(thunk),
-//     window.devToolsExtension ? window.devToolsExtension() : f => f
-//   )
-// );
 const store = ConfigureStore();
 
 if (localStorage.jwtToken) {

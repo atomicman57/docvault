@@ -5,7 +5,24 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon ./bin/www --exec babel-node",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run db:migrate:test && NODE_ENV=test nyc mocha --compilers js:babel-core/register ./server/test/**/*.js --timeout 20000",
+    "db:migrate:test": "NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate && NODE_ENV=test sequelize db:seed:undo:all && NODE_ENV=test sequelize db:seed:all"
+  },
+  "nyc": {
+    "require": [
+      "babel-register"
+    ],
+    "reporter": [
+      "lcov",
+      "text",
+      "html"
+    ],
+    "sourceMap": false,
+    "instrument": false,
+    "exclude": [
+      "client/test",
+      "server/test"
+    ]
   },
   "author": "blessing philips'",
   "license": "MIT",
@@ -19,8 +36,10 @@
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.24.1",
     "bcrypt": "^1.0.2",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.2",
     "compression": "^1.6.2",
+    "coveralls": "^2.13.1",
     "css-loader": "^0.28.4",
     "dotenv": "^4.0.0",
     "draft-convert": "^1.4.7",
@@ -32,11 +51,12 @@
     "jsonwebtoken": "^7.4.1",
     "morgan": "^1.8.2",
     "nodemon": "^1.11.0",
+    "node-mocks-http": "^1.6.3",
+    "node-sass": "^4.5.3",
     "pg": "^6.2.3",
     "pg-hstore": "^2.3.2",
     "sequelize": "^3.30.4",
     "sequelize-cli": "^2.5.1",
-    "node-sass": "^4.5.3",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
@@ -61,12 +81,20 @@
     "webpack-hot-middleware": "^2.18.0"
   },
   "devDependencies": {
+    "babel-plugin-istanbul": "^4.1.4",
+    "chai": "^4.0.2",
+    "chai-http": "^3.0.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-plugin-import": "^2.3.0",
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.1.0",
+    "expect": "^1.20.2",
+    "faker": "^4.1.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.4.2",
     "nodemon": "^1.11.0",
+    "nyc": "^11.0.2",
     "react-hot-loader": "^3.0.0-beta.7"
   }
 }
