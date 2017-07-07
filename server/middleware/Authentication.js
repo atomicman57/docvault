@@ -122,6 +122,16 @@ class Middleware {
       .catch(error => res.status(400).json(error));
   }
 
+  /**
+   *
+   *
+   * @static
+   * @param {any} req
+   * @param {any} res
+   * @param {any} next
+   * @returns
+   * @memberof Middleware
+   */
   static allowUser(req, res, next) {
     return Document.findById(req.params.documentId)
       .then((document) => {

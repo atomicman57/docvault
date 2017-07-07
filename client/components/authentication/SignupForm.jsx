@@ -2,7 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
+/**
+ *
+ *
+ * @class SignupForm
+ * @extends {React.Component}
+ */
 class SignupForm extends React.Component {
+
+  /**
+   * Creates an instance of SignupForm.
+   * @param {any} props
+   * @memberof SignupForm
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -17,10 +29,23 @@ class SignupForm extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
-    this.setState({ errors: {} });
+
+  /**
+   *
+   *
+   * @param {any} event
+   * @memberof SignupForm
+   */
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
+
+  /**
+   *
+   *
+   * @param {any} event
+   * @memberof SignupForm
+   */
   onSubmit(event) {
     event.preventDefault();
     if (this.state.password !== this.state.confirm_password) {
@@ -39,6 +64,13 @@ class SignupForm extends React.Component {
         });
     }
   }
+
+  /**
+   *
+   *
+   * @returns
+   * @memberof SignupForm
+   */
   render() {
     const { errors } = this.state;
     return (
@@ -56,7 +88,7 @@ class SignupForm extends React.Component {
                   name="firstname"
                   value={this.state.firstname}
                   onChange={this.onChange}
-                  className="validate"
+                  className="validate firstname"
                   required
                 />
                 <label htmlFor="first_name">First Name</label>

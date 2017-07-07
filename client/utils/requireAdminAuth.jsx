@@ -12,7 +12,18 @@ import { logout } from '../actions/authActions';
  * @returns {any}
  */
 export default function (ComposedComponent) {
+  /**
+   *
+   *
+   * @class Authenticate
+   * @extends {React.Component}
+   */
   class Authenticate extends React.Component {
+    /**
+     *
+     *
+     * @memberof Authenticate
+     */
     componentWillMount() {
       const token = localStorage.getItem('jwtToken');
       if (token) {
@@ -33,11 +44,24 @@ export default function (ComposedComponent) {
       }
     }
 
+    /**
+     *
+     *
+     * @param {any} nextProps
+     * @memberof Authenticate
+     */
     componentWillUpdate(nextProps) {
       if (!nextProps.isAuthenticated) {
         this.context.router.push('/login');
       }
     }
+
+    /**
+     *
+     *
+     * @returns
+     * @memberof Authenticate
+     */
     render() {
       return <ComposedComponent {...this.props} />;
     }

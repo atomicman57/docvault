@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Modal } from 'react-materialize';
+
 import CreateDocument from '../documents/CreateDocument.jsx';
 import MyDocuments from '../documents/MyDocument.jsx';
 import SearchDocument from '../documents/SearchDocument.jsx';
@@ -14,39 +15,24 @@ import {
   userPersonalDocumentRequest
 } from '../../actions/documentActions';
 
-class MyDocumentPage extends React.Component {
-  componentDidMount() {
-    const token = localStorage.getItem('jwtToken');
-    if (token) {
-      this.userId = this.props.currentUser.id;
-      this.firstname = this.props.currentUser.firstname;
-      this.lastname = this.props.currentUser.lastname;
-      this.username = this.props.currentUser.username;
-      this.email = this.props.currentUser.email;
-    }
-  }
-  render() {
-    const {
-      currentUser,
-      userSaveDocumentRequest,
-      userDocumentRequest,
-      userDeleteDocumentRequest,
-      userSearchRequest,
-      userUpdateDocumentRequest,
-      userPersonalDocumentRequest,
-      documents,
-      loading
-    } = this.props;
-    return (
-      <div>
-        <div className="page">
-          <main>
-            <div className="breadcrumb grey lighten-3">
-              <h6>
-                My Documents
-              </h6>
-            </div>
-            <Modal
+const MyDocumentPage = ({
+  currentUser,
+  userSaveDocumentRequest,
+  userDocumentRequest,
+  userDeleteDocumentRequest,
+  userSearchRequest,
+  userUpdateDocumentRequest,
+  userPersonalDocumentRequest,
+  documents,
+  loading
+}) => (
+  <div>
+    <div className="page">
+      <main>
+        <div className="breadcrumb grey lighten-3">
+          <h6>My Documents</h6>
+        </div>
+        <Modal
           header="Create Document"
           trigger={
             <div className="fixed-action-btn">
@@ -62,31 +48,29 @@ class MyDocumentPage extends React.Component {
             documentType={'personal'}
           />
         </Modal>
-            <br />
-            <SearchDocument
-              userSearchRequest={userSearchRequest}
-              currentUser={currentUser}
-              documentType={'personal'}
-            />
-            <br />
-            <div className="row">
-              <MyDocuments
-                currentUser={currentUser}
-                userDocumentRequest={userDocumentRequest}
-                documents={documents}
-                loading={loading}
-                userDeleteDocumentRequest={userDeleteDocumentRequest}
-                userUpdateDocumentRequest={userUpdateDocumentRequest}
-                userPersonalDocumentRequest={userPersonalDocumentRequest}
-                documentType={'personal'}
-              />
-            </div>
-          </main>
+        <br />
+        <SearchDocument
+          userSearchRequest={userSearchRequest}
+          currentUser={currentUser}
+          documentType={'personal'}
+        />
+        <br />
+        <div className="row">
+          <MyDocuments
+            currentUser={currentUser}
+            userDocumentRequest={userDocumentRequest}
+            documents={documents}
+            loading={loading}
+            userDeleteDocumentRequest={userDeleteDocumentRequest}
+            userUpdateDocumentRequest={userUpdateDocumentRequest}
+            userPersonalDocumentRequest={userPersonalDocumentRequest}
+            documentType={'personal'}
+          />
         </div>
-      </div>
-    );
-  }
-}
+      </main>
+    </div>
+  </div>
+);
 
 MyDocumentPage.propTypes = {
   currentUser: PropTypes.object.isRequired,
@@ -98,6 +82,12 @@ MyDocumentPage.propTypes = {
   loading: PropTypes.number.isRequired
 };
 
+/**
+ *
+ *
+ * @param {any} state
+ * @returns
+ */
 function mapStateToProps(state) {
   return {
     currentUser: state.Auth.user,

@@ -2,15 +2,35 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
+
 import { logout } from '../../actions/authActions';
 
+/**
+ *
+ *
+ * @class NavBar
+ * @extends {React.Component}
+ */
 class NavBar extends React.Component {
-  logout(e) {
-    e.preventDefault();
+
+  /**
+   *
+   *
+   * @param {any} event
+   * @memberof NavBar
+   */
+  logout(event) {
+    event.preventDefault();
     this.props.logout();
     this.context.router.push('/');
   }
 
+  /**
+   *
+   *
+   * @returns
+   * @memberof NavBar
+   */
   render() {
     const { isAuthenticated } = this.props.auth;
     const { currentUser } = this.props;
@@ -19,7 +39,11 @@ class NavBar extends React.Component {
       admin = (
         <div>
           <li>
-            <Link to="/userslist" className="waves-effect waves-grey">
+            <Link
+              id="users-list"
+              to="/userslist"
+              className="waves-effect waves-grey"
+            >
               <i className="material-icons">perm_identity</i>
               Users
             </Link>
@@ -43,7 +67,7 @@ class NavBar extends React.Component {
             </span>
             <ul className="right hide-on-med-and-down">
               <li>
-                <a onClick={this.logout.bind(this)}>
+                <a onClick={this.logout.bind(this)} id="logout">
                   <i className="material-icons">exit_to_app</i>
                 </a>
               </li>
@@ -81,7 +105,7 @@ class NavBar extends React.Component {
                   My Documents
                 </Link>
               </li>
-               {admin}
+              {admin}
               <li>
                 <Link to="/myprofile" className="waves-effect waves-grey">
                   <i className="material-icons">account_circle</i>
@@ -110,8 +134,8 @@ class NavBar extends React.Component {
             Doc Vault
           </Link>
           <ul className="right hide-on-med-and-down">
-            <li><Link to="/login">Login</Link></li>
-            <li><Link to="/signup">Sign Up</Link></li>
+            <li><Link to="/login" id="login">Login</Link></li>
+            <li><Link to="/signup" id="signup">Sign Up</Link></li>
           </ul>
 
           <ul id="nav-mobile" className="side-nav">
@@ -142,6 +166,12 @@ NavBar.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
+/**
+ *
+ *
+ * @param {any} state
+ * @returns
+ */
 function mapStateToProps(state) {
   return {
     auth: state.Auth,

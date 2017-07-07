@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Modal } from 'react-materialize';
+
 import CreateDocument from '../documents/CreateDocument.jsx';
 import GetDocument from '../documents/GetDocument.jsx';
 import SearchDocument from '../documents/SearchDocument.jsx';
@@ -20,6 +21,7 @@ import {
  * @extends {React.Component}
  */
 class Dashboard extends React.Component {
+
   /**
    *
    *
@@ -35,6 +37,13 @@ class Dashboard extends React.Component {
       this.email = this.props.currentUser.email;
     }
   }
+
+  /**
+   *
+   *
+   * @returns
+   * @memberof Dashboard
+   */
   render() {
     const {
       currentUser,
@@ -77,7 +86,10 @@ class Dashboard extends React.Component {
           header="Create Document"
           trigger={
             <div className="fixed-action-btn">
-              <a className="btn-floating btn-large pink darken-4">
+              <a
+                className="btn-floating btn-large pink darken-4"
+                id="createbtn"
+              >
                 <i className="large white-text material-icons">edit</i>
               </a>
             </div>
@@ -92,6 +104,9 @@ class Dashboard extends React.Component {
     );
   }
 }
+Dashboard.defaultProps = {
+  documents: []
+};
 
 Dashboard.propTypes = {
   currentUser: PropTypes.object.isRequired,
@@ -104,6 +119,12 @@ Dashboard.propTypes = {
   loading: PropTypes.number.isRequired
 };
 
+/**
+ *
+ *
+ * @param {any} state
+ * @returns
+ */
 function mapStateToProps(state) {
   return {
     currentUser: state.Auth.user,

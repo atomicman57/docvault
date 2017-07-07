@@ -85,12 +85,6 @@
     "react/sort-comp": 1,
     "curly": ["error", "multi-line"],
     "no-shadow": [ 0, { "allow": ["req", "res", "err"] }],
-    "valid-jsdoc": ["error", {
-      "requireReturn": true,
-      "requireReturnType": true,
-      "requireParamDescription": false,
-      "requireReturnDescription": true
-    }],
     "require-jsdoc": ["error", {
         "require": {
             "FunctionDeclaration": true,

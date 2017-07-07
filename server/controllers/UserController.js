@@ -11,7 +11,7 @@ const userInfo = (user) => {
     firstname: user.firstname,
     lastname: user.lastname,
     email: user.email,
-    roleId: user.roleId,
+    roleId: user.roleId
   };
 };
 
@@ -167,6 +167,15 @@ class UserController {
     });
   }
 
+  /**
+   *
+   *
+   * @static
+   * @param {any} req
+   * @param {any} res
+   * @returns
+   * @memberof UserController
+   */
   static list(req, res) {
     let search = '%%';
     if (req.query.q) {
@@ -233,37 +242,69 @@ class UserController {
       });
   }
 
+  /**
+   *
+   *
+   * @static
+   * @param {any} req
+   * @param {any} res
+   * @returns
+   * @memberof UserController
+   */
   static find(req, res) {
-    return User.findById(req.params.id)
-      .then((user) => {
-        return res.status(200).json(userInfo(user));
-      });
+    return User.findById(req.params.id).then((user) => {
+      return res.status(200).json(userInfo(user));
+    });
   }
 
+  /**
+   *
+   *
+   * @static
+   * @param {any} req
+   * @param {any} res
+   * @returns
+   * @memberof UserController
+   */
   static update(req, res) {
-    return User.findById(req.params.id)
-      .then((user) => {
-        if (req.body.password) {
-          req.body.password = user.encryptUpdatePassword(req.body.password);
-        }
-        return user
-          .update(req.body)
-          .then((user) => {
-            res.status(200).json(userInfo(user));
-          })
-          .catch(error => res.status(400).json(error));
-      });
+    return User.findById(req.params.id).then((user) => {
+      if (req.body.password) {
+        req.body.password = user.encryptUpdatePassword(req.body.password);
+      }
+      return user
+        .update(req.body)
+        .then((user) => {
+          res.status(200).json(userInfo(user));
+        })
+        .catch(error => res.status(400).json(error));
+    });
   }
 
+  /**
+   *
+   *
+   * @static
+   * @param {any} req
+   * @param {any} res
+   * @returns
+   * @memberof UserController
+   */
   static delete(req, res) {
-    return User.findById(req.params.id)
-      .then((user) => {
-        return user
-          .destroy()
-          .then(() => res.status(200).json({ message: 'Deleted' }));
-      });
+    return User.findById(req.params.id).then((user) => {
+      return user
+        .destroy()
+        .then(() => res.status(200).json({ message: 'Deleted' }));
+    });
   }
 
+  /**
+   *
+   *
+   * @static
+   * @param {any} req
+   * @param {any} res
+   * @memberof UserController
+   */
   static personalDocuments(req, res) {
     let search = '%%';
     if (req.query.q) {
@@ -306,25 +347,23 @@ class UserController {
       limit: req.query.limit || 15,
       offset: req.query.offset || 0,
       order: [['createdAt', 'DESC']]
-    })
-      .then((document) => {
-        const limit = req.query.limit || 15;
-        const offset = req.query.offset || 0;
-        const totalCount = document.count;
-        const pageCount = Math.ceil(totalCount / limit);
-        const currentPage = Math.floor(offset / limit) + 1;
-        return res.status(200).json({
-          document: document.rows,
-          pagination: {
-            totalCount,
-            limit,
-            offset,
-            pageCount,
-            currentPage
-          }
-        });
-      })
-      // .catch(error => res.status(400).json(error));
+    }).then((document) => {
+      const limit = req.query.limit || 15;
+      const offset = req.query.offset || 0;
+      const totalCount = document.count;
+      const pageCount = Math.ceil(totalCount / limit);
+      const currentPage = Math.floor(offset / limit) + 1;
+      return res.status(200).json({
+        document: document.rows,
+        pagination: {
+          totalCount,
+          limit,
+          offset,
+          pageCount,
+          currentPage
+        }
+      });
+    });
   }
 }
 

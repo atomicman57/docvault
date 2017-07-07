@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import swal from 'sweetalert';
 import ReactPaginate from 'react-paginate';
 import 'sweetalert/dist/sweetalert.css';
+
 import DocumentCard from './DocumentCard.jsx';
 
 class MyDocument extends React.Component {
