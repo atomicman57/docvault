@@ -73,6 +73,10 @@ const DocumentCard = ({
   </div>
 );
 
+DocumentCard.defaultProps = {
+  documentType: null,
+};
+
 DocumentCard.propTypes = {
   document: PropTypes.object.isRequired,
   currentUser: PropTypes.object.isRequired,

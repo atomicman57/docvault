@@ -1,7 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ *
+ *
+ * @class SearchDocument
+ * @extends {React.Component}
+ */
 class SearchDocument extends React.Component {
+  /**
+   * Creates an instance of SearchDocument.
+   * @param {any} props
+   * @memberof SearchDocument
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -12,26 +23,38 @@ class SearchDocument extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  /**
+   *
+   *
+   * @param {any} event
+   * @memberof SearchDocument
+   */
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
     this.setState({ errors: {} });
   }
+
+  /**
+   *
+   *
+   * @param {any} event
+   * @memberof SearchDocument
+   */
   onSubmit(event) {
     event.preventDefault();
-    this.props
-      .userSearchRequest(
-        this.state.search,
-        this.props.currentUser.id,
-        this.props.documentType
-      )
-      .then()
-      .catch((error) => {
-        this.setState({ errors: error.response.data });
-        const { errors } = this.state;
-        const $toastContent = `<span>${errors.message}</span>`;
-        Materialize.toast($toastContent, 5000);
-      });
+    this.props.userSearchRequest(
+      this.state.search,
+      this.props.currentUser.id,
+      this.props.documentType
+    );
   }
+
+  /**
+   *
+   *
+   * @returns
+   * @memberof SearchDocument
+   */
   render() {
     return (
       <div>
@@ -55,6 +78,10 @@ class SearchDocument extends React.Component {
     );
   }
 }
+
+SearchDocument.defaultProps = {
+  documentType: null,
+};
 
 SearchDocument.propTypes = {
   currentUser: PropTypes.object.isRequired,

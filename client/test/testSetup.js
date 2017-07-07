@@ -53,4 +53,4 @@ global.localStorage = {
   removeItem: () => {},
 };
 
-var documentRef = document;  //eslint-disable-line no-undef
+var documentRef = document; //eslint-disable-line no-undef

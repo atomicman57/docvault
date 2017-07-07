@@ -7,6 +7,11 @@ import DocumentCard from '../../../components/documents/DocumentCard.jsx';
 const confirmDelete = sinon.spy();
 const userUpdateDocumentRequest = sinon.spy();
 
+/**
+ *
+ *
+ * @returns
+ */
 function setup() {
   const props = {
     document: {

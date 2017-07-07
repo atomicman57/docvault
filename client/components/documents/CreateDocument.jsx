@@ -4,7 +4,18 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import PropTypes from 'prop-types';
 import { convertToHTML } from 'draft-convert';
 
+/**
+ *
+ *
+ * @class CreateDocument
+ * @extends {React.Component}
+ */
 class CreateDocument extends React.Component {
+  /**
+   * Creates an instance of CreateDocument.
+   * @param {any} props
+   * @memberof CreateDocument
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -53,7 +64,7 @@ class CreateDocument extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    if (this.state.content > 12) {
+    if (this.state.content.length > 12) {
       this.props
         .userSaveDocumentRequest(
           this.state,
@@ -78,6 +89,12 @@ class CreateDocument extends React.Component {
     }
   }
 
+  /**
+   *
+   *
+   * @returns
+   * @memberof CreateDocument
+   */
   render() {
     const { editorState } = this.state;
     return (
@@ -126,6 +143,10 @@ class CreateDocument extends React.Component {
     );
   }
 }
+
+CreateDocument.defaultProps = {
+  documentType: null
+};
 
 CreateDocument.propTypes = {
   currentUser: PropTypes.object.isRequired,

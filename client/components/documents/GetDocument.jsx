@@ -3,8 +3,16 @@ import swal from 'sweetalert';
 import PropTypes from 'prop-types';
 import 'sweetalert/dist/sweetalert.css';
 import ReactPaginate from 'react-paginate';
-import DocumentCard from './DocumentCard.jsx';
 
+import DocumentCard from './DocumentCard.jsx';
+import { deleteQuestion } from '../../utils/constant';
+
+/**
+ *
+ *
+ * @class GetDocument
+ * @extends {React.Component}
+ */
 class GetDocument extends React.Component {
   /**
    * Creates an instance of GetDocument.
@@ -24,6 +32,12 @@ class GetDocument extends React.Component {
     this.confirmDelete = this.confirmDelete.bind(this);
   }
 
+  /**
+   *
+   *
+   * @param {any} data
+   * @memberof GetDocument
+   */
   handlePageClick(data) {
     const selected = data.selected;
     const limit = 8;
@@ -53,6 +67,7 @@ class GetDocument extends React.Component {
       });
     }
   }
+
   /**
    *
    *
@@ -71,28 +86,39 @@ class GetDocument extends React.Component {
     }
   }
 
+  /**
+   *
+   *
+   * @param {any} id
+   * @memberof GetDocument
+   */
   confirmDelete(id) {
-    swal(
-      {
-        title: 'Are you sure?',
-        text: 'You will not be able to reverse this action!',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#DD6B55',
-        confirmButtonText: 'Yes, delete it!',
-        closeOnConfirm: false,
-        html: false
-      },
-      () =>
-        this.props.userDeleteDocumentRequest(id).then(() => {
-          swal('Deleted!', 'Your Document has been deleted.', 'success');
-        })
+    swal(deleteQuestion, () =>
+      this.props.userDeleteDocumentRequest(id).then(() => {
+        swal('Deleted!', 'Your Document has been deleted.', 'success');
+      })
     );
   }
+
+  /**
+   *
+   *
+   * @returns
+   * @memberof GetDocument
+   */
   render() {
     const { currentUser, userUpdateDocumentRequest, loading } = this.props;
     const { document } = this.state;
     const documents = document;
+    const mappedDocuments = documents.map(document => (
+      <DocumentCard
+        document={document}
+        key={document.id}
+        currentUser={currentUser}
+        confirmDelete={this.confirmDelete}
+        userUpdateDocumentRequest={userUpdateDocumentRequest}
+      />
+    ));
     return (
       <div>
         <div className="docpagination">
@@ -110,15 +136,7 @@ class GetDocument extends React.Component {
             activeClassName={'active'}
           />
         </div>
-        {documents.map(document => (
-          <DocumentCard
-            document={document}
-            key={document.id}
-            currentUser={currentUser}
-            confirmDelete={this.confirmDelete}
-            userUpdateDocumentRequest={userUpdateDocumentRequest}
-          />
-        ))}
+        {mappedDocuments}
         {document.length === 0 &&
           !loading &&
           <div className="center-align">

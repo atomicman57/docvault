@@ -64,7 +64,7 @@ export default {
     firstname: faker.name.findName(),
     lastname: faker.name.findName(),
     email: faker.internet.email(),
-    password: bcrypt.hashSync('alpine', bcrypt.genSaltSync(10)),
+    password: bcrypt.hashSync('adetom', bcrypt.genSaltSync(10)),
     roleId: 2,
     createdAt: new Date(),
     updatedAt: new Date()

@@ -261,7 +261,7 @@ describe('Documents', () => {
       chai
         .request(server)
         .post('/users/login')
-        .send({ email: TestUser2.email, password: 'alpine' })
+        .send({ email: TestUser2.email, password: 'adetom' })
         .end((err, res) => {
           TestUser2Token = res.body.token;
           done();

@@ -4,20 +4,15 @@ import { connect } from 'react-redux';
 import LoginForm from './LoginForm.jsx';
 import { userLoginRequest } from '../../actions/authActions';
 
-class LoginPage extends React.Component {
-  render() {
-    const { userLoginRequest } = this.props;
-    return (
-      <div>
-        <div className="mysignup">
-          <div className="col s12 m12 l6">
-            <LoginForm userLoginRequest={userLoginRequest} />
-          </div>
-        </div>
+const LoginPage = ({ userLoginRequest }) => (
+  <div>
+    <div className="mysignup">
+      <div className="col s12 m12 l6">
+        <LoginForm userLoginRequest={userLoginRequest} />
       </div>
-    );
-  }
-}
+    </div>
+  </div>
+);
 
 LoginPage.propTypes = {
   userLoginRequest: PropTypes.func.isRequired

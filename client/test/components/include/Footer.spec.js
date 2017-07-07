@@ -11,7 +11,8 @@ describe('Footer', () => {
 
   it('renders the footer content', () => {
     const wrapper = shallow(<Footer />);
-    expect(wrapper.find('.container').text())
-      .toBe('Copyright © 2017 - All Rights Reserved Document VaultDeveloped by Philips Blessing');
+    expect(wrapper.find('.container').text()).toBe(
+      'Copyright © 2017 - All Rights Reserved Document VaultDeveloped by Philips Blessing'
+    );
   });
 });

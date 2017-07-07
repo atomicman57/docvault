@@ -7,130 +7,69 @@ import * as docActions from '../../actions/documentActions';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
+const document = {
+  id: 4,
+  title: 'You are the one',
+  content: 'You are great',
+  access: 'public'
+};
+const documents = [
+  {
+    title: 'DOCUMENT TEST',
+    content: 'test',
+    access: 'public',
+    userId: 20,
+    User: { username: 'you' }
+  },
+  {
+    title: 'DOCUMENT TEST',
+    content: 'test',
+    access: 'public',
+    userId: 20,
+    User: { username: 'you' }
+  }
+];
+const pagination = { pageCount: 2, currentPage: 1 };
+
 describe('Document Actions', () => {
-  //   describe('GetDocuments', () => {
-  //     it('retrieves documents and dispatches LOAD_DOCUMENTS_SUCCESS', () => {
-  //       moxios.stubRequest('/documents?limit=9&offset=0', {
-  //         status: 200,
-  //         response: {
-  //           documents: [{ title: 'good' }],
-  //           pagination: { limit: 9, offset: 0 }
-  //         }
-  //       });
-
-  //       const expectedActions = [
-  //         { type: 'BEGIN_AJAX_CALL' },
-  //         { type: 'GET_USER_DOCUMENT_SUCCESS', documents: [{ title: 'good' }], pagination: { limit: 9, offset: 0 } }
-  //       ];
-  //       const store = mockStore();
-
-  //       return store.dispatch(docActions.userDocumentRequest())
-  //         .then(() => {
-  //           expect(store.getActions()).toEqual(expectedActions);
-  //         });
-  //     });
-  //   });
-
-  //   describe('SearchDocument', () => {
-  //     it('searches for documents and dispatches SEARCH_SUCCESS', () => {
-  //       moxios.stubRequest('/search/documents?q=dms&limit=9&offset=0', {
-  //         status: 200,
-  //         response: {
-  //           rows: [{ title: 'good' }],
-  //           metaData: {}
-  //         }
-  //       });
-
-  //       const expectedActions = [
-  //         { type: 'BEGIN_AJAX_CALL' },
-  //         { type: 'SEARCH_SUCCESS', searchResult: [{ title: 'good' }], metaData: {}, offset: 0, query: 'dms' }
-  //       ];
-  //       const store = mockStore();
-
-  //       return store.dispatch(docActions.searchDocument('dms'))
-  //         .then(() => {
-  //           expect(store.getActions()).toEqual(expectedActions);
-  //         });
-  //     });
-  //   });
-
-  describe('SaveDocument', () => {
+  describe('Save Document', () => {
     beforeEach(() => moxios.install());
     afterEach(() => moxios.uninstall());
 
-    it('saves a new document and dispatches CREATE_DOCUMENT_SUCCESS', () => {
+    it('saves a new document', () => {
       moxios.stubRequest('/documents', {
-        status: 200,
-        // response: { title: 'good' }
+        status: 200
       });
 
-      const expectedActions = [
-        { type: 'CREATE_DOCUMENT_SUCCESS' },
-        { type: 'BEGIN_AJAX_CALL' }
-      ];
+      const expectedActions = [{ type: 'BEGIN_AJAX_CALL' }];
       const store = mockStore();
 
       return store
-        .dispatch(docActions.userSaveDocumentRequest({ title: 'good' }))
+        .dispatch(docActions.userSaveDocumentRequest(document))
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions);
         });
     });
-
-    // it('updates a document dispatching UPDATE_DOCUMENT_SUCCESS', () => {
-    //   moxios.stubRequest('/documents/1', {
-    //     status: 200,
-    //     response: { title: 'good' }
-    //   });
-
-    //   const expectedActions = [
-    //     { type: 'BEGIN_AJAX_CALL' },
-    //     { type: 'UPDATE_DOCUMENT_SUCCESS', document: { title: 'good' } }
-    //   ];
-
-    //   const store = mockStore({});
-    //   return store.dispatch(docActions.userUpdateDocumentRequest({ updateId: 1 }, 1))
-    //     .then(() => {
-    //       expect(store.getActions()).toEqual(expectedActions);
-    //     });
-    // });
   });
 
-  // describe('DeleteDocument', () => {
-  //   it('deletes a document and dispatches DELETE_DOCUMENT_SUCCESS', () => {
-  //     moxios.stubRequest('/documents/3', {
-  //       status: 200
-  //     });
-
-  //     const expectedActions = [
-  //       { type: 'DELETE_DOCUMENT_SUCCESS' },
-  //       { type: 'BEGIN_AJAX_CALL' }
-  //     ];
-  //     const store = mockStore();
-
-  //     return store
-  //       .dispatch(docActions.userDeleteDocumentRequest(3, 1))
-  //       .then(() => {
-  //         expect(store.getActions()).toEqual(expectedActions);
-  //       });
-  //   });
-  // });
-
-  describe('GetDocument', () => {
+  describe('Get Documents', () => {
     beforeEach(() => moxios.install());
     afterEach(() => moxios.uninstall());
 
-    it('fetches a document and dispatches GET_DOCUMENT_SUCCESS', () => {
-      moxios.stubRequest('/documents/3', {
+    it("get a user's documents and dispatches GET_USER_DOCUMENTS_SUCCESS", () => {
+      moxios.stubRequest('/documents?limit=8&offset=0', {
         status: 200,
-        response: { title: 'good' }
+        response: { document: documents, pagination }
       });
 
       const expectedActions = [
         { type: 'BEGIN_AJAX_CALL' },
-        { type: 'GET_DOCUMENT_SUCCESS', document: { title: 'good' } }
+        {
+          type: 'GET_USER_DOCUMENT_SUCCESS',
+          documents: { documents, pagination }
+        }
       ];
-      const store = mockStore({ document: {} });
+      const store = mockStore({ documents: [] });
 
       return store.dispatch(docActions.userDocumentRequest()).then(() => {
         expect(store.getActions()).toEqual(expectedActions);
@@ -138,27 +77,119 @@ describe('Document Actions', () => {
     });
   });
 
+  describe('Update Document', () => {
+    beforeEach(() => moxios.install());
+    afterEach(() => moxios.uninstall());
+
+    it('updates a document', () => {
+      moxios.stubRequest('/documents/4', {
+        status: 200
+      });
+
+      const expectedActions = [
+        { type: 'BEGIN_AJAX_CALL' },
+        { type: 'BEGIN_AJAX_CALL' }
+      ];
+      const store = mockStore();
+
+      return store
+        .dispatch(docActions.userUpdateDocumentRequest(document))
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedActions);
+        });
+    });
+  });
+
+  describe('Delete Document', () => {
+    beforeEach(() => moxios.install());
+    afterEach(() => moxios.uninstall());
+
+    it('deletes a document and dispatches', () => {
+      moxios.stubRequest('/documents/3', {
+        status: 200
+      });
+
+      const expectedActions = [
+        { type: 'BEGIN_AJAX_CALL' }
+      ];
+      const store = mockStore();
+
+      return store
+        .dispatch(docActions.userDeleteDocumentRequest(3))
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedActions);
+        });
+    });
+  });
+
   describe('GetUserDocuments', () => {
     beforeEach(() => moxios.install());
     afterEach(() => moxios.uninstall());
 
-    it("fetches a user's documents and dispatches GET_USER_DOCUMENTS_SUCCESS", () => {
+    it("get a user's documents and dispatches GET_USER_DOCUMENTS_SUCCESS", () => {
       moxios.stubRequest('/users/3/documents', {
         status: 200,
-        response: { documents: undefined, pagination: {} }
+        response: { document: documents, pagination }
       });
 
       const expectedActions = [
         { type: 'BEGIN_AJAX_CALL' },
         {
           type: 'GET_CURRENT_USER_DOCUMENT_SUCCESS',
-          documents: { documents: undefined, pagination: {} }
+          documents: { documents, pagination }
         }
       ];
-      const store = mockStore();
+      const store = mockStore({ documents: [] });
 
       return store
         .dispatch(docActions.userPersonalDocumentRequest(3))
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedActions);
+        });
+    });
+  });
+
+  describe('Search Documents', () => {
+    beforeEach(() => moxios.install());
+    afterEach(() => moxios.uninstall());
+
+    it('searches for documents', () => {
+      moxios.stubRequest('/search/documents?q=dms&limit=8&offset=0', {
+        status: 200,
+        response: { document: documents, pagination }
+      });
+
+      const expectedActions = [
+        { type: 'BEGIN_AJAX_CALL' },
+        {
+          type: 'GET_USER_DOCUMENT_SUCCESS',
+          documents: { documents, pagination }
+        }
+      ];
+      const store = mockStore({ documents: [] });
+
+      return store.dispatch(docActions.userSearchRequest('dms')).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
+
+    it('searches for user documents', () => {
+      moxios.stubRequest('/users/3/documents?q=dms&limit=8&offset=0', {
+        status: 200,
+        response: { document: documents, pagination }
+      });
+
+      const expectedActions = [
+        { type: 'BEGIN_AJAX_CALL' },
+        {
+          type: 'GET_CURRENT_USER_DOCUMENT_SUCCESS',
+          documents: { documents, pagination }
+        }
+      ];
+      const store = mockStore({ documents: [] });
+
+      return store
+        .dispatch(docActions.userSearchRequest('dms', 3, 'personal'))
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions);
         });

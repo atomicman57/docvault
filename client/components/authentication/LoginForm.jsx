@@ -2,7 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
+/**
+ *
+ *
+ * @class LoginForm
+ * @extends {React.Component}
+ */
 class LoginForm extends React.Component {
+  /**
+   * Creates an instance of LoginForm.
+   * @param {any} props
+   * @memberof LoginForm
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -13,21 +24,29 @@ class LoginForm extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
-    this.setState({ errors: {} });
+
+  /**
+   *
+   *
+   * @param {any} event
+   * @memberof LoginForm
+   */
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
+
+  /**
+   *
+   *
+   * @param {any} event
+   * @memberof LoginForm
+   */
   onSubmit(event) {
     event.preventDefault();
     this.props
       .userLoginRequest(this.state)
       .then(() => {
         this.context.router.push('/dashboard');
-
-        const WelcomeToast = window.setTimeout(() => {
-          Materialize.toast('Welcome to your Doc vault Dashboard', 2000);
-          window.clearTimeout(WelcomeToast);
-        }, 1000);
       })
       .catch((error) => {
         this.setState({ errors: error.response.data });
@@ -36,6 +55,13 @@ class LoginForm extends React.Component {
         Materialize.toast($toastContent, 5000);
       });
   }
+
+  /**
+   *
+   *
+   * @returns
+   * @memberof LoginForm
+   */
   render() {
     const { errors } = this.state;
     return (
@@ -57,7 +83,7 @@ class LoginForm extends React.Component {
                     name="email"
                     value={this.state.email}
                     onChange={this.onChange}
-                    className="validate"
+                    className="validate email"
                     required
                   />
                   <label htmlFor="email">Email</label>
