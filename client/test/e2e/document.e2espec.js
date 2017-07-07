@@ -106,7 +106,8 @@ module.exports = {
       .pause(1000)
       .waitForElementVisible('.sweet-alert', timeout)
       .pause(1000)
-      .click('.confirm');
+      .click('.confirm')
+      .pause(2000);
     browser.end();
   }
 };
