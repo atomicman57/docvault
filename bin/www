@@ -28,7 +28,7 @@ const port = parseInt(process.env.PORT, 10) || 8000;
 app.set('port', port);
 const server = http.createServer(app);
 
-app.get('/api-doc', (req, res) =>
+app.get('/api-docs', (req, res) =>
   res.sendFile(path.join(__dirname, '../client/api-doc/index.html'))
 );
 
