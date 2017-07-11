@@ -28,6 +28,11 @@ const port = parseInt(process.env.PORT, 10) || 8000;
 app.set('port', port);
 const server = http.createServer(app);
 
+app.get('/api-doc', (req, res) =>
+  res.sendFile(path.join(__dirname, '../client/api-doc/index.html'))
+);
+
+
 app.get('*', (req, res) =>
   res.sendFile(path.join(__dirname, '../client/index.html'))
 );
