@@ -1,14 +1,16 @@
 import jwt from 'jsonwebtoken';
 import { User, Role, Document } from '../models';
 /**
- *
+ * Authentication Middleware
  */
 class Middleware {
   /**
-   *
-   * @param {*} req
-   * @param {*} res
-   * @param {*} next
+   * Check Token
+   * It checks and verify the user token and the decode it
+   * @param {object} req request
+   * @param {object} res response
+   * @param {any} next
+   * @return {object} User decoded infomation
    */
   static checkToken(req, res, next) {
     const token = req.headers.authorization || req.query.token;
@@ -33,10 +35,11 @@ class Middleware {
 
   /**
    *
-   *
+   * Allow Admin
+   * It allows only admin to access the route
    * @static
-   * @param {any} req
-   * @param {any} res
+   * @param {object} req request
+   * @param {object} res response
    * @param {any} next
    * @memberof Middleware
    */
@@ -54,11 +57,11 @@ class Middleware {
 
   /**
    *
-   *
+   * Alow User or Admin
    * @static
-   * @param {any} req
-   * @param {any} res
-   * @param {any} next
+   * @param {object} req request
+   * @param {object} res response
+   * @param {object} next
    * @returns
    * @memberof Middleware
    */
@@ -69,8 +72,6 @@ class Middleware {
         if (req.decoded.roleId !== 2 && req.decoded.id !== user.id) {
           return res.status(403).send({ message: 'You do not have access' });
         }
-
-        res.user = user;
         return next();
       })
       .catch(error => res.status(400).json(error));
@@ -78,10 +79,10 @@ class Middleware {
 
   /**
    *
-   *
+   * Allow User of Admin to access Document
    * @static
-   * @param {any} req
-   * @param {any} res
+   * @param {object} req request
+   * @param {object} res response
    * @param {any} next
    * @returns
    * @memberof Middleware
@@ -124,10 +125,10 @@ class Middleware {
 
   /**
    *
-   *
+   * Allow only user
    * @static
-   * @param {any} req
-   * @param {any} res
+   * @param {object} req request
+   * @param {object} res response
    * @param {any} next
    * @returns
    * @memberof Middleware

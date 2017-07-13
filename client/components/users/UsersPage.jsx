@@ -14,7 +14,8 @@ const UsersPage = ({
   userSearchRequest,
   getUsersRequest,
   DeleteUserRequest,
-  users
+  users,
+  loading
 }) => (
   <div>
     <div className="page">
@@ -35,6 +36,7 @@ const UsersPage = ({
             getUsersRequest={getUsersRequest}
             currentUser={currentUser}
             users={users}
+            loading={loading}
             DeleteUserRequest={DeleteUserRequest}
           />
         </div>
@@ -43,12 +45,16 @@ const UsersPage = ({
   </div>
 );
 
+UsersPage.defaultProps = {
+  users: {},
+};
+
 UsersPage.propTypes = {
   currentUser: PropTypes.object.isRequired,
   getUsersRequest: PropTypes.func.isRequired,
   userSearchRequest: PropTypes.func.isRequired,
   DeleteUserRequest: PropTypes.func.isRequired,
-  users: PropTypes.array.isRequired
+  users: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
 /**
@@ -60,7 +66,8 @@ UsersPage.propTypes = {
 function mapStateToProps(state) {
   return {
     currentUser: state.Auth.user,
-    users: state.Users.users
+    users: state.Users.users,
+    loading: state.ajaxCallsInProgress,
   };
 }
 

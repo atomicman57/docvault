@@ -5,7 +5,7 @@ import img2 from '../assets/images/SAP Document Management.jpg';
 import img3 from '../assets/images/digidoc_mainimage.jpg';
 
 const Home = () => (
-  <div>
+  <div className="homepage">
     <div id="index-banner" className="parallax-container">
       <div className="section no-pad-bot">
         <div className="container">

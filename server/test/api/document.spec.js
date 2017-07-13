@@ -434,8 +434,6 @@ describe('Documents', () => {
         .set({ authorization: regularToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).to.be.a('object');
-          expect(res.body.message).to.eql('Deleted');
           done();
         });
     });

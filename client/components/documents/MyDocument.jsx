@@ -5,7 +5,14 @@ import ReactPaginate from 'react-paginate';
 import 'sweetalert/dist/sweetalert.css';
 
 import DocumentCard from './DocumentCard.jsx';
+import { deleteQuestion } from '../../utils/constant';
 
+/**
+ *
+ *
+ * @class MyDocument
+ * @extends {React.Component}
+ */
 class MyDocument extends React.Component {
   /**
    * Creates an instance of GetDocument.
@@ -25,16 +32,24 @@ class MyDocument extends React.Component {
     this.confirmDelete = this.confirmDelete.bind(this);
   }
 
+  /**
+   *
+   *
+   * @param {any} data
+   * @memberof MyDocument
+   */
   handlePageClick(data) {
-    let selected = data.selected;
-    let limit = 8;
-    let offset = Math.ceil(selected * limit);
+    const selected = data.selected;
+    const limit = 8;
+    const offset = Math.ceil(selected * limit);
     this.setState({ offset }, () => {
-      this.props.userPersonalDocumentRequest(offset, limit).then(() => {
-        this.setState({
-          document: this.props.documents.documents
+      this.props
+        .userPersonalDocumentRequest(this.props.currentUser.id, offset, limit)
+        .then(() => {
+          this.setState({
+            document: this.props.documents.documents
+          });
         });
-      });
     });
   }
 
@@ -45,16 +60,14 @@ class MyDocument extends React.Component {
    * @memberof GetDocument
    */
   componentDidMount() {
-    if (Object.keys(this.props.currentUser).length > 0) {
-      this.props
-        .userPersonalDocumentRequest(this.props.currentUser.id)
-        .then(() => {
-          this.setState({
-            document: this.props.documents.documents,
-            pageCount: this.props.documents.pagination.pageCount
-          });
+    this.props
+      .userPersonalDocumentRequest(this.props.currentUser.id)
+      .then(() => {
+        this.setState({
+          document: this.props.documents.documents,
+          pageCount: this.props.documents.pagination.pageCount
         });
-    }
+      });
   }
   /**
    *
@@ -73,30 +86,32 @@ class MyDocument extends React.Component {
       });
     }
   }
+
+  /**
+   *
+   *
+   * @param {any} id
+   * @memberof MyDocument
+   */
   confirmDelete(id) {
-    swal(
-      {
-        title: 'Are you sure?',
-        text: 'You will not be able to reverse this action!',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#DD6B55',
-        confirmButtonText: 'Yes, delete it!',
-        closeOnConfirm: false,
-        html: false
-      },
-      () =>
-        this.props
-          .userDeleteDocumentRequest(
-            id,
-            this.props.currentUser.id,
-            this.props.documentType
-          )
-          .then(() => {
-            swal('Deleted!', 'Your Document has been deleted.', 'success');
-          })
+    swal(deleteQuestion, () =>
+      this.props
+        .userDeleteDocumentRequest(
+          id,
+          this.props.currentUser.id,
+          this.props.documentType
+        )
+        .then(() => {
+          swal('Deleted!', 'Your Document has been deleted.', 'success');
+        })
     );
   }
+
+  /**
+   *
+   *
+   * @memberof MyDocument
+   */
   render() {
     const {
       currentUser,
@@ -108,21 +123,22 @@ class MyDocument extends React.Component {
     const documents = document;
     return (
       <div>
-        <div className="docpagination">
-          <ReactPaginate
-            previousLabel={'previous'}
-            nextLabel={'next'}
-            breakLabel={<a href="">...</a>}
-            breakClassName={'break-me'}
-            pageCount={this.state.pageCount}
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={5}
-            onPageChange={this.handlePageClick}
-            containerClassName={'pagination'}
-            subContainerClassName={'pages pagination'}
-            activeClassName={'active'}
-          />
-        </div>
+        {document.length !== 0 &&
+          <div className="docpagination">
+            <ReactPaginate
+              previousLabel={'previous'}
+              nextLabel={'next'}
+              breakLabel={<a href="">...</a>}
+              breakClassName={'break-me'}
+              pageCount={this.state.pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={this.handlePageClick}
+              containerClassName={'pagination'}
+              subContainerClassName={'pages pagination'}
+              activeClassName={'active'}
+            />
+          </div>}
         {documents.map(document => (
           <DocumentCard
             document={document}
@@ -142,6 +158,10 @@ class MyDocument extends React.Component {
     );
   }
 }
+
+MyDocument.defaultProps = {
+  documents: {}
+};
 
 MyDocument.propTypes = {
   currentUser: PropTypes.object.isRequired,

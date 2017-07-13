@@ -121,21 +121,22 @@ class GetDocument extends React.Component {
     ));
     return (
       <div>
-        <div className="docpagination">
-          <ReactPaginate
-            previousLabel={'previous'}
-            nextLabel={'next'}
-            breakLabel={<a href="">...</a>}
-            breakClassName={'break-me'}
-            pageCount={this.state.pageCount}
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={5}
-            onPageChange={this.handlePageClick}
-            containerClassName={'pagination'}
-            subContainerClassName={'pages pagination'}
-            activeClassName={'active'}
-          />
-        </div>
+        {document.length !== 0 &&
+          <div className="docpagination">
+            <ReactPaginate
+              previousLabel={'previous'}
+              nextLabel={'next'}
+              breakLabel={<a href="">...</a>}
+              breakClassName={'break-me'}
+              pageCount={this.state.pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={this.handlePageClick}
+              containerClassName={'pagination'}
+              subContainerClassName={'pages pagination'}
+              activeClassName={'active'}
+            />
+          </div>}
         {mappedDocuments}
         {document.length === 0 &&
           !loading &&
@@ -146,6 +147,9 @@ class GetDocument extends React.Component {
     );
   }
 }
+GetDocument.defaultProps = {
+  documents: {},
+};
 
 GetDocument.propTypes = {
   currentUser: PropTypes.object.isRequired,

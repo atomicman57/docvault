@@ -6,7 +6,7 @@ const path = require('path');
 module.exports = {
   context: path.join(__dirname, 'client'),
   devtool: 'source-map',
-  entry: ['webpack-hot-middleware/client', '../client/index.jsx'],
+  entry: ['babel-polyfill', 'webpack-hot-middleware/client', '../client/index.jsx'],
   module: {
     loaders: [
       {

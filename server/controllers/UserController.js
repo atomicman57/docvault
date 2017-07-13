@@ -1,6 +1,12 @@
 import jwt from 'jsonwebtoken';
 import { User, Document, Role } from '../models';
 
+/**
+ * Create Token
+ * It create token with the user Information
+ * @param {object} user
+ * @returns token
+ */
 const createToken = (user) => {
   return jwt.sign(user, 'secretTokenKey', { expiresIn: '24h' });
 };
@@ -23,11 +29,11 @@ const userInfo = (user) => {
 class UserController {
   /**
    *
-   *
+   * Create User
    * @static
-   * @param {any} req
-   * @param {any} res
-   * @returns
+   * @param {object} req request
+   * @param {object} res response
+   * @returns {object} User
    * @memberof UserController
    */
   static create(req, res) {
@@ -66,14 +72,7 @@ class UserController {
 
     User.findOne({
       where: {
-        $or: [
-          {
-            username: req.body.username
-          },
-          {
-            email: req.body.email
-          }
-        ]
+        $or: [{ username: req.body.username }, { email: req.body.email }]
       }
     }).then((existingUser) => {
       if (existingUser) {
@@ -97,12 +96,7 @@ class UserController {
             roleId: user.roleId
           };
           const token = createToken(userInfo);
-
-          return res.status(201).json({
-            message: 'Sign up Sucessful here is ur details:',
-            token,
-            userDetails: userInfo
-          });
+          return res.status(201).json({ token, userDetails: userInfo });
         })
         .catch((error) => {
           res.status(400).json(error);
@@ -112,24 +106,19 @@ class UserController {
 
   /**
    *
-   *
+   * User Login
    * @static
-   * @param {any} req
-   * @param {any} res
-   * @returns
+   * @param {object} req request
+   * @param {object} res response
+   * @returns {object} token and user information
    * @memberof UserController
    */
   static login(req, res) {
-    return User.findOne({
-      where: { email: req.body.email }
-    })
+    return User.findOne({ where: { email: req.body.email } })
       .then((user) => {
         if (!user) {
-          return res.status(404).json({
-            message: 'User not found'
-          });
+          return res.status(404).json({ message: 'User not found' });
         }
-
         if (user.validatePassword(req.body.password)) {
           const userInfo = {
             id: user.id,
@@ -140,12 +129,7 @@ class UserController {
             roleId: user.roleId
           };
           const token = createToken(userInfo);
-
-          res.status(200).json({
-            message: 'Login Sucessful here is ur details:',
-            token,
-            userInfo
-          });
+          res.status(200).json({ token, userInfo });
         } else {
           return res.status(401).json({ message: 'Wrong Password' });
         }
@@ -155,25 +139,23 @@ class UserController {
 
   /**
    *
-   *
+   * User Logout
    * @static
-   * @param {any} request
-   * @param {any} response
+   * @param {any} req request
+   * @param {any} res response
    * @memberof UserController
    */
-  static logout(request, response) {
-    response.status(200).json({
-      message: 'User logged out'
-    });
+  static logout(req, res) {
+    res.send(200);
   }
 
   /**
    *
-   *
+   * List Users
    * @static
-   * @param {any} req
-   * @param {any} res
-   * @returns
+   * @param {object} req request
+   * @param {object} res response
+   * @returns {object} Users
    * @memberof UserController
    */
   static list(req, res) {
@@ -193,22 +175,9 @@ class UserController {
       ],
       where: {
         $or: [
-          {
-            username: {
-              $iLike: `%${search}%`
-            }
-          },
-          {
-            firstname: {
-              $iLike: `%${search}%`
-            }
-          },
-          {
-            lastname: {
-              $iLike: `%${search}%`
-            }
-          }
-        ],
+          { username: { $iLike: `%${search}%` } },
+          { firstname: { $iLike: `%${search}%` } },
+          { lastname: { $iLike: `%${search}%` } }],
         $not: [{ id: req.decoded.id }]
       },
       include: [{ model: Role }],
@@ -244,11 +213,11 @@ class UserController {
 
   /**
    *
-   *
+   * Find User
    * @static
-   * @param {any} req
-   * @param {any} res
-   * @returns
+   * @param {object} req request
+   * @param {object} res response
+   * @returns {object} User
    * @memberof UserController
    */
   static find(req, res) {
@@ -259,10 +228,10 @@ class UserController {
 
   /**
    *
-   *
+   * Update User
    * @static
-   * @param {any} req
-   * @param {any} res
+   * @param {object} req request
+   * @param {object} res response
    * @returns
    * @memberof UserController
    */
@@ -282,27 +251,24 @@ class UserController {
 
   /**
    *
-   *
+   * Delete User
    * @static
-   * @param {any} req
-   * @param {any} res
-   * @returns
+   * @param {object} req request
+   * @param {object} res response
    * @memberof UserController
    */
   static delete(req, res) {
     return User.findById(req.params.id).then((user) => {
-      return user
-        .destroy()
-        .then(() => res.status(200).json({ message: 'Deleted' }));
+      return user.destroy().then(() => res.send(200));
     });
   }
 
   /**
    *
-   *
+   * List User Personal Documents
    * @static
-   * @param {any} req
-   * @param {any} res
+   * @param {object} req request
+   * @param {any} res response
    * @memberof UserController
    */
   static personalDocuments(req, res) {
@@ -313,20 +279,12 @@ class UserController {
     let query;
     if (req.decoded) {
       query = req.decoded.roleId === 2
-        ? {
-          title: { $iLike: search },
+        ? { title: { $iLike: search },
           $or: [
               { $and: [{ access: 'private' }, { userId: req.decoded.id }] },
-            {
-              userId: req.params.id,
+            { userId: req.params.id,
               $or: [{ access: 'public' }, { access: 'role' }]
-            }
-          ]
-        }
-        : {
-          userId: req.params.id,
-          title: { $iLike: search }
-        };
+            }] } : { userId: req.params.id, title: { $iLike: search } };
     }
     Document.findAndCountAll({
       where: query,

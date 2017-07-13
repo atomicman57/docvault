@@ -12,7 +12,6 @@ import PropTypes from 'prop-types';
  * @extends {React.Component}
  */
 class EditDocument extends React.Component {
-
   /**
    * Creates an instance of EditDocument.
    * @param {any} props
@@ -70,23 +69,29 @@ class EditDocument extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props
-      .userUpdateDocumentRequest(
-        this.state,
-        this.props.currentUser.id,
-        this.props.documentType
-      )
-      .then(() => {
-        const $toastContent =
-          '<span id="update-doc">Document Updated Successfully</span>';
-        Materialize.toast($toastContent, 5000);
-      })
-      .catch((error) => {
-        this.setState({ errors: error.response.data });
-        const { errors } = this.state;
-        const $toastContent = `<span>${errors.message}</span>`;
-        Materialize.toast($toastContent, 5000);
-      });
+    if (this.state.content.length > 12) {
+      this.props
+        .userUpdateDocumentRequest(
+          this.state,
+          this.props.currentUser.id,
+          this.props.documentType
+        )
+        .then(() => {
+          const $toastContent =
+            '<span id="update-doc">Document Updated Successfully</span>';
+          Materialize.toast($toastContent, 5000);
+        })
+        .catch((error) => {
+          this.setState({ errors: error.response.data });
+          const { errors } = this.state;
+          const $toastContent = `<span>${errors.message}</span>`;
+          Materialize.toast($toastContent, 5000);
+        });
+    } else {
+      const $toastContent =
+        '<span id="doc_failure"> Content length must be atleast 5 </span>';
+      Materialize.toast($toastContent, 5000);
+    }
   }
 
   /**

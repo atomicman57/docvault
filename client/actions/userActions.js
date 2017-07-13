@@ -5,10 +5,9 @@ import { beginAjaxCall } from './ajaxStatusAction';
 
 /**
  *
- *
+ * Get Users
  * @export
- * @param {any} users
- * @returns
+ * @param {object} users
  */
 export function getUsers(users) {
   return {
@@ -19,11 +18,10 @@ export function getUsers(users) {
 
 /**
  *
- *
+ * Get Users Request
  * @export
  * @param {number} [offset=0]
  * @param {number} [limit=8]
- * @returns
  */
 export function getUsersRequest(offset = 0, limit = 8) {
   return (dispatch) => {
@@ -41,10 +39,9 @@ export function getUsersRequest(offset = 0, limit = 8) {
 
 /**
  *
- *
+ * Delete User Request
  * @export
- * @param {any} id
- * @returns
+ * @param {number} id
  */
 export function DeleteUserRequest(id) {
   return (dispatch) => {
@@ -58,10 +55,9 @@ export function DeleteUserRequest(id) {
 
 /**
  *
- *
+ * User Search Request
  * @export
- * @param {any} query
- * @returns
+ * @param {object} query
  */
 export function userSearchRequest(query) {
   const offset = 0, limit = 8;
@@ -82,10 +78,9 @@ export function userSearchRequest(query) {
 
 /**
  *
- *
+ * User Update Request
  * @export
- * @param {any} user
- * @returns
+ * @param {object} user
  */
 export function userUpdateUserRequest(user) {
   return (dispatch) => {

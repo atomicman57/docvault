@@ -8,10 +8,9 @@ import { beginAjaxCall } from './ajaxStatusAction';
 
 /**
  *
- *
+ * Get User Documents
  * @export
- * @param {any} documents
- * @returns
+ * @param {object} documents
  */
 export function getUserDocument(documents) {
   return {
@@ -22,10 +21,9 @@ export function getUserDocument(documents) {
 
 /**
  *
- *
+ * Get Current Uset Document
  * @export
- * @param {any} documents
- * @returns
+ * @param {object} documents
  */
 export function getCurrentUserDocument(documents) {
   return {
@@ -36,11 +34,10 @@ export function getCurrentUserDocument(documents) {
 
 /**
  *
- *
+ * User Document Request
  * @export
  * @param {number} [offset=0]
  * @param {number} [limit=8]
- * @returns
  */
 export function userDocumentRequest(offset = 0, limit = 8) {
   return (dispatch) => {
@@ -60,10 +57,9 @@ export function userDocumentRequest(offset = 0, limit = 8) {
 
 /**
  *
- *
+ * Save User Document
  * @export
- * @param {any} document
- * @returns
+ * @param {object} document
  */
 export function saveUserDocument(document) {
   return {
@@ -76,13 +72,12 @@ export function saveUserDocument(document) {
  *
  *
  * @export
- * @param {any} userId
- * @returns
+ * @param {number} userId
  */
-export function userPersonalDocumentRequest(userId) {
+export function userPersonalDocumentRequest(userId, offset = 0, limit = 8) {
   return (dispatch) => {
     dispatch(beginAjaxCall());
-    return axios.get(`/users/${userId}/documents`).then((documents) => {
+    return axios.get(`/users/${userId}/documents?limit=${limit}&offset=${offset}`).then((documents) => {
       dispatch(
         getCurrentUserDocument({
           documents: documents.data.document,
@@ -103,12 +98,11 @@ const documentType = (dispatch, doctype, userId) => {
 
 /**
  *
- *
+ * User Delete Document Request
  * @export
- * @param {any} id
- * @param {any} userId
- * @param {any} doctype
- * @returns
+ * @param {number} id
+ * @param {number} userId
+ * @param {string} doctype
  */
 export function userDeleteDocumentRequest(id, userId, doctype) {
   return (dispatch) => {
@@ -120,12 +114,11 @@ export function userDeleteDocumentRequest(id, userId, doctype) {
 
 /**
  *
- *
+ * User Update Document Request
  * @export
- * @param {any} document
- * @param {any} userId
- * @param {any} doctype
- * @returns
+ * @param {object} document
+ * @param {number} userId
+ * @param {string} doctype
  */
 export function userUpdateDocumentRequest(document, userId, doctype) {
   return (dispatch) => {
@@ -138,12 +131,11 @@ export function userUpdateDocumentRequest(document, userId, doctype) {
 
 /**
  *
- *
+ * User Save Document Request
  * @export
- * @param {any} document
- * @param {any} userId
- * @param {any} doctype
- * @returns
+ * @param {object} document
+ * @param {number} userId
+ * @param {string} doctype
  */
 export function userSaveDocumentRequest(document, userId, doctype) {
   return (dispatch) => {
@@ -155,12 +147,11 @@ export function userSaveDocumentRequest(document, userId, doctype) {
 
 /**
  *
- *
+ * User Search request
  * @export
- * @param {any} query
- * @param {any} userId
- * @param {any} doctype
- * @returns
+ * @param {string} query
+ * @param {number} userId
+ * @param {string} doctype
  */
 export function userSearchRequest(query, userId, doctype) {
   const offset = 0, limit = 8;
@@ -172,23 +163,18 @@ export function userSearchRequest(query, userId, doctype) {
           `/users/${userId}/documents?q=${query}&limit=${limit}&offset=${offset}`
         )
         .then((documents) => {
-          dispatch(
-            getCurrentUserDocument({
-              documents: documents.data.document,
-              pagination: documents.data.pagination
-            })
+          dispatch(getCurrentUserDocument({ documents: documents.data.document,
+            pagination: documents.data.pagination
+          })
           );
         });
     }
-
     return axios
       .get(`/search/documents?q=${query}&limit=${limit}&offset=${offset}`)
       .then((documents) => {
-        dispatch(
-          getUserDocument({
-            documents: documents.data.document,
-            pagination: documents.data.pagination
-          })
+        dispatch(getUserDocument({ documents: documents.data.document,
+          pagination: documents.data.pagination
+        })
         );
       });
   };

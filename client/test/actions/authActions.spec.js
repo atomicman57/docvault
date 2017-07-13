@@ -81,7 +81,7 @@ describe('Auth Actions', () => {
       done();
     });
   });
-  
+
   describe('Sign Up', () => {
     beforeEach(() => moxios.install());
     afterEach(() => moxios.uninstall());
@@ -91,7 +91,6 @@ describe('Auth Actions', () => {
         status: 200,
         response: {
           token,
-          message: 'Sign up Sucessful here is ur details:',
           userDetails: {
             id: 3,
             username: 'Amala',
