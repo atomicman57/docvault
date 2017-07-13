@@ -2,7 +2,6 @@ import { Document } from '../controllers';
 import Authentication from '../middleware/Authentication';
 
 const documentRoutes = (app) => {
-  //   app.use(Authentication);
   app.get('/search/documents', Authentication.checkToken, Document.list);
   app.post('/documents', Authentication.checkToken, Document.create);
   app.get('/documents', Authentication.checkToken, Document.list);

@@ -29,9 +29,8 @@ app.set('port', port);
 const server = http.createServer(app);
 
 app.get('/api-docs', (req, res) =>
-  res.sendFile(path.join(__dirname, '../client/api-doc/index.html'))
+  res.sendFile(path.join(__dirname, '../client/api-docs/index.html'))
 );
-
 
 app.get('*', (req, res) =>
   res.sendFile(path.join(__dirname, '../client/index.html'))

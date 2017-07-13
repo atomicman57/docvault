@@ -3,12 +3,30 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Home from './Home.jsx';
 
+/**
+ *
+ *
+ * @class HomePage
+ * @extends {React.Component}
+ */
 class HomePage extends React.Component {
+  /**
+   *
+   *
+   * @memberof HomePage
+   */
   componentWillMount() {
     if (this.props.isAuthenticated) {
       this.context.router.push('/dashboard');
     }
   }
+
+  /**
+   *
+   *
+   * @returns
+   * @memberof HomePage
+   */
   render() {
     return (
       <div>

@@ -4,7 +4,18 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import PropTypes from 'prop-types';
 import { convertToHTML } from 'draft-convert';
 
+/**
+ *
+ *
+ * @class CreateDocument
+ * @extends {React.Component}
+ */
 class CreateDocument extends React.Component {
+  /**
+   * Creates an instance of CreateDocument.
+   * @param {any} props
+   * @memberof CreateDocument
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -46,13 +57,18 @@ class CreateDocument extends React.Component {
 
   /**
    *
-   *
+   * On Form Submit
    * @param {any} event
    *
    * @memberof CreateDocument
    */
   onSubmit(event) {
     event.preventDefault();
+    // There is an intial <p></p> in the editor which make it possibe
+    // to create empty document.
+    // Initial content length = 7
+    // Minimum length = 5
+    // Initial content length +  Minimum length = 12
     if (this.state.content.length > 12) {
       this.props
         .userSaveDocumentRequest(
@@ -64,6 +80,11 @@ class CreateDocument extends React.Component {
           const $toastContent =
             '<span id="doc_success">Document Created Successfully</span>';
           Materialize.toast($toastContent, 5000);
+          this.setState({
+            title: '',
+            content: '',
+            editorState: '',
+          });
         })
         .catch((error) => {
           this.setState({ errors: error.response.data });
@@ -78,6 +99,12 @@ class CreateDocument extends React.Component {
     }
   }
 
+  /**
+   *
+   *
+   * @returns
+   * @memberof CreateDocument
+   */
   render() {
     const { editorState } = this.state;
     return (
@@ -98,7 +125,7 @@ class CreateDocument extends React.Component {
             <select
               name="access"
               required
-              defaultValue=""
+              defaultValue={this.state.access}
               style={{ display: 'block' }}
               onChange={this.onChange}
             >
@@ -126,6 +153,10 @@ class CreateDocument extends React.Component {
     );
   }
 }
+
+CreateDocument.defaultProps = {
+  documentType: null
+};
 
 CreateDocument.propTypes = {
   currentUser: PropTypes.object.isRequired,

@@ -1,14 +1,15 @@
 import { Role } from '../models';
 
 /**
- *
+ * Role Controller
  */
 class RoleController {
 
   /**
-   *
-   * @param {*} req
-   * @param {*} res
+   * Create Role
+   * @param {object} req request
+   * @param {object} res response
+   * @return {object} roles
    */
   static create(req, res) {
     return Role.create({
@@ -19,9 +20,9 @@ class RoleController {
   }
 
   /**
-   *
-   * @param {*} req
-   * @param {*} res
+   * List Roles
+   * @param {object} req request
+   * @param {object} res response
    */
   static list(req, res) {
     return Role.all()
@@ -30,9 +31,9 @@ class RoleController {
   }
 
   /**
-   *
-   * @param {*} req
-   * @param {*} res
+   * Find Role
+   * @param {object} req request
+   * @param {object} res response
    */
   static find(req, res) {
     return Role.findById(req.params.roleId)
@@ -48,9 +49,9 @@ class RoleController {
   }
 
   /**
-   *
-   * @param {*} req
-   * @param {*} res
+   * Update Role
+   * @param {object} req request
+   * @param {object} res response
    */
   static update(req, res) {
     return Role.findById(req.params.roleId)
@@ -71,9 +72,9 @@ class RoleController {
   }
 
   /**
-   *
-   * @param {*} req
-   * @param {*} res
+   * Delete Role
+   * @param {object} req request
+   * @param {object} res response
    */
   static delete(req, res) {
     return Role.findById(req.params.roleId)
@@ -85,7 +86,7 @@ class RoleController {
         }
         return roles
           .destroy()
-          .then(() => res.status(200).json({ message: 'Deleted' }));
+          .then(() => res.send(200));
       })
       .catch(error => res.status(400).json(error));
   }

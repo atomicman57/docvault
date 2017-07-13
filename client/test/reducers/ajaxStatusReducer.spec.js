@@ -4,40 +4,33 @@ import * as types from '../../actions/types';
 
 describe('Ajax Status Reducer', () => {
   it('should increment state when passed BEGIN_AJAX_CALL', () => {
-    // arange
     const initialState = 0;
     const action = { type: types.BEGIN_AJAX_CALL };
-
-    // act
     const newState = ajaxCallsInProgress(initialState, action);
 
     expect(newState).toEqual(1);
   });
 
   it('should decrement state when an ajax call is successfull', () => {
-    // arange
+
     const initialState = 1;
     const action = { type: types.GET_USER_DOCUMENT_SUCCESS };
-
-    // act
     const newState = ajaxCallsInProgress(initialState, action);
 
     expect(newState).toEqual(0);
   });
 
   it('should decrement state when passed END_AJAX_CALL', () => {
-    // arange
     const initialState = 1;
     const action = { type: types.END_AJAX_CALL };
 
-    // act
     const newState = ajaxCallsInProgress(initialState, action);
 
     expect(newState).toEqual(0);
   });
 
   it('should return the state when not affected', () => {
-    // arrange
+
     const currentState = {
       iAmInitialState: true,
     };

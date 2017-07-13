@@ -5,7 +5,18 @@ import { EditorState } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import PropTypes from 'prop-types';
 
+/**
+ *
+ *
+ * @class EditDocument
+ * @extends {React.Component}
+ */
 class EditDocument extends React.Component {
+  /**
+   * Creates an instance of EditDocument.
+   * @param {any} props
+   * @memberof EditDocument
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -58,24 +69,37 @@ class EditDocument extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props
-      .userUpdateDocumentRequest(
-        this.state,
-        this.props.currentUser.id,
-        this.props.documentType
-      )
-      .then(() => {
-        const $toastContent = '<span>Document Updated Successfully</span>';
-        Materialize.toast($toastContent, 5000);
-      })
-      .catch((error) => {
-        this.setState({ errors: error.response.data });
-        const { errors } = this.state;
-        const $toastContent = `<span>${errors.message}</span>`;
-        Materialize.toast($toastContent, 5000);
-      });
+    if (this.state.content.length > 12) {
+      this.props
+        .userUpdateDocumentRequest(
+          this.state,
+          this.props.currentUser.id,
+          this.props.documentType
+        )
+        .then(() => {
+          const $toastContent =
+            '<span id="update-doc">Document Updated Successfully</span>';
+          Materialize.toast($toastContent, 5000);
+        })
+        .catch((error) => {
+          this.setState({ errors: error.response.data });
+          const { errors } = this.state;
+          const $toastContent = `<span>${errors.message}</span>`;
+          Materialize.toast($toastContent, 5000);
+        });
+    } else {
+      const $toastContent =
+        '<span id="doc_failure"> Content length must be atleast 5 </span>';
+      Materialize.toast($toastContent, 5000);
+    }
   }
 
+  /**
+   *
+   *
+   * @returns
+   * @memberof EditDocument
+   */
   render() {
     const { editorState } = this.state;
     return (
@@ -89,7 +113,7 @@ class EditDocument extends React.Component {
               placeholder="Title"
               value={this.state.title}
               onChange={this.onChange}
-              className="validate"
+              className="validate edit-input"
               required
               icon="book"
             />
@@ -117,7 +141,9 @@ class EditDocument extends React.Component {
               {' '}
             </div>
             <div className="input-field center">
-              <button className="pink darken-4 btn" id="edit-doc">Save</button>
+              <button className="pink darken-4 btn edit-doc" id="edit-doc">
+                Save
+              </button>
             </div>
           </div>
         </form>
@@ -125,6 +151,10 @@ class EditDocument extends React.Component {
     );
   }
 }
+
+EditDocument.defaultProps = {
+  documentType: null
+};
 
 EditDocument.propTypes = {
   currentUser: PropTypes.object.isRequired,

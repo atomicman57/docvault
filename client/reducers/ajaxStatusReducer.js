@@ -1,6 +1,14 @@
 import { BEGIN_AJAX_CALL, END_AJAX_CALL } from '../actions/types';
 import initialState from './initialState';
 
+/**
+ *
+ *
+ * @export
+ * @param {any} [state=initialState.ajaxCallsInProgress]
+ * @param {any} action
+ * @returns
+ */
 export default function ajaxCallsInProgress(
   state = initialState.ajaxCallsInProgress,
   action

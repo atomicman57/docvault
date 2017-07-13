@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const UsersCard = ({ user, confirmDelete }) => (
   <div>
     <div className="col s12 m6 l3" key={user.id}>
-      <div className="card">
+      <div className="card userscard">
         <div className="card-content black-text">
           <div key={user.id}>
             <div className="title">
@@ -24,11 +24,7 @@ const UsersCard = ({ user, confirmDelete }) => (
                 Joined: {new Date(user.createdAt).toDateString()}
               </span>
             </p>
-            <p className="card-stats-number" style={{ fontSize: '0.8em' }}>
-              {/* <Modal header="View Document" trigger={<a href="">View More</a>}>
-                <ViewDocument document={document} />
-              </Modal>*/}
-            </p>
+            <p className="card-stats-number" style={{ fontSize: '0.8em' }} />
             <span style={{ padding: '20px' }}>
               <a
                 onClick={() => confirmDelete(user.id)}
@@ -47,7 +43,6 @@ const UsersCard = ({ user, confirmDelete }) => (
 UsersCard.propTypes = {
   user: PropTypes.object.isRequired,
   confirmDelete: PropTypes.func.isRequired
-  // userUpdateDocumentRequest: PropTypes.func.isRequired
 };
 
 export default UsersCard;

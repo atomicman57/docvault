@@ -1,7 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ *
+ *
+ * @class EditProfileForm
+ * @extends {React.Component}
+ */
 class EditProfileForm extends React.Component {
+  /**
+   * Creates an instance of EditProfileForm.
+   * @param {any} props
+   * @memberof EditProfileForm
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -18,10 +29,24 @@ class EditProfileForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onSubmitPassword = this.onSubmitPassword.bind(this);
   }
+
+  /**
+   *
+   *
+   * @param {any} e
+   * @memberof EditProfileForm
+   */
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
     this.setState({ errors: {} });
   }
+
+  /**
+   *
+   *
+   * @param {any} event
+   * @memberof EditProfileForm
+   */
   onSubmit(event) {
     event.preventDefault();
     const userData = {
@@ -33,6 +58,12 @@ class EditProfileForm extends React.Component {
       Materialize.toast('User Details Updated Successfully', 2000);
     });
   }
+  /**
+   *
+   *
+   * @param {any} event
+   * @memberof EditProfileForm
+   */
   onSubmitPassword(event) {
     event.preventDefault();
     if (this.state.password !== this.state.confirm_password) {
@@ -47,14 +78,20 @@ class EditProfileForm extends React.Component {
       });
     }
   }
+
+  /**
+   *
+   *
+   * @returns
+   * @memberof EditProfileForm
+   */
   render() {
-    const { errors } = this.state;
     return (
       <div>
         <div className="card-panel">
           <h4 className="header2">Edit Profile</h4>
           <div className="mysignuprow row">
-            <form className="col s12" onSubmit={this.onSubmit}>
+            <form className="col s12 form1" onSubmit={this.onSubmit}>
               <div className="mysignuprow row">
                 <div className="input-field col s12">
                   <i className="material-icons prefix">account_circle</i>
@@ -65,7 +102,7 @@ class EditProfileForm extends React.Component {
                     value={this.state.firstname}
                     placeholder="First Name"
                     onChange={this.onChange}
-                    className="validate"
+                    className="validate firstname"
                     required
                   />
                 </div>
@@ -131,7 +168,7 @@ class EditProfileForm extends React.Component {
           </div>
           <h4 className="header2">Change Password</h4>
           <div className="mysignuprow row">
-            <form className="col s12" onSubmit={this.onSubmitPassword}>
+            <form className="col s12 form2" onSubmit={this.onSubmitPassword}>
               <div className="mysignuprow row" />
               <div className="mysignuprow row">
                 <div className="input-field col s12">
@@ -187,9 +224,6 @@ EditProfileForm.propTypes = {
   userUpdateUserRequest: PropTypes.func.isRequired
 };
 
-// EditProfileForm.propTypes = {
-//   userSignupRequest: PropTypes.func.isRequired
-// };
 EditProfileForm.contextTypes = {
   router: PropTypes.object.isRequired
 };

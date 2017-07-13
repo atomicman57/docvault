@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Modal } from 'react-materialize';
+
 import CreateDocument from '../documents/CreateDocument.jsx';
 import GetDocument from '../documents/GetDocument.jsx';
 import SearchDocument from '../documents/SearchDocument.jsx';
@@ -19,79 +20,63 @@ import {
  * @class Dashboard
  * @extends {React.Component}
  */
-class Dashboard extends React.Component {
-  /**
-   *
-   *
-   * @memberof Dashboard
-   */
-  componentWillMount() {
-    const token = localStorage.getItem('jwtToken');
-    if (token) {
-      this.userId = this.props.currentUser.id;
-      this.firstname = this.props.currentUser.firstname;
-      this.lastname = this.props.currentUser.lastname;
-      this.username = this.props.currentUser.username;
-      this.email = this.props.currentUser.email;
-    }
-  }
-  render() {
-    const {
-      currentUser,
-      userSaveDocumentRequest,
-      userDocumentRequest,
-      userDeleteDocumentRequest,
-      userSearchRequest,
-      userUpdateDocumentRequest,
-      documents,
-      loading
-    } = this.props;
-    return (
-      <div>
-        <div className="page">
-          <main>
-            <div className="breadcrumb grey lighten-3">
-              <h6>
-                Dashboard
-              </h6>
-            </div>
-            <br />
-            <SearchDocument
-              userSearchRequest={userSearchRequest}
-              currentUser={currentUser}
-            />
-            <br />
-            <div className="row">
-              <GetDocument
-                currentUser={currentUser}
-                userDocumentRequest={userDocumentRequest}
-                documents={documents}
-                userDeleteDocumentRequest={userDeleteDocumentRequest}
-                userUpdateDocumentRequest={userUpdateDocumentRequest}
-                loading={loading}
-              />
-            </div>
-          </main>
+const Dashboard = ({
+  currentUser,
+  userSaveDocumentRequest,
+  userDocumentRequest,
+  userDeleteDocumentRequest,
+  userSearchRequest,
+  userUpdateDocumentRequest,
+  documents,
+  loading
+}) => (
+  <div>
+    <div className="page">
+      <main>
+        <div className="breadcrumb grey lighten-3">
+          <h6>
+            Dashboard
+          </h6>
         </div>
-        <Modal
-          header="Create Document"
-          trigger={
-            <div className="fixed-action-btn">
-              <a className="btn-floating btn-large pink darken-4">
-                <i className="large white-text material-icons">edit</i>
-              </a>
-            </div>
-          }
-        >
-          <CreateDocument
+        <br />
+        <SearchDocument
+          userSearchRequest={userSearchRequest}
+          currentUser={currentUser}
+        />
+        <br />
+        <div className="row">
+          <GetDocument
             currentUser={currentUser}
-            userSaveDocumentRequest={userSaveDocumentRequest}
+            userDocumentRequest={userDocumentRequest}
+            documents={documents}
+            userDeleteDocumentRequest={userDeleteDocumentRequest}
+            userUpdateDocumentRequest={userUpdateDocumentRequest}
+            loading={loading}
           />
-        </Modal>
-      </div>
-    );
-  }
-}
+        </div>
+      </main>
+    </div>
+    <Modal
+      header="Create Document"
+      trigger={
+        <div className="fixed-action-btn">
+          <a className="btn-floating btn-large pink darken-4" id="createbtn">
+            <i className="large white-text material-icons">edit</i>
+          </a>
+        </div>
+      }
+    >
+      <CreateDocument
+        currentUser={currentUser}
+        userSaveDocumentRequest={userSaveDocumentRequest}
+      />
+    </Modal>
+  </div>
+);
+
+Dashboard.defaultProps = {
+  documents: []
+};
 
 Dashboard.propTypes = {
   currentUser: PropTypes.object.isRequired,
@@ -104,6 +89,12 @@ Dashboard.propTypes = {
   loading: PropTypes.number.isRequired
 };
 
+/**
+ *
+ *
+ * @param {any} state
+ * @returns
+ */
 function mapStateToProps(state) {
   return {
     currentUser: state.Auth.user,

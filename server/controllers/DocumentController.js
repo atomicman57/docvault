@@ -1,27 +1,23 @@
 import { User, Document } from '../models';
 
 /**
- *
+ * Document Controller
  */
 class DocumentController {
   /**
-   *
-   * @param {*} req
-   * @param {*} res
-   * @return{*} document
+   * Create Document
+   * @param {object} req request
+   * @param {object} res response
+   * @return{object} document object
    */
   static create(req, res) {
     if (
       req.body.title === '' || req.body.content === '' || req.body.access === ''
     ) {
-      return res.status(400).json({
-        message: 'Fields cannot be empty'
-      });
+      return res.status(400).json({ message: 'Fields cannot be empty' });
     }
 
-    if (
-      req.body.title.length < 4 || req.body.content < 4
-    ) {
+    if (req.body.title.length < 4 || req.body.content < 4) {
       return res.status(400).json({
         message: 'Title and content length must be more than 4'
       });
@@ -39,9 +35,9 @@ class DocumentController {
   }
 
   /**
-   *
-   * @param {*} req
-   * @param {*} res
+   * List Documents
+   * @param {object} req request
+   * @param {object} res response
    */
   static list(req, res) {
     let search = '%%';
@@ -62,9 +58,7 @@ class DocumentController {
         : {
           $or: [
               { access: 'public' },
-            {
-              userId: req.decoded.id
-            },
+              { userId: req.decoded.id },
             {
               userId: req.decoded.id,
               $and: [
@@ -118,49 +112,45 @@ class DocumentController {
   }
 
   /**
-   *
-   * @param {*} req
-   * @param {*} res
+   * Find Document
+   * @param {object} req request
+   * @param {object} res response
+   * @return {object} document
    */
   static find(req, res) {
-    return Document.findById(req.params.documentId)
-      .then((document) => {
-        if (!document) {
-          return res.status(404).json({
-            message: 'Document Not Found'
-          });
-        }
-        return res.status(200).json(document);
-      });
+    return Document.findById(req.params.documentId).then((document) => {
+      if (!document) {
+        return res.status(404).json({
+          message: 'Document Not Found'
+        });
+      }
+      return res.status(200).json(document);
+    });
   }
 
   /**
-   *
-   * @param {*} req
-   * @param {*} res
+   * Update Document
+   * @param {object} req request
+   * @param {object} res response
    */
   static update(req, res) {
-    return Document.findById(req.params.documentId)
-      .then((document) => {
-        return document
-          .update(req.body)
-          .then(() => res.status(200).json(document))
-          .catch(error => res.status(400).json(error));
-      });
+    return Document.findById(req.params.documentId).then((document) => {
+      return document
+        .update(req.body)
+        .then(() => res.status(200).json(document))
+        .catch(error => res.status(400).json(error));
+    });
   }
 
   /**
-   *
-   * @param {*} req
-   * @param {*} res
+   * Delete Document
+   * @param {object} req request
+   * @param {object} res response
    */
   static delete(req, res) {
-    return Document.findById(req.params.documentId)
-      .then((document) => {
-        return document
-          .destroy()
-          .then(() => res.status(200).json({ message: 'Deleted' }));
-      });
+    return Document.findById(req.params.documentId).then((document) => {
+      return document.destroy().then(() => res.send(200));
+    });
   }
 }
 export default DocumentController;

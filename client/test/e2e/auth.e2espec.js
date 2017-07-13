@@ -1,4 +1,3 @@
-const config = require('../../../nightwatch.conf');
 const faker = require('faker');
 const { url, timeout } = require('../e2eSetup');
 
@@ -11,8 +10,8 @@ module.exports = {
       .assert.title('Document Vault')
       .click('#signup')
       .assert.urlEquals('http://localhost:8000/signup')
-      .setValue('input[name=firstname]', 'Integration')
-      .setValue('input[name=lastname]', 'Test')
+      .setValue('input[name=firstname]', 'Ade Integrate')
+      .setValue('input[name=lastname]', 'Integrate')
       .setValue('input[name=username]', faker.name.findName())
       .setValue('input[name=password]', 'e2etesting')
       .setValue('input[name=confirm_password]', 'e2etesting')
