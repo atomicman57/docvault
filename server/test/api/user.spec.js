@@ -29,8 +29,7 @@ describe('User', () => {
     it('can login a user and return a token', (done) => {
       chai.request(server).post('/users/login').send(admin).end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body).to.have.keys(['token', 'message', 'userInfo']);
-        expect(res.body.message).to.eql('Login Sucessful here is ur details:');
+        expect(res.body).to.have.keys(['token', 'userInfo']);
         done();
       });
     });
@@ -71,10 +70,7 @@ describe('User', () => {
     it('can create a new user', (done) => {
       chai.request(server).post('/users').send(TestUser3).end((err, res) => {
         expect(res.status).to.equal(201);
-        expect(res.body).to.have.keys(['userDetails', 'message', 'token']);
-        expect(res.body.message).to.eql(
-          'Sign up Sucessful here is ur details:'
-        );
+        expect(res.body).to.have.keys(['userDetails', 'token']);
         TestUser3Token = res.body.token;
         done();
       });
@@ -112,9 +108,6 @@ describe('User', () => {
     it('should return a token after creating a user', (done) => {
       chai.request(server).post('/users').send(thirdUser).end((err, res) => {
         expect(res.status).to.equal(201);
-        expect(res.body.message).to.eql(
-          'Sign up Sucessful here is ur details:'
-        );
         done();
       });
     });
@@ -350,8 +343,6 @@ describe('User', () => {
     it('can logout a user', (done) => {
       chai.request(server).post('/users/logout').send(admin).end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body).to.be.a('object');
-        expect(res.body.message).to.eql('User logged out');
         done();
       });
     });
@@ -392,8 +383,6 @@ describe('User', () => {
         .set({ authorization: thirdUserToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).to.be.a('object');
-          expect(res.body.message).to.eql('Deleted');
           done();
         });
     });

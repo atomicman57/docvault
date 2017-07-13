@@ -35,6 +35,7 @@ Alternatively, You may clone the repository and run the app locally to use.
 
 * Clone the repository 
     * git clone https://github.com/andela-bphilips/docvault.git
+* Navigate to the project directory **cd docvault**
 * Install the dependencies using **npm install**
 * Run **npm start** to start the application.
 * The app will start on your local server.
@@ -78,6 +79,9 @@ When your supported environments don't support certain features natively, it wil
 
 - [Enzyme](airbnb.io/enzyme/docs/api/): Enzyme is a JavaScript Testing utility for React that makes it easier to assert, manipulate, and traverse your React Components' out
 
+## API Documentation
+View API documentation [here](https://docvault.herokuapp.com/api-docs/)
+
 ## End to end tests
 
 Start the app with npm start,
@@ -93,11 +97,25 @@ then run npm run e2e-test
 
 * Fork this repositry to your account.
 * Clone your repositry: git clone git@github.com:your-username/docvault.git
-* Create your feature branch: git checkout -b new-feature
-* Commit your changes: git commit -m "Changes Made"
+* Create your feature branch: git checkout -b feature/feature-id/<3-4 word feature description>
+* Commit your changes: git commit -m "feature(scope): (subject) <BLANK LINE> (body) <BLANK LINE> (footer)"
 * Push to the remote branch: git push origin new-feature
 * Open a pull request.
 
+* Note this project uses javascript ES6 and [Airbnb style guide](https://github.com/airbnb/javascript)
+- Commit Message Convention
+    - scope should be something specific to the commit change e.g logo
+    - subject text should:
+        - use present tense: "save" not "saved" or "saving"
+        - not capitalize first letter i.e no "Carry to safety"
+        - not end with a dot (.)
+    - Message body (optional) If a body is to be written, it should:
+      - written in present tense.
+      - include reason for change and difference in the previous behaviour
+
+    - Message Footer This should be used for referencing the issues using the following keywords: Start, Delivers, Fixes and Finishes. It should be written as:
+      - [Start #345]
+    
 ## License
 
 This project is authored by Philips Blessing and is licensed 

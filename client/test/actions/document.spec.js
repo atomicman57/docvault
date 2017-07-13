@@ -127,7 +127,7 @@ describe('Document Actions', () => {
     afterEach(() => moxios.uninstall());
 
     it("get a user's documents and dispatches GET_USER_DOCUMENTS_SUCCESS", () => {
-      moxios.stubRequest('/users/3/documents', {
+      moxios.stubRequest('/users/3/documents?limit=8&offset=0', {
         status: 200,
         response: { document: documents, pagination }
       });

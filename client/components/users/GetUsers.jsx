@@ -75,10 +75,12 @@ class GetUsers extends React.Component {
   componentWillReceiveProps(nextProps) {
     const newUser = nextProps.users;
     const newPagination = newUser.pagination;
-    this.setState({
-      users: newUser.users,
-      pageCount: newPagination.pageCount
-    });
+    if (newPagination) {
+      this.setState({
+        users: newUser.users,
+        pageCount: newPagination.pageCount
+      });
+    }
   }
 
   /**
@@ -102,42 +104,53 @@ class GetUsers extends React.Component {
    * @memberof GetUsers
    */
   render() {
-    const { currentUser } = this.props;
+    const { currentUser, loading } = this.props;
     const { users } = this.state;
     const mappedUsers = users.map(user => (
       <UsersCard
-            user={user}
-            key={user.id}
-            currentUser={currentUser}
-            confirmDelete={this.confirmDelete}
-          />
+        user={user}
+        key={user.id}
+        currentUser={currentUser}
+        confirmDelete={this.confirmDelete}
+      />
     ));
     return (
       <div>
-        <div className="docpagination">
-          <ReactPaginate
-            previousLabel={'previous'}
-            nextLabel={'next'}
-            breakLabel={<a href="">...</a>}
-            breakClassName={'break-me'}
-            pageCount={this.state.pageCount}
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={5}
-            onPageChange={this.handlePageClick}
-            containerClassName={'pagination'}
-            subContainerClassName={'pages pagination'}
-            activeClassName={'active'}
-          />
-        </div>
+        {users.length !== 0 &&
+          <div className="docpagination">
+            <ReactPaginate
+              previousLabel={'previous'}
+              nextLabel={'next'}
+              breakLabel={<a href="">...</a>}
+              breakClassName={'break-me'}
+              pageCount={this.state.pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={this.handlePageClick}
+              containerClassName={'pagination'}
+              subContainerClassName={'pages pagination'}
+              activeClassName={'active'}
+            />
+          </div>}
         {mappedUsers}
+        {users.length === 0 &&
+          !loading &&
+          <div className="center-align">
+            <h3>No User Found</h3>
+          </div>}
       </div>
     );
   }
 }
 
+GetUsers.defaultProps = {
+  users: {},
+};
+
 GetUsers.propTypes = {
   currentUser: PropTypes.object.isRequired,
   DeleteUserRequest: PropTypes.func.isRequired,
-  users: PropTypes.object.isRequired
+  users: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  loading: PropTypes.number.isRequired
 };
 export default GetUsers;

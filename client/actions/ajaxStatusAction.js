@@ -2,9 +2,9 @@ import * as types from './types';
 
 /**
  *
- *
+ * Begin Ajax call
  * @export
- * @returns
+ * @returns {object}
  */
 export function beginAjaxCall() {
   return { type: types.BEGIN_AJAX_CALL };
@@ -12,9 +12,9 @@ export function beginAjaxCall() {
 
 /**
  *
- *
+ * End Ajax Call
  * @export
- * @returns
+ * @returns {object}
  */
 export function endAjaxCall() {
   return { type: types.END_AJAX_CALL };

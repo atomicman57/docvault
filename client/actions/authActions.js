@@ -6,8 +6,8 @@ import { SET_CURRENT_USER } from '../actions/types';
  *
  *
  * @export
- * @param {any} user
- * @returns
+ * @param {object} user
+ * @returns {object}
  */
 export function setCurrentUser(user) {
   return {
@@ -18,9 +18,8 @@ export function setCurrentUser(user) {
 
 /**
  *
- *
+ * Logout
  * @export
- * @returns
  */
 export function logout() {
   return (dispatch) => {
@@ -32,9 +31,9 @@ export function logout() {
 
 /**
  *
- *
+ * User Login Request
  * @export
- * @param {any} userData
+ * @param {object} userData
  * @returns
  */
 export function userLoginRequest(userData) {
@@ -51,9 +50,9 @@ export function userLoginRequest(userData) {
 
 /**
  *
- *
+ * User Signup Request
  * @export
- * @param {any} userData
+ * @param {object} userData
  * @returns
  */
 export function userSignupRequest(userData) {

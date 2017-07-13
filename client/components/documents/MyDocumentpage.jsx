@@ -72,6 +72,10 @@ const MyDocumentPage = ({
   </div>
 );
 
+MyDocumentPage.defaultProps = {
+  documents: {},
+};
+
 MyDocumentPage.propTypes = {
   currentUser: PropTypes.object.isRequired,
   userDocumentRequest: PropTypes.func.isRequired,

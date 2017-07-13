@@ -65,13 +65,6 @@ class NavBar extends React.Component {
             <span href="#" className="brand-logo page-title">
               Doc Vault
             </span>
-            <ul className="right hide-on-med-and-down">
-              <li>
-                <a onClick={this.logout.bind(this)} id="logout">
-                  <i className="material-icons">exit_to_app</i>
-                </a>
-              </li>
-            </ul>
           </div>
           <div />
         </nav>
