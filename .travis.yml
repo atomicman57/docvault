@@ -7,9 +7,7 @@ services:
   - postgresql
 
 env:
-  - USERNAME=blessingphilips
-  - DBDEV = docvault
-  - DBTEST = docvaulttest
+  - USERNAME=blessingphilips DBTEST = docvaulttest
 
 before_script:
   - psql -c "CREATE DATABASE docvaulttest;" -U postgres
