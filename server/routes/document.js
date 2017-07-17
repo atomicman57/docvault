@@ -8,19 +8,19 @@ const documentRoutes = (app) => {
   app.get(
     '/documents/:documentId',
     Authentication.checkToken,
-    Authentication.allowUserOrAdminDoc,
+    Authentication.allowUserOrAdminAccessDoc,
     Document.find
   );
   app.put(
     '/documents/:documentId',
     Authentication.checkToken,
-   Authentication.allowUserOrAdminDoc,
+   Authentication.allowUserOrAdminAccessDoc,
     Document.update
   );
   app.delete(
     '/documents/:documentId',
     Authentication.checkToken,
-   Authentication.allowUserOrAdminDoc,
+   Authentication.allowUserOrAdminAccessDoc,
     Document.delete
   );
 };

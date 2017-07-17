@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 class SearchDocument extends React.Component {
   /**
    * Creates an instance of SearchDocument.
-   * @param {any} props
+   * @param {object} props
    * @memberof SearchDocument
    */
   constructor(props) {
@@ -26,7 +26,7 @@ class SearchDocument extends React.Component {
   /**
    *
    *
-   * @param {any} event
+   * @param {object} event
    * @memberof SearchDocument
    */
   onChange(event) {
@@ -36,7 +36,7 @@ class SearchDocument extends React.Component {
   /**
    *
    *
-   * @param {any} event
+   * @param {object} event
    * @memberof SearchDocument
    */
   onSubmit(event) {

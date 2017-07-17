@@ -1,12 +1,12 @@
 import expect from 'expect';
 import React from 'react';
+import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import EditDocument from '../../../components/documents/EditDocument.jsx';
 
 /**
  *
- *
- * @returns
+ * Test Setup
  */
 function setup() {
   const props = {
@@ -23,12 +23,21 @@ function setup() {
       id: 1,
       roleId: 2
     },
+    onChange: () => {},
     onSubmit: () => {},
     userUpdateDocumentRequest: () => Promise.resolve('Success')
   };
 
   return shallow(<EditDocument {...props} />);
 }
+before(() => {
+  sinon.spy(EditDocument.prototype, 'onChange');
+  sinon.spy(EditDocument.prototype, 'onSubmit');
+});
+after(() => {
+  EditDocument.prototype.onChange.restore();
+  EditDocument.prototype.onSubmit.restore();
+});
 
 describe('EditDocument', () => {
   it('renders the edit document form', () => {
@@ -52,14 +61,20 @@ describe('EditDocument', () => {
   });
   it('props value on Edit Document', () => {
     const wrapper = setup();
-    wrapper.find('form').simulate('submit', { preventDefault: () => {} });
     expect(wrapper.find('form').props().onSubmit).toBeA('function');
+    expect(wrapper.find('.edit-input').props().onChange).toBeA('function');
+  });
+
+  it('can call onSubmit on submitting the Form', () => {
+    const wrapper = setup();
+    wrapper.find('form').simulate('submit', { preventDefault: () => {} });
+    expect(EditDocument.prototype.onSubmit.callCount).toEqual(1);
   });
 
   it('responds to value change', () => {
     const wrapper = setup();
     const event = { target: { name: 'title', value: 'atom' } };
     wrapper.find('.edit-input').simulate('change', event);
-    expect(wrapper.find('.edit-input').props().onChange).toBeA('function');
+    expect(EditDocument.prototype.onChange.callCount).toEqual(1);
   });
 });

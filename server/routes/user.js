@@ -35,7 +35,6 @@ const userRoutes = (app) => {
     Authentication.allowUserOrAdmin,
     User.delete
   );
-  app.post('/users/logout', User.logout);
   app.get(
     '/users/:id/documents',
     Authentication.checkToken,

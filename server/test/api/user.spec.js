@@ -2,7 +2,6 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import models from '../../models/';
 import server from '../../../server';
-// import { User, Role } from '../../models';
 import TestData from '../TestData/TestData';
 
 const {
@@ -13,7 +12,11 @@ const {
   regularUser,
   thirdUser
 } = TestData;
-let regularToken, adminToken, secondId, TestUser3Token;
+
+let regularToken;
+let adminToken;
+let secondId;
+let TestUser3Token;
 
 const expect = chai.expect;
 chai.use(chaiHttp);
@@ -34,7 +37,7 @@ describe('User', () => {
       });
     });
 
-    it('should fail for invalid user credentials', (done) => {
+    it('should fail for invalid user password', (done) => {
       chai
         .request(server)
         .post('/users/login')
@@ -93,21 +96,10 @@ describe('User', () => {
       });
     });
 
-    // it('should not allow the creation of a user with admin role', (done) => {
-    //   TestUser2.roleId = '1';
-    //   chai.request(server)
-    //   .post('/users')
-    //   .send(TestUser2)
-    //   .end((err, res) => {
-    //     expect(res.status).to.equal(401);
-    //     expect(res.body.message).to.eql('Invalid roleId');
-    //     done();
-    //   });
-    // });
-
     it('should return a token after creating a user', (done) => {
       chai.request(server).post('/users').send(thirdUser).end((err, res) => {
         expect(res.status).to.equal(201);
+        expect(res.body).to.have.keys(['token', 'userDetails']);
         done();
       });
     });
@@ -135,7 +127,7 @@ describe('User', () => {
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body.users).to.be.a('array');
-          expect(res.body.users.length).to.be.greaterThan(2);
+          expect(res.body.users.length).to.be.equal(3);
           done();
         });
     });
@@ -215,14 +207,14 @@ describe('User', () => {
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('object');
-          //   expect(res.body).to.eql({
-          //     id: 2,
-          //     username: 'montaro',
-          //     fullName: 'Tony Montaro',
-          //     email: 'bossmontaro@gmail.com',
-          //     about: 'I love playing chess.',
-          //     roleId: 2
-          //   });
+          expect(res.body).to.eql({
+            id: 2,
+            username: 'Admin',
+            firstname: 'MyAdmin',
+            lastname: 'MyAdminn',
+            email: 'admin@dms.com',
+            roleId: 2
+          });
           done();
         });
     });
@@ -291,19 +283,19 @@ describe('User', () => {
     it("should allow admin to update a user's details", (done) => {
       chai
         .request(server)
-        .put('/users/2')
+        .put('/users/1')
         .set({ authorization: adminToken })
         .send({ firstname: 'Developer' })
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('object');
           expect(res.body).to.eql({
-            id: 2,
-            username: 'Admin',
+            id: 1,
+            username: 'user',
             firstname: 'Developer',
-            lastname: 'MyAdminn',
-            email: 'admin@dms.com',
-            roleId: 2,
+            lastname: 'Mylast',
+            email: 'user@dms.com',
+            roleId: 1
           });
           done();
         });
@@ -335,16 +327,6 @@ describe('User', () => {
           expect(res.body.message).to.eql('You do not have access');
           done();
         });
-    });
-  });
-
-  // POST /users/logout
-  describe('/POST/logout user', () => {
-    it('can logout a user', (done) => {
-      chai.request(server).post('/users/logout').send(admin).end((err, res) => {
-        expect(res.status).to.equal(200);
-        done();
-      });
     });
   });
 
@@ -412,7 +394,7 @@ describe('User', () => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('object');
           expect(res.body.document).to.be.a('array');
-        //   expect(res.body.length).to.be.greaterThan(0);
+          expect(res.body.document[0].title).to.eql('It Started With A Converse');
           done();
         });
     });

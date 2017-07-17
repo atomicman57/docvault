@@ -8,8 +8,7 @@ import { logout } from '../actions/authActions';
  *
  *
  * @export
- * @param {any} ComposedComponent
- * @returns {any}
+ * @param {component} ComposedComponent
  */
 export default function (ComposedComponent) {
   /**
@@ -41,7 +40,7 @@ export default function (ComposedComponent) {
     /**
      *
      *
-     * @param {any} nextProps
+     * @param {object} nextProps
      * @memberof Authenticate
      */
     componentWillUpdate(nextProps) {
@@ -73,7 +72,7 @@ export default function (ComposedComponent) {
   /**
  *
  *
- * @param {any} state
+ * @param {object} state
  * @returns {boolean}
  */
   function mapStateToProps(state) {

@@ -167,39 +167,4 @@ describe('Authentication', () => {
       done();
     });
   });
-
-  describe('allowUser', () => {
-    it('should grant access to the author', (done) => {
-      const response = responseEvent();
-      const req = httpMocks.createRequest({
-        method: 'DELETE',
-        url: '/documents',
-        params: { id: 2 }
-      });
-      req.decoded = { roleId: 2, id: 2 };
-      const callback = () => {
-        expect(req.decoded.id).to.equal(2);
-        done();
-      };
-      Authentication.allowUser(req, response, callback);
-      expect(response._getData().message).to.equal(undefined);
-      done();
-    });
-
-    it('should deny access if the user is not the document author', (done) => {
-      const response = responseEvent();
-      const req = httpMocks.createRequest({
-        method: 'DELETE',
-        url: '/documents',
-        params: { id: 2 }
-      });
-      req.decoded = { roleId: 1, id: 1 };
-
-      const callback = () => {
-        expect(response._getData().message).to.equal('You do not have access');
-      };
-      Authentication.allowUser(req, response, callback);
-      done();
-    });
-  });
 });

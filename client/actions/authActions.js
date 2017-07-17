@@ -3,10 +3,10 @@ import setAuthorizationToken from '../utils/setAuthorizationToken';
 import { SET_CURRENT_USER } from '../actions/types';
 
 /**
- *
- *
+ * Set Current User
+ * It set the current user
  * @export
- * @param {object} user
+ * @param {object} user user details
  * @returns {object}
  */
 export function setCurrentUser(user) {
@@ -19,6 +19,7 @@ export function setCurrentUser(user) {
 /**
  *
  * Logout
+ * It logs the user out
  * @export
  */
 export function logout() {
@@ -32,8 +33,9 @@ export function logout() {
 /**
  *
  * User Login Request
+ * It login the user and set token then dispatch current user
  * @export
- * @param {object} userData
+ * @param {object} userData user Details
  * @returns
  */
 export function userLoginRequest(userData) {
@@ -51,8 +53,9 @@ export function userLoginRequest(userData) {
 /**
  *
  * User Signup Request
+ * It register the user and return a token
  * @export
- * @param {object} userData
+ * @param {object} userData user Details
  * @returns
  */
 export function userSignupRequest(userData) {

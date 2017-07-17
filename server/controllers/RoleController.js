@@ -7,6 +7,7 @@ class RoleController {
 
   /**
    * Create Role
+   * It creates a role with title.
    * @param {object} req request
    * @param {object} res response
    * @return {object} roles
@@ -21,6 +22,7 @@ class RoleController {
 
   /**
    * List Roles
+   * It lists all roles.
    * @param {object} req request
    * @param {object} res response
    */
@@ -32,6 +34,7 @@ class RoleController {
 
   /**
    * Find Role
+   * It returns a role.
    * @param {object} req request
    * @param {object} res response
    */
@@ -50,6 +53,7 @@ class RoleController {
 
   /**
    * Update Role
+   * It update/edit a role given the Id.
    * @param {object} req request
    * @param {object} res response
    */
@@ -73,6 +77,7 @@ class RoleController {
 
   /**
    * Delete Role
+   * It deletes a role.
    * @param {object} req request
    * @param {object} res response
    */

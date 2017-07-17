@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 class EditProfileForm extends React.Component {
   /**
    * Creates an instance of EditProfileForm.
-   * @param {any} props
+   * @param {object} props
    * @memberof EditProfileForm
    */
   constructor(props) {
@@ -31,20 +31,20 @@ class EditProfileForm extends React.Component {
   }
 
   /**
+   * onChange
    *
-   *
-   * @param {any} e
+   * @param {object} event
    * @memberof EditProfileForm
    */
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
     this.setState({ errors: {} });
   }
 
   /**
    *
    *
-   * @param {any} event
+   * @param {object} event
    * @memberof EditProfileForm
    */
   onSubmit(event) {
@@ -59,9 +59,9 @@ class EditProfileForm extends React.Component {
     });
   }
   /**
-   *
-   *
-   * @param {any} event
+   *  on Submit Password
+   * On password form Submit
+   * @param {object} event
    * @memberof EditProfileForm
    */
   onSubmitPassword(event) {
