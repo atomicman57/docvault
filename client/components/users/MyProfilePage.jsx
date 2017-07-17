@@ -30,9 +30,9 @@ MyProfilePage.propTypes = {
 };
 
 /**
+ * mapStateToProps
  *
- *
- * @param {any} state
+ * @param {object} state
  * @returns
  */
 function mapStateToProps(state) {

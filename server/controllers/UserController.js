@@ -30,6 +30,7 @@ class UserController {
   /**
    *
    * Create User
+   * It creates a user with the information provided
    * @static
    * @param {object} req request
    * @param {object} res response
@@ -107,6 +108,7 @@ class UserController {
   /**
    *
    * User Login
+   * It logs user in and return a token
    * @static
    * @param {object} req request
    * @param {object} res response
@@ -139,19 +141,8 @@ class UserController {
 
   /**
    *
-   * User Logout
-   * @static
-   * @param {any} req request
-   * @param {any} res response
-   * @memberof UserController
-   */
-  static logout(req, res) {
-    res.send(200);
-  }
-
-  /**
-   *
    * List Users
+   * It lists all users
    * @static
    * @param {object} req request
    * @param {object} res response
@@ -229,6 +220,7 @@ class UserController {
   /**
    *
    * Update User
+   * It update/edit a user
    * @static
    * @param {object} req request
    * @param {object} res response
@@ -252,6 +244,7 @@ class UserController {
   /**
    *
    * Delete User
+   * It delete a user
    * @static
    * @param {object} req request
    * @param {object} res response
@@ -259,13 +252,15 @@ class UserController {
    */
   static delete(req, res) {
     return User.findById(req.params.id).then((user) => {
-      return user.destroy().then(() => res.send(200));
-    });
+      return user.destroy().then(() => res.send(200))
+      .catch(error => res.status(400).json(error));
+    })
   }
 
   /**
    *
    * List User Personal Documents
+   * It lists documents created by a user by an Id.
    * @static
    * @param {object} req request
    * @param {any} res response
@@ -321,7 +316,7 @@ class UserController {
           currentPage
         }
       });
-    });
+    }).catch(error => res.status(400).json(error));
   }
 }
 

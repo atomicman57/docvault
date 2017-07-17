@@ -41,7 +41,7 @@ describe('Document Actions', () => {
         status: 200
       });
 
-      const expectedActions = [{ type: 'BEGIN_AJAX_CALL' }];
+      const expectedActions = [{ type: 'BEGIN_AJAX_CALL' }, { type: 'SAVE_DOCUMENT' }];
       const store = mockStore();
 
       return store
@@ -88,7 +88,7 @@ describe('Document Actions', () => {
 
       const expectedActions = [
         { type: 'BEGIN_AJAX_CALL' },
-        { type: 'BEGIN_AJAX_CALL' }
+        { type: 'UPDATE_DOCUMENT' }
       ];
       const store = mockStore();
 
@@ -110,7 +110,8 @@ describe('Document Actions', () => {
       });
 
       const expectedActions = [
-        { type: 'BEGIN_AJAX_CALL' }
+        { type: 'BEGIN_AJAX_CALL' },
+        { type: 'DELETE_DOCUMENT' }
       ];
       const store = mockStore();
 

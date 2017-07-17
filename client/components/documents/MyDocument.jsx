@@ -16,7 +16,7 @@ import { deleteQuestion } from '../../utils/constant';
 class MyDocument extends React.Component {
   /**
    * Creates an instance of GetDocument.
-   * @param {any} props
+   * @param {object} props
    *
    * @memberof GetDocument
    */
@@ -35,7 +35,7 @@ class MyDocument extends React.Component {
   /**
    *
    *
-   * @param {any} data
+   * @param {object} data
    * @memberof MyDocument
    */
   handlePageClick(data) {
@@ -72,7 +72,7 @@ class MyDocument extends React.Component {
   /**
    *
    *
-   * @param {any} nextProps
+   * @param {object} nextProps
    *
    * @memberof GetDocument
    */
@@ -88,9 +88,9 @@ class MyDocument extends React.Component {
   }
 
   /**
-   *
-   *
-   * @param {any} id
+   * confirmDelete
+   * It display a sweet alert modal to confirm delete
+   * @param {number} id
    * @memberof MyDocument
    */
   confirmDelete(id) {

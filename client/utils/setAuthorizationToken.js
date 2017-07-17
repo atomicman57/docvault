@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 /**
- *
- *
+ * set Authorization Token
+ * It sets token to the header of every axios request
  * @export
- * @param {any} token
+ * @param {string} token
  */
 export default function setAuthorizationToken(token) {
   if (token) {

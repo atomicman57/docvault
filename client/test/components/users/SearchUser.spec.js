@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import SearchUser from '../../../components/users/SearchUsers.jsx';
 
 /**
- *
+ * Test Setup
  *
  * @returns
  */

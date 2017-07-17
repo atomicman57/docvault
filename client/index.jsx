@@ -13,6 +13,7 @@ import ConfigureStore from './store/ConfigureStore';
 const app = document.getElementById('app');
 
 const store = ConfigureStore();
+window.jQuery = window.$ = jQuery;
 
 if (localStorage.jwtToken) {
   setAuthorizationToken(localStorage.jwtToken);

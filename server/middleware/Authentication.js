@@ -1,15 +1,17 @@
 import jwt from 'jsonwebtoken';
 import { User, Role, Document } from '../models';
+
 /**
  * Authentication Middleware
  */
 class Middleware {
+
   /**
    * Check Token
    * It checks and verify the user token and the decode it
    * @param {object} req request
    * @param {object} res response
-   * @param {any} next
+   * @param {function} next
    * @return {object} User decoded infomation
    */
   static checkToken(req, res, next) {
@@ -40,7 +42,7 @@ class Middleware {
    * @static
    * @param {object} req request
    * @param {object} res response
-   * @param {any} next
+   * @param {function} next
    * @memberof Middleware
    */
   static allowAdmin(req, res, next) {
@@ -58,6 +60,7 @@ class Middleware {
   /**
    *
    * Alow User or Admin
+   * It allow a User or an Admin
    * @static
    * @param {object} req request
    * @param {object} res response
@@ -80,64 +83,32 @@ class Middleware {
   /**
    *
    * Allow User of Admin to access Document
+   * It allow Admin or User to access the Document
    * @static
    * @param {object} req request
    * @param {object} res response
-   * @param {any} next
+   * @param {function} next
    * @returns
    * @memberof Middleware
    */
-  static allowUserOrAdminDoc(req, res, next) {
+  static allowUserOrAdminAccessDoc(req, res, next) {
     return Document.findById(req.params.documentId)
       .then((document) => {
         if (!document) {
           return res.status(404).json({ message: 'Document not found' });
         }
-
-        if (
-          document.access === 'role' &&
-          document.userRoleId == req.decoded.roleId
-        ) {
+        if (document.access === 'role' &&
+          document.userRoleId == req.decoded.roleId) {
           return next();
         }
-
-        if (
-          req.decoded.roleId === 2 &&
-          document.userId !== req.decoded.id &&
-          document.access === 'private'
-        ) {
-          return res
-            .status(403)
+        if (req.decoded.roleId === 2 && document.userId !== req.decoded.id &&
+          document.access === 'private') {
+          return res.status(403)
             .json({ message: 'You do not have access to private documents' });
         }
-
-        if (req.decoded.roleId === 2) {
-          return next();
-        }
-
+        if (req.decoded.roleId === 2) { return next(); }
         if (req.decoded.id !== document.userId) {
           return res.status(403).send({ message: 'You do not have access' });
-        }
-        return next();
-      })
-      .catch(error => res.status(400).json(error));
-  }
-
-  /**
-   *
-   * Allow only user
-   * @static
-   * @param {object} req request
-   * @param {object} res response
-   * @param {any} next
-   * @returns
-   * @memberof Middleware
-   */
-  static allowUser(req, res, next) {
-    return Document.findById(req.params.documentId)
-      .then((document) => {
-        if (!document) {
-          return res.status(404).json({ message: 'Document not found' });
         }
         return next();
       })

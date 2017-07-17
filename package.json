@@ -57,6 +57,7 @@
     "faker": "^4.1.0",
     "file-loader": "^0.11.2",
     "image-webpack-loader": "^3.3.1",
+    "jsdom": "^8.5.0",
     "jsonwebtoken": "^7.4.1",
     "morgan": "^1.8.2",
     "nodemon": "^1.11.0",

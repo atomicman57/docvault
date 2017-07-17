@@ -25,7 +25,6 @@ module.exports = {
       .waitForElementVisible('#doc_success', 5000)
       .assert.containsText('#doc_success', 'Document Created Successfully')
       .pause(2000)
-      .click('button.modal-close')
       .waitForElementVisible('div.page', timeout)
       .end();
   },
@@ -82,8 +81,9 @@ module.exports = {
       .click('select option[value="private"]')
       .click('div.public-DraftStyleDefault-block')
       .setValue('.public-DraftEditor-content', faker.lorem.paragraphs())
-      .click('#edit-doc')
-      .waitForElementVisible('#update-doc', 50000)
+      .waitForElementVisible('.edit-button', timeout)
+      .click('.edit-button')
+      .waitForElementVisible('#update-doc', 60000)
       .pause(2000)
       .assert.containsText('#update-doc', 'Document Updated Successfully');
     browser.end();

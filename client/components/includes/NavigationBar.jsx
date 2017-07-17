@@ -16,7 +16,7 @@ class NavBar extends React.Component {
   /**
    *
    *
-   * @param {any} event
+   * @param {object} event
    * @memberof NavBar
    */
   logout(event) {
@@ -161,9 +161,9 @@ NavBar.contextTypes = {
 };
 
 /**
+ * mapStateToProps
  *
- *
- * @param {any} state
+ * @param {object} state
  * @returns
  */
 function mapStateToProps(state) {

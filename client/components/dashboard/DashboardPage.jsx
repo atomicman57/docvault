@@ -58,6 +58,7 @@ const Dashboard = ({
     </div>
     <Modal
       header="Create Document"
+      id="create-doc"
       trigger={
         <div className="fixed-action-btn">
           <a className="btn-floating btn-large pink darken-4" id="createbtn">
@@ -90,9 +91,9 @@ Dashboard.propTypes = {
 };
 
 /**
+ * mapStateToProps
  *
- *
- * @param {any} state
+ * @param {object} state
  * @returns
  */
 function mapStateToProps(state) {

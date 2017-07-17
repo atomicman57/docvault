@@ -16,7 +16,7 @@ import { deleteQuestion } from '../../utils/constant';
 class GetUsers extends React.Component {
   /**
    * Creates an instance of GetUsers.
-   * @param {any} props
+   * @param {object} props
    *
    * @memberof GetUsers
    */
@@ -35,7 +35,7 @@ class GetUsers extends React.Component {
   /**
    *
    *
-   * @param {any} data
+   * @param {object} data
    * @memberof GetUsers
    */
   handlePageClick(data) {
@@ -68,7 +68,7 @@ class GetUsers extends React.Component {
   /**
    *
    *
-   * @param {any} nextProps
+   * @param {object} nextProps
    *
    * @memberof GetUsers
    */
@@ -86,7 +86,7 @@ class GetUsers extends React.Component {
   /**
    *
    *
-   * @param {any} id
+   * @param {number} id
    * @memberof GetUsers
    */
   confirmDelete(id) {

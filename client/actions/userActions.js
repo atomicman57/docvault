@@ -6,6 +6,7 @@ import { beginAjaxCall } from './ajaxStatusAction';
 /**
  *
  * Get Users
+ * It gets list of users
  * @export
  * @param {object} users
  */
@@ -19,6 +20,7 @@ export function getUsers(users) {
 /**
  *
  * Get Users Request
+ * It gets users and dispatch getUsers action
  * @export
  * @param {number} [offset=0]
  * @param {number} [limit=8]
@@ -40,6 +42,7 @@ export function getUsersRequest(offset = 0, limit = 8) {
 /**
  *
  * Delete User Request
+ * It deletes a user
  * @export
  * @param {number} id
  */
@@ -56,6 +59,7 @@ export function DeleteUserRequest(id) {
 /**
  *
  * User Search Request
+ * It search for a user
  * @export
  * @param {object} query
  */
@@ -79,6 +83,7 @@ export function userSearchRequest(query) {
 /**
  *
  * User Update Request
+ * It update a user
  * @export
  * @param {object} user
  */

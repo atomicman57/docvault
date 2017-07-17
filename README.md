@@ -37,6 +37,7 @@ Alternatively, You may clone the repository and run the app locally to use.
     * git clone https://github.com/andela-bphilips/docvault.git
 * Navigate to the project directory **cd docvault**
 * Install the dependencies using **npm install**
+* Rename .env_sample to .env and add the required Database information.
 * Run **npm start** to start the application.
 * The app will start on your local server.
 * Run tests with: **npm test**
