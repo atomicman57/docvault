@@ -4,6 +4,11 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import SignupForm from '../../../components/authentication/SignupForm.jsx';
 
+/**
+ * Test Setup
+ *
+ * @returns
+ */
 function setup() {
   const props = {
     currentUser: {
@@ -17,6 +22,15 @@ function setup() {
 
   return shallow(<SignupForm {...props} />);
 }
+
+before(() => {
+  sinon.spy(SignupForm.prototype, 'onChange');
+  sinon.spy(SignupForm.prototype, 'onSubmit');
+});
+after(() => {
+  SignupForm.prototype.onChange.restore();
+  SignupForm.prototype.onSubmit.restore();
+});
 
 describe('Signup Form', () => {
   it('renders the signup form', () => {
@@ -34,16 +48,16 @@ describe('Signup Form', () => {
     expect(wrapper.find('button').length).toBe(1);
   });
 
-  it('props value on Signup Form', () => {
+  it('can call onSubmit on submitting the Form', () => {
     const wrapper = setup();
     wrapper.find('form').simulate('submit', { preventDefault: () => {} });
-    expect(wrapper.find('form').props().onSubmit).toBeA('function');
+    expect(SignupForm.prototype.onSubmit.callCount).toEqual(1);
   });
 
   it('responds to value change', () => {
     const wrapper = setup();
     const event = { target: { name: 'firstname', value: 'atom' } };
     wrapper.find('.firstname').simulate('change', event);
-    expect(wrapper.find('.firstname').props().onChange).toBeA('function');
+    expect(SignupForm.prototype.onChange.callCount).toEqual(1);
   });
 });

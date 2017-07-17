@@ -4,8 +4,10 @@ import { User, Document } from '../models';
  * Document Controller
  */
 class DocumentController {
+
   /**
    * Create Document
+   * It creates a new Document.
    * @param {object} req request
    * @param {object} res response
    * @return{object} document object
@@ -36,6 +38,7 @@ class DocumentController {
 
   /**
    * List Documents
+   * It lists all documents with pagination.
    * @param {object} req request
    * @param {object} res response
    */
@@ -113,6 +116,7 @@ class DocumentController {
 
   /**
    * Find Document
+   * It returns a document.
    * @param {object} req request
    * @param {object} res response
    * @return {object} document
@@ -130,6 +134,7 @@ class DocumentController {
 
   /**
    * Update Document
+   * It update/edit a document and return the editted details
    * @param {object} req request
    * @param {object} res response
    */
@@ -144,12 +149,15 @@ class DocumentController {
 
   /**
    * Delete Document
+   * It delete a document
    * @param {object} req request
    * @param {object} res response
    */
   static delete(req, res) {
     return Document.findById(req.params.documentId).then((document) => {
-      return document.destroy().then(() => res.send(200));
+      return document.destroy()
+      .then(() => res.send(200))
+      .catch(error => res.status(400).json(error));
     });
   }
 }

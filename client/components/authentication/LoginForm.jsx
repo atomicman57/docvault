@@ -11,7 +11,7 @@ import { Link } from 'react-router';
 class LoginForm extends React.Component {
   /**
    * Creates an instance of LoginForm.
-   * @param {any} props
+   * @param {object} props
    * @memberof LoginForm
    */
   constructor(props) {
@@ -28,7 +28,7 @@ class LoginForm extends React.Component {
   /**
    *
    *
-   * @param {any} event
+   * @param {object} event
    * @memberof LoginForm
    */
   onChange(event) {
@@ -36,9 +36,9 @@ class LoginForm extends React.Component {
   }
 
   /**
-   *
-   *
-   * @param {any} event
+   * On Submit
+   * It makes a login request
+   * @param {object} event
    * @memberof LoginForm
    */
   onSubmit(event) {

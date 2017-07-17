@@ -1,12 +1,11 @@
-// This file is written in ES5 since it's not transpiled by Babel.
 // This file does the following:
-// 1. Sets Node environment variable
+// 1. Sets Node environment constiable
 // 2. Registers babel for transpiling our code for testing
 // 3. Disables Webpack-specific features that Mocha doesn't understand.
 // 4. Requires jsdom so we can test via an in-memory DOM in Node
-// 5. Sets up global vars that mimic a browser.
+// 5. Sets up global consts that mimic a browser.
 
-/* eslint-disable no-var*/
+/* eslint-disable no-const*/
 
 /* This setting assures the .babelrc dev config (which includes
  hot module reloading code) doesn't apply for tests.
@@ -25,15 +24,21 @@ require('babel-register')();
 
 // Disable webpack-specific features for tests since
 // Mocha doesn't know what to do with them.
-require.extensions['.css'] = function () {return null;};
-require.extensions['.png'] = function () {return null;};
-require.extensions['.jpg'] = function () {return null;};
+require.extensions['.css'] = () => {
+  return null;
+};
+require.extensions['.png'] = () => {
+  return null;
+};
+require.extensions['.jpg'] = () => {
+  return null;
+};
 
-// Configure JSDOM and set global variables
+// Configure JSDOM and set global constiables
 // to simulate a browser environment for tests.
-var jsdom = require('jsdom').jsdom;
+const jsdom = require('jsdom').jsdom;
 
-var exposedProperties = ['window', 'navigator', 'document'];
+const exposedProperties = ['window', 'navigator', 'document'];
 
 global.document = jsdom('');
 global.window = document.defaultView;
@@ -50,7 +55,7 @@ global.navigator = {
 global.Materialize = { toast: () => {} };
 global.localStorage = {
   setItem: () => {},
-  removeItem: () => {},
+  removeItem: () => {}
 };
 
-var documentRef = document; //eslint-disable-line no-undef
+const documentRef = document; // eslint-disable-line no-unused-vars

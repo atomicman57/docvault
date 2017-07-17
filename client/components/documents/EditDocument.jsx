@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 class EditDocument extends React.Component {
   /**
    * Creates an instance of EditDocument.
-   * @param {any} props
+   * @param {object} props
    * @memberof EditDocument
    */
   constructor(props) {
@@ -37,7 +37,7 @@ class EditDocument extends React.Component {
   /**
    *
    *
-   * @param {any} event
+   * @param {object} event
    *
    * @memberof EditDocument
    */
@@ -49,7 +49,7 @@ class EditDocument extends React.Component {
   /**
    *
    *
-   * @param {any} editorState
+   * @param {object} editorState
    *
    * @memberof EditDocument
    */
@@ -63,7 +63,7 @@ class EditDocument extends React.Component {
   /**
    *
    *
-   * @param {any} event
+   * @param {object} event
    *
    * @memberof EditDocument
    */
@@ -77,6 +77,7 @@ class EditDocument extends React.Component {
           this.props.documentType
         )
         .then(() => {
+           $('#edit-doc').modal('close');
           const $toastContent =
             '<span id="update-doc">Document Updated Successfully</span>';
           Materialize.toast($toastContent, 5000);
@@ -141,7 +142,7 @@ class EditDocument extends React.Component {
               {' '}
             </div>
             <div className="input-field center">
-              <button className="pink darken-4 btn edit-doc" id="edit-doc">
+              <button className="pink darken-4 btn edit-button" id="edit-doc">
                 Save
               </button>
             </div>

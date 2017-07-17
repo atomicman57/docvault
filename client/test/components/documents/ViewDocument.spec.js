@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import ViewDocument from '../../../components/documents/ViewDocument.jsx';
 
 /**
- *
+ * Test Setup
  *
  * @returns
  */

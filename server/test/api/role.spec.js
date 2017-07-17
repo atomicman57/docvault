@@ -5,7 +5,8 @@ import TestData from '../TestData/TestData';
 import { Role } from '../../models';
 
 const { admin, regularUser, TestRole } = TestData;
-let regularToken, adminToken;
+let regularToken;
+let adminToken;
 
 const expect = chai.expect;
 chai.use(chaiHttp);
@@ -31,6 +32,7 @@ describe('Role', () => {
       where: { id: { $notIn: [1, 2] } }
     }).then(() => done());
   });
+
   // GET /roles
   describe('/GET roles', () => {
     it('should return all roles', (done) => {
@@ -41,7 +43,7 @@ describe('Role', () => {
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('array');
-          expect(res.body.length).to.be.greaterThan(0);
+          expect(res.body.length).to.be.equal(2);
           done();
         });
     });
@@ -108,6 +110,7 @@ describe('Role', () => {
         .set({ authorization: adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
+          expect(res.body.title).to.eql('Admin');
           expect(res.body).to.be.a('object');
           done();
         });

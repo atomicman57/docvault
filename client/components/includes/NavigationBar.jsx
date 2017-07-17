@@ -16,7 +16,7 @@ class NavBar extends React.Component {
   /**
    *
    *
-   * @param {any} event
+   * @param {object} event
    * @memberof NavBar
    */
   logout(event) {
@@ -109,6 +109,7 @@ class NavBar extends React.Component {
                 <a
                   onClick={this.logout.bind(this)}
                   className="waves-effect waves-grey"
+                  id="logout"
                 >
                   <i className="material-icons">exit_to_app</i>
                   Logout
@@ -160,9 +161,9 @@ NavBar.contextTypes = {
 };
 
 /**
+ * mapStateToProps
  *
- *
- * @param {any} state
+ * @param {object} state
  * @returns
  */
 function mapStateToProps(state) {

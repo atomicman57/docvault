@@ -1,11 +1,12 @@
 import expect from 'expect';
 import React from 'react';
+import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import SearchDocument from '../../../components/documents/SearchDocument.jsx';
 
 /**
  *
- *
+ * Test Setup
  * @returns
  */
 function setup() {
@@ -20,6 +21,15 @@ function setup() {
 
   return shallow(<SearchDocument {...props} />);
 }
+
+before(() => {
+  sinon.spy(SearchDocument.prototype, 'onChange');
+  sinon.spy(SearchDocument.prototype, 'onSubmit');
+});
+after(() => {
+  SearchDocument.prototype.onChange.restore();
+  SearchDocument.prototype.onSubmit.restore();
+});
 
 describe('SearchDocument', () => {
   it('renders the edit document form', () => {
@@ -38,14 +48,18 @@ describe('SearchDocument', () => {
   });
   it('props value on View Document', () => {
     const wrapper = setup();
-    wrapper.find('form').simulate('submit', { preventDefault: () => {} });
+    expect(wrapper.find('#search').props().onChange).toBeA('function');
     expect(wrapper.find('form').props().onSubmit).toBeA('function');
   });
-
+  it('can call onSubmit on submitting the Form', () => {
+    const wrapper = setup();
+    wrapper.find('form').simulate('submit', { preventDefault: () => {} });
+    expect(SearchDocument.prototype.onSubmit.callCount).toEqual(1);
+  });
   it('responds to value change', () => {
     const wrapper = setup();
     const event = { target: { name: 'search', value: 'atom' } };
     wrapper.find('#search').simulate('change', event);
-    expect(wrapper.find('#search').props().onChange).toBeA('function');
+    expect(SearchDocument.prototype.onChange.callCount).toEqual(1);
   });
 });

@@ -8,17 +8,11 @@ import initialState from './initialState';
 export default (state = initialState, action = {}) => {
   switch (action.type) {
   case SAVE_USER_DOCUMENT:
-    return Object.assign({}, state, {
-      documents: action.documents
-    });
+    return { ...state, documents: action.documents };
   case GET_USER_DOCUMENT_SUCCESS:
-    return Object.assign({}, state, {
-      documents: action.documents
-    });
+    return { ...state, documents: action.documents };
   case GET_CURRENT_USER_DOCUMENT_SUCCESS:
-    return Object.assign({}, state, {
-      documents: action.documents
-    });
+    return { ...state, documents: action.documents };
 
   default:
     return state;

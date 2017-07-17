@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import MyProfile from '../../../components/users/MyProfile.jsx';
 
 /**
- *
+ * Test Setup
  *
  * @returns
  */

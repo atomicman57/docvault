@@ -14,7 +14,12 @@ const {
   privateDocument,
   roleDocument
 } = TestData;
-let regularToken, regularToken2, adminToken, TestUser1Token, secondDoc;
+
+let regularToken;
+let regularToken2;
+let adminToken;
+let TestUser1Token;
+let secondDoc;
 
 const expect = chai.expect;
 chai.use(chaiHttp);
@@ -163,6 +168,7 @@ describe('Documents', () => {
             'updatedAt',
             'createdAt'
           ]);
+          expect(res.body.title).to.equal(roleDocument.title);
           expect(res.body.userRoleId).to.equal(TestUser1.roleId);
           roleDocument.docId = res.body.id;
           done();
@@ -291,7 +297,7 @@ describe('Documents', () => {
         });
     });
 
-    it('should allow all users to view a public document', (done) => {
+    it('should allow user to view a public document', (done) => {
       chai
         .request(server)
         .get('/documents/1')
@@ -350,6 +356,7 @@ describe('Documents', () => {
             'updatedAt',
             'createdAt'
           ]);
+          expect(res.body.title).to.equal(roleDocument.title);
           expect(res.body.userRoleId).to.equal(TestUser2.roleId);
           done();
         });

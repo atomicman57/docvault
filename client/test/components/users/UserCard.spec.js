@@ -7,6 +7,11 @@ import UserCard from '../../../components/users/UsersCard.jsx';
 const confirmDelete = sinon.spy();
 const userUpdateUserRequest = sinon.spy();
 
+/**
+ * Test Setup
+ *
+ * @returns
+ */
 function setup() {
   const props = {
     user: {

@@ -12,7 +12,7 @@ class SignupForm extends React.Component {
 
   /**
    * Creates an instance of SignupForm.
-   * @param {any} props
+   * @param {object} props
    * @memberof SignupForm
    */
   constructor(props) {
@@ -31,9 +31,9 @@ class SignupForm extends React.Component {
   }
 
   /**
-   *
-   *
-   * @param {any} event
+   * onChange
+   * It sets state of the target e.g input, text box.
+   * @param {object} event
    * @memberof SignupForm
    */
   onChange(event) {
@@ -41,9 +41,9 @@ class SignupForm extends React.Component {
   }
 
   /**
-   *
-   *
-   * @param {any} event
+   * on Submit
+   * It make a sign up request
+   * @param {object} event
    * @memberof SignupForm
    */
   onSubmit(event) {

@@ -13,7 +13,7 @@ import { convertToHTML } from 'draft-convert';
 class CreateDocument extends React.Component {
   /**
    * Creates an instance of CreateDocument.
-   * @param {any} props
+   * @param {object} props
    * @memberof CreateDocument
    */
   constructor(props) {
@@ -32,7 +32,7 @@ class CreateDocument extends React.Component {
   /**
    *
    *
-   * @param {any} event
+   * @param {object} event
    *
    * @memberof CreateDocument
    */
@@ -44,7 +44,7 @@ class CreateDocument extends React.Component {
   /**
    *
    *
-   * @param {any} editorState
+   * @param {object} editorState
    *
    * @memberof CreateDocument
    */
@@ -58,17 +58,12 @@ class CreateDocument extends React.Component {
   /**
    *
    * On Form Submit
-   * @param {any} event
+   * @param {object} event
    *
    * @memberof CreateDocument
    */
   onSubmit(event) {
     event.preventDefault();
-    // There is an intial <p></p> in the editor which make it possibe
-    // to create empty document.
-    // Initial content length = 7
-    // Minimum length = 5
-    // Initial content length +  Minimum length = 12
     if (this.state.content.length > 12) {
       this.props
         .userSaveDocumentRequest(
@@ -77,6 +72,7 @@ class CreateDocument extends React.Component {
           this.props.documentType
         )
         .then(() => {
+          $('#create-doc').modal('close');
           const $toastContent =
             '<span id="doc_success">Document Created Successfully</span>';
           Materialize.toast($toastContent, 5000);

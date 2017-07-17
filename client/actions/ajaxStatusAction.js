@@ -3,6 +3,7 @@ import * as types from './types';
 /**
  *
  * Begin Ajax call
+ * It begins Ajax call
  * @export
  * @returns {object}
  */
@@ -13,6 +14,7 @@ export function beginAjaxCall() {
 /**
  *
  * End Ajax Call
+ * It ends Ajax Call
  * @export
  * @returns {object}
  */
