@@ -6,9 +6,6 @@ node_js:
 services:
   - postgresql
 
-env:
-  - USERNAME=blessingphilips DBTEST = docvaulttest
-
 before_script:
   - psql -c "CREATE DATABASE docvaulttest;" -U postgres
   - psql -c "CREATE USER blessingphilips;" -U postgres
