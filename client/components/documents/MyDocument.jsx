@@ -1,166 +1,76 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import swal from 'sweetalert';
-import ReactPaginate from 'react-paginate';
-import 'sweetalert/dist/sweetalert.css';
+import { connect } from 'react-redux';
+import { Modal } from 'react-materialize';
+import CreateDocument from '../documents/CreateDocument.jsx';
+import SearchDocument from '../documents/SearchDocument.jsx';
+import ListDocument from '../documents/ListDocument.jsx';
+import {
+  userSaveDocumentRequest,
+  userDeleteDocumentRequest,
+  userUpdateDocumentRequest,
+  userSearchRequest,
+  userPersonalDocumentRequest
+} from '../../actions/documentActions';
 
-import DocumentCard from './DocumentCard.jsx';
-import { deleteQuestion } from '../../utils/constant';
-
-/**
- *
- *
- * @class MyDocument
- * @extends {React.Component}
- */
-class MyDocument extends React.Component {
-  /**
-   * Creates an instance of GetDocument.
-   * @param {object} props
-   *
-   * @memberof GetDocument
-   */
-  constructor(props) {
-    super(props);
-    this.state = {
-      document: [],
-      offset: 0,
-      pageCount: 0,
-      errors: {}
-    };
-    this.handlePageClick = this.handlePageClick.bind(this);
-    this.confirmDelete = this.confirmDelete.bind(this);
-  }
-
-  /**
-   *
-   *
-   * @param {object} data
-   * @memberof MyDocument
-   */
-  handlePageClick(data) {
-    const selected = data.selected;
-    const limit = 8;
-    const offset = Math.ceil(selected * limit);
-    this.setState({ offset }, () => {
-      this.props
-        .userPersonalDocumentRequest(this.props.currentUser.id, offset, limit)
-        .then(() => {
-          this.setState({
-            document: this.props.documents.documents
-          });
-        });
-    });
-  }
-
-  /**
-   *
-   *
-   *
-   * @memberof GetDocument
-   */
-  componentDidMount() {
-    this.props
-      .userPersonalDocumentRequest(this.props.currentUser.id)
-      .then(() => {
-        this.setState({
-          document: this.props.documents.documents,
-          pageCount: this.props.documents.pagination.pageCount
-        });
-      });
-  }
-  /**
-   *
-   *
-   * @param {object} nextProps
-   *
-   * @memberof GetDocument
-   */
-  componentWillReceiveProps(nextProps) {
-    const newDocument = nextProps.documents;
-    const newPagination = newDocument.pagination;
-    if (newPagination) {
-      this.setState({
-        document: newDocument.documents,
-        pageCount: newPagination.pageCount
-      });
-    }
-  }
-
-  /**
-   * confirmDelete
-   * It display a sweet alert modal to confirm delete
-   * @param {number} id
-   * @memberof MyDocument
-   */
-  confirmDelete(id) {
-    swal(deleteQuestion, () =>
-      this.props
-        .userDeleteDocumentRequest(
-          id,
-          this.props.currentUser.id,
-          this.props.documentType
-        )
-        .then(() => {
-          swal('Deleted!', 'Your Document has been deleted.', 'success');
-        })
-    );
-  }
-
-  /**
-   *
-   *
-   * @memberof MyDocument
-   */
-  render() {
-    const {
-      currentUser,
-      userUpdateDocumentRequest,
-      loading,
-      documentType
-    } = this.props;
-    const { document } = this.state;
-    const documents = document;
-    return (
-      <div>
-        {document.length !== 0 &&
-          <div className="docpagination">
-            <ReactPaginate
-              previousLabel={'previous'}
-              nextLabel={'next'}
-              breakLabel={<a href="">...</a>}
-              breakClassName={'break-me'}
-              pageCount={this.state.pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={this.handlePageClick}
-              containerClassName={'pagination'}
-              subContainerClassName={'pages pagination'}
-              activeClassName={'active'}
-            />
-          </div>}
-        {documents.map(document => (
-          <DocumentCard
-            document={document}
-            key={document.id}
+const MyDocument = ({
+  userPersonalDocumentRequest,
+  userSaveDocumentRequest,
+  userDeleteDocumentRequest,
+  userSearchRequest,
+  userUpdateDocumentRequest,
+  documents,
+  currentUser,
+  loading
+}) => (
+  <div>
+    <div className="page">
+      <main>
+        <div className="breadcrumb grey lighten-3">
+          <h6>My Documents</h6>
+        </div>
+        <Modal
+          header="Create Document"
+          id="create-doc"
+          trigger={
+            <div className="fixed-action-btn">
+              <a className="btn-floating btn-large pink darken-4">
+                <i className="large white-text material-icons">edit</i>
+              </a>
+            </div>
+          }
+        >
+          <CreateDocument
+            documentType={'personal'}
             currentUser={currentUser}
-            confirmDelete={this.confirmDelete}
-            userUpdateDocumentRequest={userUpdateDocumentRequest}
-            documentType={documentType}
+            userSaveDocumentRequest={userSaveDocumentRequest}
           />
-        ))}
-        {document.length === 0 &&
-          !loading &&
-          <div className="center-align">
-            <h3>No document Found</h3>
-          </div>}
-      </div>
-    );
-  }
-}
+        </Modal>
+        <br />
+        <SearchDocument
+          documentType={'personal'}
+          currentUser={currentUser}
+          userSearchRequest={userSearchRequest}
+        />
+        <br />
+        <div className="row">
+          <ListDocument
+            documentType={'personal'}
+            loading={loading}
+            userDeleteDocumentRequest={userDeleteDocumentRequest}
+            userUpdateDocumentRequest={userUpdateDocumentRequest}
+            currentUser={currentUser}
+            userDocumentRequest={userPersonalDocumentRequest}
+            documents={documents}
+          />
+        </div>
+      </main>
+    </div>
+  </div>
+);
 
 MyDocument.defaultProps = {
-  documents: {}
+  documents: {},
 };
 
 MyDocument.propTypes = {
@@ -168,9 +78,28 @@ MyDocument.propTypes = {
   userDeleteDocumentRequest: PropTypes.func.isRequired,
   userUpdateDocumentRequest: PropTypes.func.isRequired,
   userPersonalDocumentRequest: PropTypes.func.isRequired,
-  documentType: PropTypes.string.isRequired,
   documents: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   loading: PropTypes.number.isRequired
 };
 
-export default MyDocument;
+/**
+ *
+ *
+ * @param {any} state
+ * @returns
+ */
+function mapStateToProps(state) {
+  return {
+    currentUser: state.Auth.user,
+    documents: state.Document.documents,
+    loading: state.ajaxCallsInProgress
+  };
+}
+
+export default connect(mapStateToProps, {
+  userPersonalDocumentRequest,
+  userSaveDocumentRequest,
+  userDeleteDocumentRequest,
+  userUpdateDocumentRequest,
+  userSearchRequest
+})(MyDocument);

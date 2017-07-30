@@ -1,17 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import { Modal } from 'react-materialize';
-import CreateDocument from '../documents/CreateDocument.jsx';
-// import GetDocument from '../documents/GetDocument.jsx';
 import ListDocument from '../documents/ListDocument.jsx';
 import SearchDocument from '../documents/SearchDocument.jsx';
+import CreateDocument from '../documents/CreateDocument.jsx';
+
+
 import {
-  userSaveDocumentRequest,
   userDocumentRequest,
   userDeleteDocumentRequest,
   userUpdateDocumentRequest,
-  userSearchRequest
+  userSearchRequest,
+  userSaveDocumentRequest
 } from '../../actions/documentActions';
 
 /**
@@ -80,14 +82,14 @@ Dashboard.defaultProps = {
 };
 
 Dashboard.propTypes = {
-  currentUser: PropTypes.object.isRequired,
-  userSaveDocumentRequest: PropTypes.func.isRequired,
-  userDocumentRequest: PropTypes.func.isRequired,
-  userDeleteDocumentRequest: PropTypes.func.isRequired,
   userSearchRequest: PropTypes.func.isRequired,
   userUpdateDocumentRequest: PropTypes.func.isRequired,
   documents: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  loading: PropTypes.number.isRequired
+  userSaveDocumentRequest: PropTypes.func.isRequired,
+  userDocumentRequest: PropTypes.func.isRequired,
+  userDeleteDocumentRequest: PropTypes.func.isRequired,
+  loading: PropTypes.number.isRequired,
+  currentUser: PropTypes.object.isRequired
 };
 
 /**
@@ -98,17 +100,17 @@ Dashboard.propTypes = {
  */
 function mapStateToProps(state) {
   return {
-    currentUser: state.Auth.user,
-    documents: state.Document.documents,
     loading: state.ajaxCallsInProgress,
-    isAuthenticated: state.Auth.isAuthenticated
+    isAuthenticated: state.Auth.isAuthenticated,
+    currentUser: state.Auth.user,
+    documents: state.Document.documents
   };
 }
 
 export default connect(mapStateToProps, {
+  userUpdateDocumentRequest,
   userSaveDocumentRequest,
   userDocumentRequest,
   userDeleteDocumentRequest,
-  userUpdateDocumentRequest,
   userSearchRequest
 })(Dashboard);
