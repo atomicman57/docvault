@@ -44,16 +44,7 @@ class LoginForm extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     this.props
-      .userLoginRequest(this.state)
-      .then(() => {
-        this.context.router.push('/dashboard');
-      })
-      .catch((error) => {
-        this.setState({ errors: error.response.data });
-        const { errors } = this.state;
-        const $toastContent = `<span>${errors.message}</span>`;
-        Materialize.toast($toastContent, 5000);
-      });
+      .userLoginRequest(this.state);
   }
 
   /**
@@ -63,7 +54,6 @@ class LoginForm extends React.Component {
    * @memberof LoginForm
    */
   render() {
-    const { errors } = this.state;
     return (
       <div>
         <div
@@ -71,7 +61,6 @@ class LoginForm extends React.Component {
           style={{ marginTop: '60px', marginBottom: '170px' }}
         >
           <h5 className="header2">Login</h5>
-          {errors.message}
           <div className="mysignuprow row">
             <form className="col s12" onSubmit={this.onSubmit}>
               <div className="mysignuprow row">

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Modal } from 'react-materialize';
 
 import CreateDocument from '../documents/CreateDocument.jsx';
-import MyDocuments from '../documents/MyDocument.jsx';
+import ListDocument from '../documents/ListDocument.jsx';
 import SearchDocument from '../documents/SearchDocument.jsx';
 import {
   userSaveDocumentRequest,
@@ -18,7 +18,6 @@ import {
 const MyDocumentPage = ({
   currentUser,
   userSaveDocumentRequest,
-  userDocumentRequest,
   userDeleteDocumentRequest,
   userSearchRequest,
   userUpdateDocumentRequest,
@@ -57,14 +56,13 @@ const MyDocumentPage = ({
         />
         <br />
         <div className="row">
-          <MyDocuments
+          <ListDocument
             currentUser={currentUser}
-            userDocumentRequest={userDocumentRequest}
+            userDocumentRequest={userPersonalDocumentRequest}
             documents={documents}
             loading={loading}
             userDeleteDocumentRequest={userDeleteDocumentRequest}
             userUpdateDocumentRequest={userUpdateDocumentRequest}
-            userPersonalDocumentRequest={userPersonalDocumentRequest}
             documentType={'personal'}
           />
         </div>
@@ -79,7 +77,6 @@ MyDocumentPage.defaultProps = {
 
 MyDocumentPage.propTypes = {
   currentUser: PropTypes.object.isRequired,
-  userDocumentRequest: PropTypes.func.isRequired,
   userDeleteDocumentRequest: PropTypes.func.isRequired,
   userUpdateDocumentRequest: PropTypes.func.isRequired,
   userPersonalDocumentRequest: PropTypes.func.isRequired,

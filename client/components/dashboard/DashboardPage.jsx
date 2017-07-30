@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Modal } from 'react-materialize';
-
 import CreateDocument from '../documents/CreateDocument.jsx';
-import GetDocument from '../documents/GetDocument.jsx';
+// import GetDocument from '../documents/GetDocument.jsx';
+import ListDocument from '../documents/ListDocument.jsx';
 import SearchDocument from '../documents/SearchDocument.jsx';
 import {
   userSaveDocumentRequest,
@@ -45,7 +45,7 @@ const Dashboard = ({
         />
         <br />
         <div className="row">
-          <GetDocument
+          <ListDocument
             currentUser={currentUser}
             userDocumentRequest={userDocumentRequest}
             documents={documents}

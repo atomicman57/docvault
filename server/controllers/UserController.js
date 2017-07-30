@@ -8,7 +8,7 @@ import { User, Document, Role } from '../models';
  * @returns token
  */
 const createToken = (user) => {
-  return jwt.sign(user, 'secretTokenKey', { expiresIn: '24h' });
+  return jwt.sign(user, process.env.JWTSECRET, { expiresIn: '24h' });
 };
 const userInfo = (user) => {
   return {
@@ -214,7 +214,7 @@ class UserController {
   static find(req, res) {
     return User.findById(req.params.id).then((user) => {
       return res.status(200).json(userInfo(user));
-    });
+    }).catch(error => res.status(400).json(error));
   }
 
   /**
@@ -254,7 +254,7 @@ class UserController {
     return User.findById(req.params.id).then((user) => {
       return user.destroy().then(() => res.send(200))
       .catch(error => res.status(400).json(error));
-    })
+    });
   }
 
   /**

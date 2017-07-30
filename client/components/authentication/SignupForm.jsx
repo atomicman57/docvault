@@ -52,16 +52,7 @@ class SignupForm extends React.Component {
       Materialize.toast('Password do not match', 2000);
     } else {
       this.props
-        .userSignupRequest(this.state)
-        .then(() => {
-          this.context.router.push('/dashboard');
-        })
-        .catch((error) => {
-          this.setState({ errors: error.response.data });
-          const { errors } = this.state;
-          const $toastContent = `<span>${errors.message}</span>`;
-          Materialize.toast($toastContent, 5000);
-        });
+        .userSignupRequest(this.state);
     }
   }
 

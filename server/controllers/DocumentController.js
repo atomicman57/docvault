@@ -129,7 +129,7 @@ class DocumentController {
         });
       }
       return res.status(200).json(document);
-    });
+    }).catch(error => res.status(400).json(error));
   }
 
   /**

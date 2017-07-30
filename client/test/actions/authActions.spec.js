@@ -7,8 +7,7 @@ import setAuthorizationToken from '../../utils/setAuthorizationToken';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJBbWFsYSIsImZpcnN0bmFtZSI6IkViYSIsImxhc3RuYW1lIjoiQW1hbGEiLCJlbWFpbCI6ImFtYUBsYS5jb20iLCJyb2xlSWQiOjEsImlhdCI6MTQ5OTI2Nzc0MSwiZXhwIjoxNDk5MzU0MTQxfQ.tqRy0b6EpSUmUDgOprilo0DUPhFjTFnc2yy8SIufd4g';
+const token = process.env.TEST_TOKEN;
 
 describe('Auth Actions', () => {
   describe('Login', () => {

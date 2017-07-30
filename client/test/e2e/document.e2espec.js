@@ -24,6 +24,7 @@ module.exports = {
       .click('#save-doc')
       .waitForElementVisible('#doc_success', 5000)
       .assert.containsText('#doc_success', 'Document Created Successfully')
+      .assert.containsText('.card .title', newTitle)
       .pause(2000)
       .waitForElementVisible('div.page', timeout)
       .end();
@@ -77,6 +78,7 @@ module.exports = {
       .waitForElementVisible('div.page', timeout)
       .click('.editbutton')
       .setValue('.edit-input', 'Editted by Test')
+      .assert.value('.edit-input', `${newTitle}Editted by Test`)
       .click('.DraftEditor-editorContainer')
       .click('select option[value="private"]')
       .click('div.public-DraftStyleDefault-block')
@@ -84,6 +86,7 @@ module.exports = {
       .waitForElementVisible('.edit-button', timeout)
       .click('.edit-button')
       .waitForElementVisible('#update-doc', 60000)
+      .assert.containsText('.card .title', `${newTitle}Editted by Test`)
       .pause(2000)
       .assert.containsText('#update-doc', 'Document Updated Successfully');
     browser.end();

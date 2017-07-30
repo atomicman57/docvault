@@ -1,6 +1,8 @@
 import axios from 'axios';
+import { browserHistory } from 'react-router';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import { SET_CURRENT_USER } from '../actions/types';
+import { errorHandler } from '../utils/errorHandler';
 
 /**
  * Set Current User
@@ -46,6 +48,11 @@ export function userLoginRequest(userData) {
       localStorage.setItem('jwtToken', token);
       setAuthorizationToken(token);
       dispatch(setCurrentUser(userDetails));
+      if (localStorage.getItem('jwtToken')) {
+        browserHistory.push('/dashboard');
+      }
+    }).catch((error) => {
+      errorHandler(error);
     });
   };
 }
@@ -66,6 +73,11 @@ export function userSignupRequest(userData) {
       localStorage.setItem('jwtToken', token);
       setAuthorizationToken(token);
       dispatch(setCurrentUser(userDetails));
+      if (localStorage.getItem('jwtToken')) {
+        browserHistory.push('/dashboard');
+      }
+    }).catch((error) => {
+      errorHandler(error);
     });
   };
 }

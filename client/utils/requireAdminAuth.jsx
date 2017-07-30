@@ -26,7 +26,7 @@ export default function (ComposedComponent) {
     componentWillMount() {
       const token = localStorage.getItem('jwtToken');
       if (token) {
-        jwt.verify(token, 'secretTokenKey', (error) => {
+        jwt.verify(token, process.env.JWTSECRET, (error) => {
           if (error) {
             this.props.logout();
             this.context.router.push('/login');
