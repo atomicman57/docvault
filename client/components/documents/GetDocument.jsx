@@ -28,7 +28,7 @@ const GetDocument = ({
           id="create-doc"
           trigger={
             <div className="fixed-action-btn">
-              <a className="btn-floating btn-large pink darken-4">
+              <a className="btn-floating btn-large pink darken-4" id="createbtn">
                 <i className="large white-text material-icons">edit</i>
               </a>
             </div>
