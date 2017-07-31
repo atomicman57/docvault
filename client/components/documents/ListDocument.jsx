@@ -43,7 +43,7 @@ class ListDocument extends React.Component {
     const limit = 8;
     const offset = Math.ceil(selected * limit);
     this.setState({ offset }, () => {
-      if (this.props.documentType !== null) {
+      if (this.props.documentType === 'personal') {
         this.props
           .userDocumentRequest(this.props.currentUser.id, offset, limit)
           .then(() => {
@@ -68,12 +68,20 @@ class ListDocument extends React.Component {
    * @memberof GetDocument
    */
   componentDidMount() {
-    this.props.userDocumentRequest(this.props.currentUser.id).then(() => {
-      this.setState({
-        document: this.props.documents.documents,
-        pageCount: this.props.documents.pagination.pageCount
+    if (this.props.documentType === 'personal') {
+      this.props.userDocumentRequest(this.props.currentUser.id).then(() => {
+        this.setState({
+          document: this.props.documents.documents,
+          pageCount: this.props.documents.pagination.pageCount
+        });
       });
-    });
+    } else {
+      this.props.userDocumentRequest().then(() => {
+        this.setState({
+          document: this.props.documents.documents
+        });
+      });
+    }
   }
   /**
    *

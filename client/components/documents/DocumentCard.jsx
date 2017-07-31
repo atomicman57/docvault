@@ -41,9 +41,9 @@ const DocumentCard = ({
             </p>
             {(currentUser.id === document.userId || currentUser.roleId === 2) &&
               <span style={{ padding: '20px' }}>
+              
                 <Modal
                   header="Edit Document"
-                  id="edit-doc"
                   trigger={
                     <a
                       className="btn-floating editbutton"

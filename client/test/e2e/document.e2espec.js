@@ -86,9 +86,10 @@ module.exports = {
       .waitForElementVisible('.edit-button', timeout)
       .click('.edit-button')
       .waitForElementVisible('#update-doc', 60000)
-      .assert.containsText('.card .title', `${newTitle}Editted by Test`)
       .pause(2000)
-      .assert.containsText('#update-doc', 'Document Updated Successfully');
+      .assert.containsText('#update-doc', 'Document Updated Successfully')
+      .pause(1000)
+      .assert.containsText('.title', `${newTitle}Editted by Test`);
     browser.end();
   },
 

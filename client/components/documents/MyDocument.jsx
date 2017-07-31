@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Modal } from 'react-materialize';
-import CreateDocument from '../documents/CreateDocument.jsx';
-import SearchDocument from '../documents/SearchDocument.jsx';
-import ListDocument from '../documents/ListDocument.jsx';
+import GetDocument from '../documents/GetDocument.jsx';
 import {
   userSaveDocumentRequest,
   userDeleteDocumentRequest,
@@ -24,53 +21,24 @@ const MyDocument = ({
   loading
 }) => (
   <div>
-    <div className="page">
-      <main>
-        <div className="breadcrumb grey lighten-3">
-          <h6>My Documents</h6>
-        </div>
-        <Modal
-          header="Create Document"
-          id="create-doc"
-          trigger={
-            <div className="fixed-action-btn">
-              <a className="btn-floating btn-large pink darken-4">
-                <i className="large white-text material-icons">edit</i>
-              </a>
-            </div>
-          }
-        >
-          <CreateDocument
-            documentType={'personal'}
-            currentUser={currentUser}
-            userSaveDocumentRequest={userSaveDocumentRequest}
-          />
-        </Modal>
-        <br />
-        <SearchDocument
-          documentType={'personal'}
-          currentUser={currentUser}
-          userSearchRequest={userSearchRequest}
-        />
-        <br />
-        <div className="row">
-          <ListDocument
-            documentType={'personal'}
-            loading={loading}
-            userDeleteDocumentRequest={userDeleteDocumentRequest}
-            userUpdateDocumentRequest={userUpdateDocumentRequest}
-            currentUser={currentUser}
-            userDocumentRequest={userPersonalDocumentRequest}
-            documents={documents}
-          />
-        </div>
-      </main>
-    </div>
+
+    <GetDocument
+      documentType={'personal'}
+      currentUser={currentUser}
+      userSaveDocumentRequest={userSaveDocumentRequest}
+      userSearchRequest={userSearchRequest}
+      loading={loading}
+      headingTitle={'My Document'}
+      userDeleteDocumentRequest={userDeleteDocumentRequest}
+      userUpdateDocumentRequest={userUpdateDocumentRequest}
+      userDocumentRequest={userPersonalDocumentRequest}
+      documents={documents}
+    />
   </div>
 );
 
 MyDocument.defaultProps = {
-  documents: {},
+  documents: {}
 };
 
 MyDocument.propTypes = {
@@ -85,7 +53,7 @@ MyDocument.propTypes = {
 /**
  *
  *
- * @param {any} state
+ * @param {object} state
  * @returns
  */
 function mapStateToProps(state) {
