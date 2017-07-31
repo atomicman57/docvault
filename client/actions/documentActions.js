@@ -2,9 +2,13 @@ import axios from 'axios';
 import {
   SAVE_USER_DOCUMENT_SUCCESS,
   GET_USER_DOCUMENT_SUCCESS,
-  GET_CURRENT_USER_DOCUMENT_SUCCESS
+  GET_CURRENT_USER_DOCUMENT_SUCCESS,
+  DELETE_DOCUMENT,
+  UPDATE_DOCUMENT,
+  SAVE_DOCUMENT
 } from '../actions/types';
 import { beginAjaxCall } from './ajaxStatusAction';
+import { errorHandler } from '../utils/errorHandler';
 
 /**
  *
@@ -54,6 +58,9 @@ export function userDocumentRequest(offset = 0, limit = 8) {
             pagination: documents.data.pagination
           })
         );
+      })
+      .catch((error) => {
+        errorHandler(error);
       });
   };
 }
@@ -90,6 +97,9 @@ export function userPersonalDocumentRequest(userId, offset = 0, limit = 8) {
             pagination: documents.data.pagination
           })
         );
+      })
+      .catch((error) => {
+        errorHandler(error);
       });
   };
 }
@@ -113,10 +123,15 @@ const documentType = (dispatch, doctype, userId) => {
  */
 export function userDeleteDocumentRequest(id, userId, doctype) {
   return (dispatch) => {
-    return axios.delete(`/documents/${id}`).then(() => {
-      documentType(dispatch, doctype, userId);
-      dispatch({ type: 'DELETE_DOCUMENT' });
-    });
+    return axios
+      .delete(`/documents/${id}`)
+      .then(() => {
+        documentType(dispatch, doctype, userId);
+        dispatch({ type: DELETE_DOCUMENT });
+      })
+      .catch((error) => {
+        errorHandler(error);
+      });
   };
 }
 
@@ -131,10 +146,15 @@ export function userDeleteDocumentRequest(id, userId, doctype) {
  */
 export function userUpdateDocumentRequest(document, userId, doctype) {
   return (dispatch) => {
-    return axios.put(`/documents/${document.id}`, document).then(() => {
-      documentType(dispatch, doctype, userId);
-      dispatch({ type: 'UPDATE_DOCUMENT' });
-    });
+    return axios
+      .put(`/documents/${document.id}`, document)
+      .then(() => {
+        documentType(dispatch, doctype, userId);
+        dispatch({ type: UPDATE_DOCUMENT });
+      })
+      .catch((error) => {
+        errorHandler(error);
+      });
   };
 }
 
@@ -149,10 +169,15 @@ export function userUpdateDocumentRequest(document, userId, doctype) {
  */
 export function userSaveDocumentRequest(document, userId, doctype) {
   return (dispatch) => {
-    return axios.post('/documents', document).then(() => {
-      documentType(dispatch, doctype, userId);
-      dispatch({ type: 'SAVE_DOCUMENT' });
-    });
+    return axios
+      .post('/documents', document)
+      .then(() => {
+        documentType(dispatch, doctype, userId);
+        dispatch({ type: SAVE_DOCUMENT });
+      })
+      .catch((error) => {
+        errorHandler(error);
+      });
   };
 }
 
@@ -181,6 +206,9 @@ export function userSearchRequest(query, userId, doctype) {
               pagination: documents.data.pagination
             })
           );
+        })
+        .catch((error) => {
+          errorHandler(error);
         });
     }
     return axios
@@ -192,6 +220,9 @@ export function userSearchRequest(query, userId, doctype) {
             pagination: documents.data.pagination
           })
         );
+      })
+      .catch((error) => {
+        errorHandler(error);
       });
   };
 }

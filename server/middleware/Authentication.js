@@ -23,7 +23,7 @@ class Middleware {
       });
     }
 
-    jwt.verify(token, 'secretTokenKey', (error, decoded) => {
+    jwt.verify(token, process.env.JWTSECRET, (error, decoded) => {
       if (error) {
         return res.json({
           success: false,
@@ -54,7 +54,7 @@ class Middleware {
           message: 'Sorry, You do not have sufficient permission'
         });
       }
-    });
+    }).catch(error => res.status(400).json(error));
   }
 
   /**

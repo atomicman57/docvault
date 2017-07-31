@@ -1,7 +1,10 @@
 import axios from 'axios';
-import { GET_USERS_SUCCESS, UPDATE_USERS_SUCCESS } from '../actions/types';
+import { GET_USERS_SUCCESS, UPDATE_USERS_SUCCESS,
+DELETE_USER_SUCCESS
+} from '../actions/types';
 import { setCurrentUser } from './authActions';
 import { beginAjaxCall } from './ajaxStatusAction';
+import { errorHandler } from '../utils/errorHandler';
 
 /**
  *
@@ -35,6 +38,8 @@ export function getUsersRequest(offset = 0, limit = 8) {
           pagination: users.data.pagination
         })
       );
+    }).catch((error) => {
+      errorHandler(error);
     });
   };
 }
@@ -50,8 +55,10 @@ export function DeleteUserRequest(id) {
   return (dispatch) => {
     dispatch(beginAjaxCall());
     return axios.delete(`/users/${id}`).then(() => {
-      dispatch({ type: 'DELETE_USER_SUCCESS' });
+      dispatch({ type: DELETE_USER_SUCCESS });
       dispatch(getUsersRequest());
+    }).catch((error) => {
+      errorHandler(error);
     });
   };
 }
@@ -76,6 +83,8 @@ export function userSearchRequest(query) {
             pagination: users.data.pagination
           })
         );
+      }).catch((error) => {
+        errorHandler(error);
       });
   };
 }
@@ -92,6 +101,8 @@ export function userUpdateUserRequest(user) {
     return axios.put(`/users/${user.id}`, user).then((user) => {
       dispatch({ type: UPDATE_USERS_SUCCESS });
       dispatch(setCurrentUser(user.data));
+    }).catch((error) => {
+      errorHandler(error);
     });
   };
 }

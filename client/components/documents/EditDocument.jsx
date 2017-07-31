@@ -77,7 +77,7 @@ class EditDocument extends React.Component {
           this.props.documentType
         )
         .then(() => {
-           $('#edit-doc').modal('close');
+           $('.modal').modal('close');
           const $toastContent =
             '<span id="update-doc">Document Updated Successfully</span>';
           Materialize.toast($toastContent, 5000);

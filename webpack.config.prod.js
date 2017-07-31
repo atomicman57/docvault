@@ -3,10 +3,14 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 require('dotenv').config();
 
+const GLOBALS = {
+  'process.env.NODE_ENV': JSON.stringify('production')
+};
+
 module.exports = {
   context: path.join(__dirname, 'client'),
   devtool: 'source-map',
-  entry: ['babel-polyfill', 'webpack-hot-middleware/client', '../client/index.jsx'],
+  entry: ['babel-polyfill', '../client/index.jsx'],
   module: {
     loaders: [
       {
@@ -45,12 +49,11 @@ module.exports = {
     publicPath: '/'
   },
   plugins: [
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin('style.css'),
+    new webpack.DefinePlugin(GLOBALS),
     new webpack.DefinePlugin({
-      'process.env.JWTSECRET': JSON.stringify(process.env.JWTSECRET)
+      'process.env.JWTSECRET': JSON.stringify(process.env.JWTSECRET),
+      'process.env.NODE_ENV': JSON.stringify('production')
     })
   ]
 };

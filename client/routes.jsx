@@ -7,7 +7,7 @@ import HomePage from './components/HomePage.jsx';
 import SignupPage from './components/authentication/SignupPage.jsx';
 import LoginPage from './components/authentication/LoginPage.jsx';
 import DashboardPage from './components/dashboard/DashboardPage.jsx';
-import myDocumentpage from './components/documents/MyDocumentpage.jsx';
+import myDocument from './components/documents/MyDocument.jsx';
 import MyProfilePage from './components/users/MyProfilePage.jsx';
 import UsersPage from './components/users/UsersPage.jsx';
 
@@ -19,7 +19,7 @@ export default (
       <Route path="login" component={LoginPage} />
       <Route path="signup" component={SignupPage} />
       <Route path="dashboard" component={requireAuth(DashboardPage)} />
-      <Route path="mydocuments" component={requireAuth(myDocumentpage)} />
+      <Route path="mydocuments" component={requireAuth(myDocument)} />
       <Route path="myprofile" component={requireAuth(MyProfilePage)} />
       <Route path="userslist" component={requireAdminAuth(UsersPage)} />
     </Route>
