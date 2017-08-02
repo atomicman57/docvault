@@ -110,7 +110,7 @@ class DocumentController {
         });
       })
       .catch((error) => {
-        res.status(500).json({ message: 'Server Error', error });
+        res.status(500).json({ message: 'An Error Ocurred', error });
       });
   }
 
@@ -129,7 +129,7 @@ class DocumentController {
         });
       }
       return res.status(200).json(document);
-    }).catch(error => res.status(500).json({ message: 'Server Error', error }));
+    }).catch(error => res.status(500).json({ message: 'An Error Ocurred', error }));
   }
 
   /**
@@ -167,8 +167,8 @@ class DocumentController {
       }
       return document.destroy()
       .then(() => res.send(200))
-      .catch(error => res.status(500).json({ message: 'Server Error', error }));
-    });
+      .catch(error => res.status(500).json({ message: 'An Errorr Ocurred', error }));
+    }).catch(error => res.status(500).json({ message: 'An Errorr Ocurred', error }));
   }
 }
 export default DocumentController;

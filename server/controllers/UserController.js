@@ -136,7 +136,7 @@ class UserController {
           return res.status(401).json({ message: 'Wrong Password' });
         }
       })
-      .catch(error => res.status(500).json({ message: 'Server Error', error }));
+      .catch(error => res.status(500).json({ message: 'An Error Ocurred', error }));
   }
 
   /**
@@ -199,7 +199,7 @@ class UserController {
         });
       })
       .catch((error) => {
-        res.status(500).json({ message: 'Server Error', error });
+        res.status(500).json({ message: 'An Error Ocurred', error });
       });
   }
 
@@ -220,7 +220,7 @@ class UserController {
         }
         return res.status(200).json(userInfo(user));
       })
-      .catch(error => res.status(500).json({ message: 'Server Error', error }));
+      .catch(error => res.status(500).json({ message: 'An Error Ocurred', error }));
   }
 
   /**
@@ -258,7 +258,7 @@ class UserController {
           res.status(200).json(userInfo(user));
         })
         .catch(error =>
-          res.status(500).json({ message: 'Server Error', error })
+          res.status(500).json({ message: 'An Error Ocurred', error })
         );
     });
   }
@@ -281,7 +281,7 @@ class UserController {
         .destroy()
         .then(() => res.send(200))
         .catch(error =>
-          res.status(500).json({ message: 'Server Error', error })
+          res.status(500).json({ message: 'An Error Ocurred', error })
         );
     });
   }
@@ -352,7 +352,7 @@ class UserController {
           }
         });
       })
-      .catch(error => res.status(500).json({ message: 'Server Error', error }));
+      .catch(error => res.status(500).json({ message: 'An Error Ocurred', error }));
   }
 }
 

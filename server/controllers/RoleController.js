@@ -29,7 +29,7 @@ class RoleController {
   static list(req, res) {
     return Role.all()
       .then(roles => res.status(200).json(roles))
-      .catch(error => res.status(500).json({ message: 'Server Error', error }));
+      .catch(error => res.status(500).json({ message: 'An Error Ocurred', error }));
   }
 
   /**
@@ -92,7 +92,7 @@ class RoleController {
         return roles
           .destroy()
           .then(() => res.send(200))
-          .catch(error => res.status(500).json({ message: 'Server Error', error }));
+          .catch(error => res.status(500).json({ message: 'An Error Ocurred', error }));
       })
       .catch(error => res.status(500).json(error));
   }
