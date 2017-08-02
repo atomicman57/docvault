@@ -135,7 +135,7 @@ describe('Role', () => {
         .get('/roles/3000000000')
         .set({ authorization: adminToken })
         .end((err, res) => {
-          expect(res.status).to.equal(400);
+          expect(res.status).to.equal(500);
           expect(res.body).to.be.a('object');
           expect(res.body.message).to.eql(
             'value "3000000000" is out of range for type integer'
@@ -212,7 +212,7 @@ describe('Role', () => {
         .set({ authorization: adminToken })
         .send({ name: 'team7' })
         .end((err, res) => {
-          expect(res.status).to.equal(400);
+          expect(res.status).to.equal(500);
           expect(res.body).to.be.a('object');
           expect(res.body.message).to.eql(
             'value "3000000000" is out of range for type integer'
@@ -254,7 +254,7 @@ describe('Role', () => {
         .delete('/roles/3000000000')
         .set({ authorization: adminToken })
         .end((err, res) => {
-          expect(res.status).to.equal(400);
+          expect(res.status).to.equal(500);
           expect(res.body).to.be.a('object');
           expect(res.body.message).to.eql(
             'value "3000000000" is out of range for type integer'

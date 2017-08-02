@@ -110,7 +110,7 @@ class DocumentController {
         });
       })
       .catch((error) => {
-        res.status(400).json(error);
+        res.status(500).json({ message: 'An Error Ocurred', error });
       });
   }
 
@@ -129,7 +129,7 @@ class DocumentController {
         });
       }
       return res.status(200).json(document);
-    }).catch(error => res.status(400).json(error));
+    }).catch(error => res.status(500).json({ message: 'An Error Ocurred', error }));
   }
 
   /**
@@ -140,11 +140,16 @@ class DocumentController {
    */
   static update(req, res) {
     return Document.findById(req.params.documentId).then((document) => {
+      if (!document) {
+        return res.status(404).json({
+          message: 'Document Not Found'
+        });
+      }
       return document
         .update(req.body)
         .then(() => res.status(200).json(document))
         .catch(error => res.status(400).json(error));
-    });
+    }).catch(error => res.status(500).json({ message: 'An Error Ocurred', error }));
   }
 
   /**
@@ -155,10 +160,15 @@ class DocumentController {
    */
   static delete(req, res) {
     return Document.findById(req.params.documentId).then((document) => {
+      if (!document) {
+        return res.status(404).json({
+          message: 'Document Not Found'
+        });
+      }
       return document.destroy()
       .then(() => res.send(200))
-      .catch(error => res.status(400).json(error));
-    });
+      .catch(error => res.status(500).json({ message: 'An Error Ocurred', error }));
+    }).catch(error => res.status(500).json({ message: 'An Error Ocurred', error }));
   }
 }
 export default DocumentController;

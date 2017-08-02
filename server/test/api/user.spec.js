@@ -308,9 +308,9 @@ describe('User', () => {
         .set({ authorization: regularToken })
         .send({ email: TestUser3.email })
         .end((err, res) => {
-          expect(res.status).to.equal(400);
+          expect(res.status).to.equal(409);
           expect(res.body).to.be.a('object');
-          expect(res.body.message).to.eql('Email already exist');
+          expect(res.body.message).to.eql('Email already Exist');
           done();
         });
     });
