@@ -29,7 +29,7 @@ class RoleController {
   static list(req, res) {
     return Role.all()
       .then(roles => res.status(200).json(roles))
-      .catch(error => res.status(400).json(error));
+      .catch(error => res.status(500).json({ message: 'Server Error', error }));
   }
 
   /**
@@ -48,7 +48,7 @@ class RoleController {
         }
         return res.status(200).json(roles);
       })
-      .catch(error => res.status(400).json(error));
+       .catch(error => res.status(400).json(error));
   }
 
   /**
@@ -72,7 +72,7 @@ class RoleController {
           .then(() => res.status(200).json(roles))
           .catch(error => res.status(400).json(error));
       })
-      .catch(error => res.status(400).json(error));
+      .catch(error => res.status(500).json(error));
   }
 
   /**
@@ -91,9 +91,10 @@ class RoleController {
         }
         return roles
           .destroy()
-          .then(() => res.send(200));
+          .then(() => res.send(200))
+          .catch(error => res.status(500).json({ message: 'Server Error', error }));
       })
-      .catch(error => res.status(400).json(error));
+      .catch(error => res.status(500).json(error));
   }
 }
 
