@@ -1,14 +1,15 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import GetDocument from '../documents/GetDocument.jsx';
+import React from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import GetDocument from "../documents/GetDocument.jsx";
 import {
   userDocumentRequest,
   userDeleteDocumentRequest,
   userUpdateDocumentRequest,
   userSearchRequest,
-  userSaveDocumentRequest
-} from '../../actions/documentActions';
+  userSaveDocumentRequest,
+  categoriesRequest
+} from "../../actions/documentActions";
 
 /**
  *
@@ -23,12 +24,14 @@ const Dashboard = ({
   userDeleteDocumentRequest,
   userSearchRequest,
   userUpdateDocumentRequest,
+  categoriesRequest,
   documents,
+  categories,
   loading
 }) => (
   <div>
     <GetDocument
-      headingTitle={'Dashboard'}
+      headingTitle={"Dashboard"}
       currentUser={currentUser}
       userSaveDocumentRequest={userSaveDocumentRequest}
       userSearchRequest={userSearchRequest}
@@ -37,6 +40,8 @@ const Dashboard = ({
       userUpdateDocumentRequest={userUpdateDocumentRequest}
       userDocumentRequest={userDocumentRequest}
       documents={documents}
+      categoriesRequest={categoriesRequest}
+      categories={categories}
     />
   </div>
 );
@@ -67,14 +72,19 @@ function mapStateToProps(state) {
     loading: state.ajaxCallsInProgress,
     isAuthenticated: state.Auth.isAuthenticated,
     currentUser: state.Auth.user,
-    documents: state.Document.documents
+    documents: state.Document.documents,
+    categories: state.Document.categories
   };
 }
 
-export default connect(mapStateToProps, {
-  userUpdateDocumentRequest,
-  userSaveDocumentRequest,
-  userDocumentRequest,
-  userDeleteDocumentRequest,
-  userSearchRequest
-})(Dashboard);
+export default connect(
+  mapStateToProps,
+  {
+    userUpdateDocumentRequest,
+    userSaveDocumentRequest,
+    userDocumentRequest,
+    userDeleteDocumentRequest,
+    userSearchRequest,
+    categoriesRequest
+  }
+)(Dashboard);

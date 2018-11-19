@@ -1,26 +1,28 @@
-import { Document } from '../controllers';
-import Authentication from '../middleware/Authentication';
+import { Document, Category } from "../controllers";
+import Authentication from "../middleware/Authentication";
 
-const documentRoutes = (app) => {
-  app.get('/search/documents', Authentication.checkToken, Document.list);
-  app.post('/documents', Authentication.checkToken, Document.create);
-  app.get('/documents', Authentication.checkToken, Document.list);
+const documentRoutes = app => {
+  app.get("/search/documents", Authentication.checkToken, Document.list);
+  app.post("/documents", Authentication.checkToken, Document.create);
+  app.get("/documents", Authentication.checkToken, Document.list);
+  app.get("/categories", Authentication.checkToken, Category.list);
+
   app.get(
-    '/documents/:documentId',
+    "/documents/:documentId",
     Authentication.checkToken,
     Authentication.allowUserOrAdminAccessDoc,
     Document.find
   );
   app.put(
-    '/documents/:documentId',
+    "/documents/:documentId",
     Authentication.checkToken,
-   Authentication.allowUserOrAdminAccessDoc,
+    Authentication.allowUserOrAdminAccessDoc,
     Document.update
   );
   app.delete(
-    '/documents/:documentId',
+    "/documents/:documentId",
     Authentication.checkToken,
-   Authentication.allowUserOrAdminAccessDoc,
+    Authentication.allowUserOrAdminAccessDoc,
     Document.delete
   );
 };

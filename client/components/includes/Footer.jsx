@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
 const Footer = () => (
   <footer className="page-footer myfooter">
-    <div className="container">
+    {/* <div className="container">
       <div className="col s12">
         <h6 className="white-text">
           Copyright © 2017
@@ -11,7 +11,7 @@ const Footer = () => (
           Developed by Philips Blessing
         </h6>
       </div>
-    </div>
+    </div> */}
   </footer>
 );
 

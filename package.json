@@ -56,9 +56,11 @@
     "extract-text-webpack-plugin": "^2.1.2",
     "faker": "^4.1.0",
     "file-loader": "^0.11.2",
+    "html2plaintext": "^2.1.0",
     "image-webpack-loader": "^3.3.1",
     "jsdom": "^8.5.0",
     "jsonwebtoken": "^7.4.1",
+    "jspdf": "^1.4.1",
     "jwt-decode": "^2.2.0",
     "morgan": "^1.8.2",
     "node-mocks-http": "^1.6.3",
@@ -91,7 +93,9 @@
     "webpack": "^2.6.1",
     "webpack-dev-middleware": "^1.10.2",
     "webpack-hot-middleware": "^2.18.0",
-    "whatwg-url": "^6.0.1"
+    "whatwg-url": "^6.0.1",
+    "word-wrap": "^1.2.3",
+    "wrap-text": "^1.0.7"
   },
   "devDependencies": {
     "babel-plugin-istanbul": "^4.1.4",

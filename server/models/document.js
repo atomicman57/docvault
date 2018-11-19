@@ -1,17 +1,17 @@
 module.exports = (sequelize, DataTypes) => {
   const Document = sequelize.define(
-    'Document',
+    "Document",
     {
       title: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: { args: true, msg: 'Title already exist' },
-        validate: { notEmpty: { args: true, msg: 'Title cannot be empty' } }
+        unique: { args: true, msg: "Title already exist" },
+        validate: { notEmpty: { args: true, msg: "Title cannot be empty" } }
       },
       content: {
         type: DataTypes.TEXT,
         allowNull: false,
-        validate: { notEmpty: { args: true, msg: 'Content cannot be empty' } }
+        validate: { notEmpty: { args: true, msg: "Content cannot be empty" } }
       },
       userId: {
         type: DataTypes.INTEGER,
@@ -20,13 +20,17 @@ module.exports = (sequelize, DataTypes) => {
       access: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: 'public',
+        defaultValue: "public",
         validate: {
           isIn: {
-            args: [['public', 'private', 'role']],
-            msg: 'Use a valid access type'
+            args: [["public", "private", "role"]],
+            msg: "Use a valid access type"
           }
         }
+      },
+      categoryId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
       },
       userRoleId: {
         type: DataTypes.INTEGER,
@@ -35,11 +39,16 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       classMethods: {
-        associate: (models) => {
+        associate: models => {
           // associations can be defined here
           Document.belongsTo(models.User, {
-            foreignKey: 'userId',
-            onDelete: 'CASCADE'
+            foreignKey: "userId",
+            onDelete: "CASCADE"
+          });
+
+          Document.belongsTo(models.Category, {
+            foreignKey: "categoryId",
+            onDelete: "CASCADE"
           });
         }
       }
