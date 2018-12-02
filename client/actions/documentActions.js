@@ -1,14 +1,15 @@
-import axios from 'axios';
+import axios from "axios";
 import {
   SAVE_USER_DOCUMENT_SUCCESS,
   GET_USER_DOCUMENT_SUCCESS,
   GET_CURRENT_USER_DOCUMENT_SUCCESS,
   DELETE_DOCUMENT,
   UPDATE_DOCUMENT,
-  SAVE_DOCUMENT
-} from '../actions/types';
-import { beginAjaxCall } from './ajaxStatusAction';
-import { errorHandler } from '../utils/errorHandler';
+  SAVE_DOCUMENT,
+  GET_CATEGORIES_SUCCESS
+} from "../actions/types";
+import { beginAjaxCall } from "./ajaxStatusAction";
+import { errorHandler } from "../utils/errorHandler";
 
 /**
  *
@@ -21,6 +22,27 @@ export function getUserDocument(documents) {
   return {
     type: GET_USER_DOCUMENT_SUCCESS,
     documents
+  };
+}
+
+export function getCategories(categories) {
+  return {
+    type: GET_CATEGORIES_SUCCESS,
+    categories
+  };
+}
+
+export function categoriesRequest() {
+  return dispatch => {
+    dispatch(beginAjaxCall());
+    return axios
+      .get(`/categories`)
+      .then(categories => {
+        dispatch(getCategories(categories.data));
+      })
+      .catch(error => {
+        errorHandler(error);
+      });
   };
 }
 
@@ -47,11 +69,11 @@ export function getCurrentUserDocument(documents) {
  * @param {number} [limit=8]
  */
 export function userDocumentRequest(offset = 0, limit = 8) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(beginAjaxCall());
     return axios
       .get(`/documents?limit=${limit}&offset=${offset}`)
-      .then((documents) => {
+      .then(documents => {
         dispatch(
           getUserDocument({
             documents: documents.data.document,
@@ -59,7 +81,7 @@ export function userDocumentRequest(offset = 0, limit = 8) {
           })
         );
       })
-      .catch((error) => {
+      .catch(error => {
         errorHandler(error);
       });
   };
@@ -86,11 +108,11 @@ export function saveUserDocument(document) {
  * @param {number} userId The user Id
  */
 export function userPersonalDocumentRequest(userId, offset = 0, limit = 8) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(beginAjaxCall());
     return axios
       .get(`/users/${userId}/documents?limit=${limit}&offset=${offset}`)
-      .then((documents) => {
+      .then(documents => {
         dispatch(
           getCurrentUserDocument({
             documents: documents.data.document,
@@ -98,7 +120,7 @@ export function userPersonalDocumentRequest(userId, offset = 0, limit = 8) {
           })
         );
       })
-      .catch((error) => {
+      .catch(error => {
         errorHandler(error);
       });
   };
@@ -122,14 +144,14 @@ const documentType = (dispatch, doctype, userId) => {
  * @param {string} doctype document Type e.g personal
  */
 export function userDeleteDocumentRequest(id, userId, doctype) {
-  return (dispatch) => {
+  return dispatch => {
     return axios
       .delete(`/documents/${id}`)
       .then(() => {
         documentType(dispatch, doctype, userId);
         dispatch({ type: DELETE_DOCUMENT });
       })
-      .catch((error) => {
+      .catch(error => {
         errorHandler(error);
       });
   };
@@ -145,14 +167,14 @@ export function userDeleteDocumentRequest(id, userId, doctype) {
  * @param {string} doctype document Type e.g personal
  */
 export function userUpdateDocumentRequest(document, userId, doctype) {
-  return (dispatch) => {
+  return dispatch => {
     return axios
       .put(`/documents/${document.id}`, document)
       .then(() => {
         documentType(dispatch, doctype, userId);
         dispatch({ type: UPDATE_DOCUMENT });
       })
-      .catch((error) => {
+      .catch(error => {
         errorHandler(error);
       });
   };
@@ -168,14 +190,14 @@ export function userUpdateDocumentRequest(document, userId, doctype) {
  * @param {string} doctype document Type e.g personal
  */
 export function userSaveDocumentRequest(document, userId, doctype) {
-  return (dispatch) => {
+  return dispatch => {
     return axios
-      .post('/documents', document)
+      .post("/documents", document)
       .then(() => {
         documentType(dispatch, doctype, userId);
         dispatch({ type: SAVE_DOCUMENT });
       })
-      .catch((error) => {
+      .catch(error => {
         errorHandler(error);
       });
   };
@@ -191,15 +213,16 @@ export function userSaveDocumentRequest(document, userId, doctype) {
  * @param {string} doctype document Type e.g personal
  */
 export function userSearchRequest(query, userId, doctype) {
-  const offset = 0, limit = 8;
-  return (dispatch) => {
+  const offset = 0,
+    limit = 8;
+  return dispatch => {
     dispatch(beginAjaxCall());
     if (doctype) {
       return axios
         .get(
           `/users/${userId}/documents?q=${query}&limit=${limit}&offset=${offset}`
         )
-        .then((documents) => {
+        .then(documents => {
           dispatch(
             getCurrentUserDocument({
               documents: documents.data.document,
@@ -207,13 +230,13 @@ export function userSearchRequest(query, userId, doctype) {
             })
           );
         })
-        .catch((error) => {
+        .catch(error => {
           errorHandler(error);
         });
     }
     return axios
       .get(`/search/documents?q=${query}&limit=${limit}&offset=${offset}`)
-      .then((documents) => {
+      .then(documents => {
         dispatch(
           getUserDocument({
             documents: documents.data.document,
@@ -221,7 +244,7 @@ export function userSearchRequest(query, userId, doctype) {
           })
         );
       })
-      .catch((error) => {
+      .catch(error => {
         errorHandler(error);
       });
   };

@@ -1,17 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Modal } from 'react-materialize';
-import CreateDocument from '../documents/CreateDocument.jsx';
-import SearchDocument from '../documents/SearchDocument.jsx';
-import ListDocument from '../documents/ListDocument.jsx';
+import React from "react";
+import PropTypes from "prop-types";
+import { Modal } from "react-materialize";
+import CreateDocument from "../documents/CreateDocument.jsx";
+import SearchDocument from "../documents/SearchDocument.jsx";
+import ListDocument from "../documents/ListDocument.jsx";
 
 const GetDocument = ({
   userDocumentRequest,
   userSaveDocumentRequest,
+  categoriesRequest,
   userDeleteDocumentRequest,
   userSearchRequest,
   userUpdateDocumentRequest,
   documents,
+  categories,
   headingTitle,
   documentType,
   currentUser,
@@ -28,7 +30,10 @@ const GetDocument = ({
           id="create-doc"
           trigger={
             <div className="fixed-action-btn">
-              <a className="btn-floating btn-large pink darken-4" id="createbtn">
+              <a
+                className="btn-floating btn-large pink darken-4"
+                id="createbtn"
+              >
                 <i className="large white-text material-icons">edit</i>
               </a>
             </div>
@@ -37,6 +42,8 @@ const GetDocument = ({
           <CreateDocument
             documentType={documentType}
             currentUser={currentUser}
+            categoriesRequest={categoriesRequest}
+            categories={categories}
             userSaveDocumentRequest={userSaveDocumentRequest}
           />
         </Modal>
@@ -65,6 +72,7 @@ const GetDocument = ({
 
 GetDocument.defaultProps = {
   documents: {},
+  categories: [],
   documentType: null
 };
 
@@ -73,6 +81,7 @@ GetDocument.propTypes = {
   userDeleteDocumentRequest: PropTypes.func.isRequired,
   userUpdateDocumentRequest: PropTypes.func.isRequired,
   documentType: PropTypes.string,
+  categories: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   userDocumentRequest: PropTypes.func.isRequired,
   documents: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   loading: PropTypes.number.isRequired

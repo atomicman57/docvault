@@ -1,8 +1,8 @@
-import React from 'react';
-import { Editor } from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import PropTypes from 'prop-types';
-import { convertToHTML } from 'draft-convert';
+import React from "react";
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import PropTypes from "prop-types";
+import { convertToHTML } from "draft-convert";
 
 /**
  *
@@ -19,15 +19,18 @@ class CreateDocument extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: '',
-      content: '',
-      access: '',
-      editorState: '',
+      title: "",
+      content: "",
+      access: "",
+      categoryId: "",
+      categories: [],
+      editorState: "",
       errors: {}
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
+    this.displayCategories = this.displayCategories.bind(this);
   }
   /**
    *
@@ -41,6 +44,12 @@ class CreateDocument extends React.Component {
     this.setState({ errors: {} });
   }
 
+  componentDidMount() {
+    this.props.categoriesRequest().then(() => {
+      this.setState({ categories: this.props.categories });
+    });
+  }
+
   /**
    *
    *
@@ -52,6 +61,12 @@ class CreateDocument extends React.Component {
     this.setState({
       editorState,
       content: convertToHTML(editorState.getCurrentContent())
+    });
+  }
+
+  displayCategories() {
+    return this.state.categories.map(category => {
+      return <option value={category.id}>{category.name}</option>;
     });
   }
 
@@ -72,17 +87,17 @@ class CreateDocument extends React.Component {
           this.props.documentType
         )
         .then(() => {
-          $('#create-doc').modal('close');
+          $("#create-doc").modal("close");
           const $toastContent =
             '<span id="doc_success">Document Created Successfully</span>';
           Materialize.toast($toastContent, 5000);
           this.setState({
-            title: '',
-            content: '',
-            editorState: '',
+            title: "",
+            content: "",
+            editorState: ""
           });
         })
-        .catch((error) => {
+        .catch(error => {
           this.setState({ errors: error.response.data });
           const { errors } = this.state;
           const $toastContent = `<span>${errors.message}</span>`;
@@ -122,13 +137,24 @@ class CreateDocument extends React.Component {
               name="access"
               required
               defaultValue={this.state.access}
-              style={{ display: 'block' }}
+              style={{ display: "block" }}
               onChange={this.onChange}
             >
               <option value="">Select Access</option>
               <option value="public">Public</option>
               <option value="private">Private</option>
               <option value="role">Role</option>
+            </select>
+            <br />
+            <select
+              name="categoryId"
+              required
+              defaultValue=""
+              style={{ display: "block" }}
+              onChange={this.onChange}
+            >
+              <option value="">Select Category</option>
+              {this.displayCategories()}
             </select>
             <br />
             <div className="editbox">
@@ -141,7 +167,9 @@ class CreateDocument extends React.Component {
               />
             </div>
             <div className="input-field center">
-              <button className="pink darken-4 btn" id="save-doc">Save</button>
+              <button className="pink darken-4 btn" id="save-doc">
+                Save
+              </button>
             </div>
           </div>
         </form>

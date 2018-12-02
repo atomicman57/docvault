@@ -15,7 +15,7 @@ import { deleteQuestion } from '../../utils/constant';
  */
 class ListDocument extends React.Component {
   /**
-   * Creates an instance of GetDocument.
+   * Creates an instance of ListDocument.
    * @param {object} props
    *
    * @memberof GetDocument
@@ -43,7 +43,7 @@ class ListDocument extends React.Component {
     const limit = 8;
     const offset = Math.ceil(selected * limit);
     this.setState({ offset }, () => {
-      if (this.props.documentType === 'personal') {
+      if (this.props.documentType === "personal") {
         this.props
           .userDocumentRequest(this.props.currentUser.id, offset, limit)
           .then(() => {
@@ -68,7 +68,7 @@ class ListDocument extends React.Component {
    * @memberof GetDocument
    */
   componentDidMount() {
-    if (this.props.documentType === 'personal') {
+    if (this.props.documentType === "personal") {
       this.props.userDocumentRequest(this.props.currentUser.id).then(() => {
         this.setState({
           document: this.props.documents.documents,
@@ -116,7 +116,7 @@ class ListDocument extends React.Component {
           this.props.documentType
         )
         .then(() => {
-          swal('Deleted!', 'Your Document has been deleted.', 'success');
+          swal("Deleted!", "Your Document has been deleted.", "success");
         })
     );
   }
@@ -137,22 +137,23 @@ class ListDocument extends React.Component {
     const documents = document;
     return (
       <div>
-        {document.length !== 0 &&
+        {document.length !== 0 && (
           <div className="docpagination">
             <ReactPaginate
-              previousLabel={'previous'}
-              nextLabel={'next'}
+              previousLabel={"previous"}
+              nextLabel={"next"}
               breakLabel={<a href="">...</a>}
-              breakClassName={'break-me'}
+              breakClassName={"break-me"}
               pageCount={this.state.pageCount}
               marginPagesDisplayed={2}
               pageRangeDisplayed={5}
               onPageChange={this.handlePageClick}
-              containerClassName={'pagination'}
-              subContainerClassName={'pages pagination'}
-              activeClassName={'active'}
+              containerClassName={"pagination"}
+              subContainerClassName={"pages pagination"}
+              activeClassName={"active"}
             />
-          </div>}
+          </div>
+        )}
         {documents.map(document => (
           <DocumentCard
             document={document}
@@ -163,11 +164,11 @@ class ListDocument extends React.Component {
             documentType={documentType}
           />
         ))}
-        {document.length === 0 &&
-          !loading &&
+        {document.length === 0 && !loading && (
           <div className="center-align">
             <h3>No document Found</h3>
-          </div>}
+          </div>
+        )}
       </div>
     );
   }
